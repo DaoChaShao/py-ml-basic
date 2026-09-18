@@ -1,7 +1,8 @@
 [project]
 name = "py-ml-basic"
+authors = [{ name = "Shawn Yu", email = "" }]
 version = "0.1.0"
-description = "Add your description here"
+description = "A basic machine learning project in Python"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
@@ -39,7 +40,7 @@ select = ["E", "W", "F", "I", "N", "UP", "B", "C4", "SIM"]
 ignore = ["D203", "D213", "E501", "SIM115"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["py_iter_gen"]
+known-first-party = ["py_ml_basic"]
 
 [tool.ruff.format]
 preview = true
