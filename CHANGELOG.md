@@ -1,10 +1,12 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-18)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-19)
 
 ### Features
 
+- **utils:** add Access class for controlled attribute access ([5f1f166](https://github.com/DaoChaShao/py-ml-basic/commit/5f1f166c02515ab39aa65de0c10a4179a4e9db86))
+- **project:** release initial version 0.1.0 with utility modules ([caac153](https://github.com/DaoChaShao/py-ml-basic/commit/caac153fe542110ed9e97d103e7c1f080c031cab))
 - **utils:** add text highlighting and formatting utilities ([4917c50](https://github.com/DaoChaShao/py-ml-basic/commit/4917c5076a08fdaa6bc7d72c43c7fc48c9d7082a))
 - **utils:** add helper module with context managers for code beautification timing and random seeding ([65d93b5](https://github.com/DaoChaShao/py-ml-basic/commit/65d93b589b9a1769dd298c931b8930dee6cb2493))
 - **utils:** add decorator module with timing and beautification utilities ([88cca46](https://github.com/DaoChaShao/py-ml-basic/commit/88cca46e42eed6278cfd45292d41a808333edf14))
