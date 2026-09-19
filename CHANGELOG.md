@@ -5,8 +5,10 @@
 
 ### Features
 
+- **project:** add core dependencies for machine learning project ([9ec0c8e](https://github.com/DaoChaShao/py-ml-basic/commit/9ec0c8eaf4ad46bf0a903fc108802c0847d1ff2a))
+- **ml:** add KNN implementation for classification and regression ([6caf649](https://github.com/DaoChaShao/py-ml-basic/commit/6caf649094cbb67227e2c2d4bb19e5edefa0d1b4))
+- **project:** release initial version 0.1.0 with utility modules ([74e168f](https://github.com/DaoChaShao/py-ml-basic/commit/74e168f19c37308a77bf0f1f2c58d88f5248667d))
 - **utils:** add Access class for controlled attribute access ([5f1f166](https://github.com/DaoChaShao/py-ml-basic/commit/5f1f166c02515ab39aa65de0c10a4179a4e9db86))
-- **project:** release initial version 0.1.0 with utility modules ([caac153](https://github.com/DaoChaShao/py-ml-basic/commit/caac153fe542110ed9e97d103e7c1f080c031cab))
 - **utils:** add text highlighting and formatting utilities ([4917c50](https://github.com/DaoChaShao/py-ml-basic/commit/4917c5076a08fdaa6bc7d72c43c7fc48c9d7082a))
 - **utils:** add helper module with context managers for code beautification timing and random seeding ([65d93b5](https://github.com/DaoChaShao/py-ml-basic/commit/65d93b589b9a1769dd298c931b8930dee6cb2493))
 - **utils:** add decorator module with timing and beautification utilities ([88cca46](https://github.com/DaoChaShao/py-ml-basic/commit/88cca46e42eed6278cfd45292d41a808333edf14))
@@ -15,6 +17,7 @@
 
 ### Chore
 
+- **deps:** update python dependencies in uv lock file ([a52deb7](https://github.com/DaoChaShao/py-ml-basic/commit/a52deb740ed0469a7ea8f3f4483dd4a541e3f855))
 - **project:** update project metadata and configuration ([6ac0593](https://github.com/DaoChaShao/py-ml-basic/commit/6ac059303bcd4f463d6ee41d26de74403aaac57b))
 - **utils:** add .gitignore file for Python project ([d6e7076](https://github.com/DaoChaShao/py-ml-basic/commit/d6e707611a38a940de806486d3d226c5ce00a3f0))
 - **project:** initialize project structure and dependencies ([05dfa28](https://github.com/DaoChaShao/py-ml-basic/commit/05dfa28d7780a1666f9a66c761aa519ebc261b11))
