@@ -5,7 +5,10 @@ version = "0.1.0"
 description = "A basic machine learning project in Python"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "access-modifiers>=0.3.1",
+    "scikit-learn>=1.9.1",
+]
 
 [dependency-groups]
 dev = [
