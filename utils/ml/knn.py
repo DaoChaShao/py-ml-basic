@@ -16,23 +16,45 @@ from ..helper import Access
 
 
 @unique
-class KNNModes(StrEnum):
+class KNNMissions(StrEnum):
     CLS = "cls"
     REG = "reg"
+
+
+@unique
+class KNNMetrics(StrEnum):
+    EUCLIDEAN = "euclidean"
+    MANHATTAN = "manhattan"
+    CHEBYSHEV = "chebyshev"
+    MINKOWSKI = "minkowski"
 
 
 class KNN(Access):
     """ KNN class for classification and regression. """
 
-    def __init__(self, mode: str | KNNModes | Literal["cls", "reg"], *, n_neighbours: int = 5):
+    def __init__(
+            self,
+            mission: str | KNNMissions | Literal["cls", "reg"],
+            *,
+            n_neighbours: int = 5,
+            metric: str | KNNMetrics | Literal[
+                "euclidean", "manhattan", "chebyshev", "minkowski"
+            ] = KNNMetrics.EUCLIDEAN,
+            p: float = 2.0,
+    ):
         """
         Initialise the KNN class.
 
-        :param mode: The mode of the KNN algorithm, can be "cls" for classification or "reg" for regression.
-        :param n_neighbours: The number of neighbours to consider for classification or regression.
+        :param mission: The mode of the KNN algorithm ("cls" or "reg").
+        :param n_neighbours: The number of neighbours to consider.
+        :param metric: Distance metric to use.
+        :param p: Power parameter for the Minkowski metric. (Only effective when metric='minkowski')
         """
-        self._mode: KNNModes = KNNModes(mode)
-        self._neighbors: int = n_neighbours
+        self._mission: KNNMissions = KNNMissions(mission)
+        self._neighbours: int = n_neighbours
+        self._metric: KNNMetrics = KNNMetrics(metric)
+        self._p: float = p
+
         self._fitted: bool = False
         self._estimator: KNeighborsClassifier | KNeighborsRegressor | None = None
 
@@ -45,13 +67,8 @@ class KNN(Access):
 
         :return: None
         """
-        match self._mode:
-            case KNNModes.CLS:
-                self._estimator = KNeighborsClassifier(n_neighbors=self._neighbors)
-            case KNNModes.REG:
-                self._estimator = KNeighborsRegressor(n_neighbors=self._neighbors)
-            case _:
-                raise ValueError(f"Invalid mode: {self._mode!r}")
+        _estimator = KNeighborsClassifier if self._mission is KNNMissions.CLS else KNeighborsRegressor
+        self._estimator = _estimator(n_neighbors=self._neighbours, metric=self._metric.value, p=self._p)
 
     def train(self, features: Any, labels: Any) -> None:
         """
@@ -80,31 +97,40 @@ class KNN(Access):
         return self._estimator.predict(features)
 
     @property
-    def mode(self) -> KNNModes:
+    def mission(self) -> KNNMissions:
         """
         Get the mode of the KNN algorithm.
 
         :return: The mode of the KNN algorithm.
         """
-        return self._mode
+        return self._mission
 
     @property
-    def neighbors(self) -> int:
+    def neighbours(self) -> int:
         """
         Get the number of neighbors considered for classification or regression.
 
         :return: The number of neighbors considered for classification or regression.
         """
-        return self._neighbors
+        return self._neighbours
 
     @property
-    def knn(self) -> KNeighborsClassifier | KNeighborsRegressor | None:
+    def metric(self) -> KNNMetrics:
         """
-        Get the KNN estimator.
+        Get the metric used for distance calculation.
 
-        :return: The KNN estimator.
+        :return: The metric used for distance calculation.
         """
-        return self._estimator
+        return self._metric
+
+    @property
+    def p(self) -> float:
+        """
+        Get the value of p used for the Minkowski distance metric.
+
+        :return: The value of p used for the Minkowski distance metric.
+        """
+        return self._p
 
     def __repr__(self) -> str:
         """
@@ -112,7 +138,64 @@ class KNN(Access):
 
         :return: A string representation of the KNN object.
         """
-        return f"KNN(mode={self._mode!r}, neighbors={self._neighbors!r}, knn={self._estimator!r})"
+        return (
+            f"KNN("
+            f"mission={self._mission.value!r}, "
+            f"neighbours={self._neighbours!r}, "
+            f"metric={self._metric.value!r}, "
+            f"p={self._p!r}"
+            f")"
+        )
+
+
+def euclidean_distance(x1: Any, x2: Any) -> float:
+    """
+    Calculate the Euclidean distance between two points.
+
+    :param x1: The first point.
+    :param x2: The second point.
+    :return: The Euclidean distance between the two points.
+    """
+    return sum((a - b) ** 2 for a, b in zip(x1, x2)) ** 0.5
+
+
+def manhattan_distance(x1: Any, x2: Any) -> float:
+    """
+    Calculate the Manhattan distance between two points.
+
+    :param x1: The first point.
+    :param x2: The second point.
+    :return: The Manhattan distance between the two points.
+    """
+    return sum(abs(a - b) for a, b in zip(x1, x2))
+
+
+def chebyshev_distance(x1: Any, x2: Any) -> float:
+    """
+    Calculate the Chebyshev distance between two points.
+
+    :param x1: The first point.
+    :param x2: The second point.
+    :return: The Chebyshev distance between the two points.
+    """
+    return max(abs(a - b) for a, b in zip(x1, x2))
+
+
+def minkowski_distance(x1: Any, x2: Any, p: float) -> float:
+    """
+    Calculate the Minkowski distance between two points.
+    - If p = 1, it becomes the Manhattan distance.
+    - If p = 2, it becomes the Euclidean distance.
+    - If p = infinity, it becomes the Chebyshev distance.
+
+    :param x1: The first point.
+    :param x2: The second point.
+    :param p: The order of the Minkowski distance.
+    :return: The Minkowski distance between the two points.
+    """
+    if p < 1:
+        raise ValueError("p must be greater than or equal to 1.")
+    return sum(abs(a - b) ** p for a, b in zip(x1, x2)) ** (1 / p)
 
 
 if __name__ == "__main__":
