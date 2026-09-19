@@ -5,6 +5,7 @@
 
 ### Features
 
+- **utils:** add ML preprocessing classes for feature normalisation and standardisation ([9f67923](https://github.com/DaoChaShao/py-ml-basic/commit/9f67923f1fbd3e6738f2f9468074d1061bc69a28))
 - **project:** add core dependencies for machine learning project ([9ec0c8e](https://github.com/DaoChaShao/py-ml-basic/commit/9ec0c8eaf4ad46bf0a903fc108802c0847d1ff2a))
 - **ml:** add KNN implementation for classification and regression ([6caf649](https://github.com/DaoChaShao/py-ml-basic/commit/6caf649094cbb67227e2c2d4bb19e5edefa0d1b4))
 - **project:** release initial version 0.1.0 with utility modules ([74e168f](https://github.com/DaoChaShao/py-ml-basic/commit/74e168f19c37308a77bf0f1f2c58d88f5248667d))
@@ -17,8 +18,8 @@
 
 ### Chore
 
+- **project:** update changelog with recent commits and dependency changes ([339d633](https://github.com/DaoChaShao/py-ml-basic/commit/339d63313754ad64bcda55cdef4dbd6eb1853112))
 - **ml-utils:** add gitignore for ml utility directory ([c814510](https://github.com/DaoChaShao/py-ml-basic/commit/c8145106a9eda75a32009ce0e3bb0d08ba91ffd7))
-- **project:** update changelog with recent commits and dependency changes ([8f32119](https://github.com/DaoChaShao/py-ml-basic/commit/8f321193a28da979103394f28b1448231cc9a117))
 - **deps:** update python dependencies in uv lock file ([a52deb7](https://github.com/DaoChaShao/py-ml-basic/commit/a52deb740ed0469a7ea8f3f4483dd4a541e3f855))
 - **project:** update project metadata and configuration ([6ac0593](https://github.com/DaoChaShao/py-ml-basic/commit/6ac059303bcd4f463d6ee41d26de74403aaac57b))
 - **utils:** add .gitignore file for Python project ([d6e7076](https://github.com/DaoChaShao/py-ml-basic/commit/d6e707611a38a940de806486d3d226c5ce00a3f0))
@@ -35,5 +36,6 @@
 
 ### Code Refactoring
 
+- **ml:** update import order and add super call in KNN class ([a5e5338](https://github.com/DaoChaShao/py-ml-basic/commit/a5e533861da35518e6bb7d2474e1114a5024732f))
 - **ml:** update KNN implementation with enhanced distance metrics support ([d924915](https://github.com/DaoChaShao/py-ml-basic/commit/d9249157793b3c45028bcf532f9ca5411d5c875f))
 
