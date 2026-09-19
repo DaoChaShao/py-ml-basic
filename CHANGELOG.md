@@ -1,10 +1,13 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-19)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-20)
 
 ### Features
 
+- **deps:** add pandas and pandas-stubs to project dependencies ([59b7608](https://github.com/DaoChaShao/py-ml-basic/commit/59b76080be47aff611500c1ce9685b241122af43))
+- **deps:** add pandas and pandas-stubs dependencies ([769e9c0](https://github.com/DaoChaShao/py-ml-basic/commit/769e9c00d081ba703c634555b984b11d0e2775b0))
+- **ml:** add comprehensive preprocessing utilities with file loading and data splitting ([5315a61](https://github.com/DaoChaShao/py-ml-basic/commit/5315a61465100bf886dbd63df34f775021e0f968))
 - **utils:** add ML preprocessing classes for feature normalisation and standardisation ([9f67923](https://github.com/DaoChaShao/py-ml-basic/commit/9f67923f1fbd3e6738f2f9468074d1061bc69a28))
 - **project:** add core dependencies for machine learning project ([9ec0c8e](https://github.com/DaoChaShao/py-ml-basic/commit/9ec0c8eaf4ad46bf0a903fc108802c0847d1ff2a))
 - **ml:** add KNN implementation for classification and regression ([6caf649](https://github.com/DaoChaShao/py-ml-basic/commit/6caf649094cbb67227e2c2d4bb19e5edefa0d1b4))
@@ -31,6 +34,7 @@
 
 ### Docs
 
+- **changelog:** update changelog with ML preprocessing features and recent changes ([ec74f28](https://github.com/DaoChaShao/py-ml-basic/commit/ec74f28ce26fe8a3cc2cfb147381bd34595fef79))
 - **readme:** add Chinese language README with privacy and setup guides ([6a2701e](https://github.com/DaoChaShao/py-ml-basic/commit/6a2701e7200145b3f495ce051cb7abdea8004780))
 - **readme:** add comprehensive README with privacy notice and setup instructions ([b973975](https://github.com/DaoChaShao/py-ml-basic/commit/b973975cd77afba2057c8e9a8086931fa260f9a7))
 
