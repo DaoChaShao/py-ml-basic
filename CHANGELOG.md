@@ -17,6 +17,8 @@
 
 ### Chore
 
+- **ml-utils:** add gitignore for ml utility directory ([c814510](https://github.com/DaoChaShao/py-ml-basic/commit/c8145106a9eda75a32009ce0e3bb0d08ba91ffd7))
+- **project:** update changelog with recent commits and dependency changes ([8f32119](https://github.com/DaoChaShao/py-ml-basic/commit/8f321193a28da979103394f28b1448231cc9a117))
 - **deps:** update python dependencies in uv lock file ([a52deb7](https://github.com/DaoChaShao/py-ml-basic/commit/a52deb740ed0469a7ea8f3f4483dd4a541e3f855))
 - **project:** update project metadata and configuration ([6ac0593](https://github.com/DaoChaShao/py-ml-basic/commit/6ac059303bcd4f463d6ee41d26de74403aaac57b))
 - **utils:** add .gitignore file for Python project ([d6e7076](https://github.com/DaoChaShao/py-ml-basic/commit/d6e707611a38a940de806486d3d226c5ce00a3f0))
@@ -30,4 +32,8 @@
 
 - **readme:** add Chinese language README with privacy and setup guides ([6a2701e](https://github.com/DaoChaShao/py-ml-basic/commit/6a2701e7200145b3f495ce051cb7abdea8004780))
 - **readme:** add comprehensive README with privacy notice and setup instructions ([b973975](https://github.com/DaoChaShao/py-ml-basic/commit/b973975cd77afba2057c8e9a8086931fa260f9a7))
+
+### Code Refactoring
+
+- **ml:** update KNN implementation with enhanced distance metrics support ([d924915](https://github.com/DaoChaShao/py-ml-basic/commit/d9249157793b3c45028bcf532f9ca5411d5c875f))
 
