@@ -4,10 +4,10 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   knn.py
-# @Desc     :   
+# @Desc     :
 
 from enum import StrEnum, unique
-from typing import Literal, Any
+from typing import Any, Literal
 
 from access_modifiers import protectedmethod
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
@@ -50,6 +50,7 @@ class KNN(Access):
         :param metric: Distance metric to use.
         :param p: Power parameter for the Minkowski metric. (Only effective when metric='minkowski')
         """
+        super().__init__()
         self._mission: KNNMissions = KNNMissions(mission)
         self._neighbours: int = n_neighbours
         self._metric: KNNMetrics = KNNMetrics(metric)
