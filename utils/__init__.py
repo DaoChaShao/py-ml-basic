@@ -15,6 +15,14 @@ and classes designed for general data processing tasks.
 ****************************************************************
 """
 
+from .decorator import beautifier, clock, countdown, timer
+from .helper import Beautifier, RandomSeed, Timer
+from .highlighter import (
+    black, red, green, yellow, blue, purple, cyan, white,
+    bold, underline, invert, strikethrough,
+    stars, lines, sharps
+)
+
 from importlib.metadata import metadata, PackageNotFoundError
 
 try:
@@ -24,14 +32,6 @@ try:
 except PackageNotFoundError:
     __author__ = "Shawn Yu"
     __version__ = "0.1.0"
-
-from .decorator import beautifier, clock, countdown, timer
-from .helper import Beautifier, RandomSeed, Timer
-from .highlighter import (
-    black, red, green, yellow, blue, purple, cyan, white,
-    bold, underline, invert, strikethrough,
-    stars, lines, sharps
-)
 
 __all__ = [
     "beautifier",
