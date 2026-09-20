@@ -1,10 +1,14 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-20)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-21)
 
 ### Features
 
+- **deps:** add pydantic and related dependencies to project ([7e130be](https://github.com/DaoChaShao/py-ml-basic/commit/7e130be466ac4a193ebc2f402b8c48c345a7b717))
+- **ml:** add base class for machine learning models ([1a0dc8a](https://github.com/DaoChaShao/py-ml-basic/commit/1a0dc8ad31595baa7d9dd5baaaf1dbaf639e4cbb))
+- **ml:** add comprehensive machine learning toolkit module ([78eabfa](https://github.com/DaoChaShao/py-ml-basic/commit/78eabfaf6a196729ca183529fff1acba64ed19e5))
+- **ml:** add iris dataset classification implementation with KNN algorithm ([0e655a0](https://github.com/DaoChaShao/py-ml-basic/commit/0e655a0b5a7841ae1619e4482767c427e6d6b651))
 - **deps:** add pandas and pandas-stubs to project dependencies ([59b7608](https://github.com/DaoChaShao/py-ml-basic/commit/59b76080be47aff611500c1ce9685b241122af43))
 - **deps:** add pandas and pandas-stubs dependencies ([769e9c0](https://github.com/DaoChaShao/py-ml-basic/commit/769e9c00d081ba703c634555b984b11d0e2775b0))
 - **ml:** add comprehensive preprocessing utilities with file loading and data splitting ([5315a61](https://github.com/DaoChaShao/py-ml-basic/commit/5315a61465100bf886dbd63df34f775021e0f968))
@@ -21,6 +25,7 @@
 
 ### Chore
 
+- **deps:** add pydantic dependency ([62065ad](https://github.com/DaoChaShao/py-ml-basic/commit/62065ad1405330d6721ae650d89d3ba181e0e64e))
 - **project:** update changelog with recent commits and dependency changes ([339d633](https://github.com/DaoChaShao/py-ml-basic/commit/339d63313754ad64bcda55cdef4dbd6eb1853112))
 - **ml-utils:** add gitignore for ml utility directory ([c814510](https://github.com/DaoChaShao/py-ml-basic/commit/c8145106a9eda75a32009ce0e3bb0d08ba91ffd7))
 - **deps:** update python dependencies in uv lock file ([a52deb7](https://github.com/DaoChaShao/py-ml-basic/commit/a52deb740ed0469a7ea8f3f4483dd4a541e3f855))
@@ -34,12 +39,15 @@
 
 ### Docs
 
-- **changelog:** update changelog with ML preprocessing features and recent changes ([ec74f28](https://github.com/DaoChaShao/py-ml-basic/commit/ec74f28ce26fe8a3cc2cfb147381bd34595fef79))
+- **changelog:** update changelog with ML preprocessing features and recent changes ([beb58d5](https://github.com/DaoChaShao/py-ml-basic/commit/beb58d5692765875d589c1ed20713a829ec89928))
 - **readme:** add Chinese language README with privacy and setup guides ([6a2701e](https://github.com/DaoChaShao/py-ml-basic/commit/6a2701e7200145b3f495ce051cb7abdea8004780))
 - **readme:** add comprehensive README with privacy notice and setup instructions ([b973975](https://github.com/DaoChaShao/py-ml-basic/commit/b973975cd77afba2057c8e9a8086931fa260f9a7))
 
 ### Code Refactoring
 
+- **ml:** update preprocessor with timing and improved labeling ([a76747e](https://github.com/DaoChaShao/py-ml-basic/commit/a76747ea295ec749fa3b8e09a5851258a14ba2da))
+- **ml:** update KNN implementation with base class inheritance and enhanced functionality ([481bb9a](https://github.com/DaoChaShao/py-ml-basic/commit/481bb9a81b8843759464539ceea9713840c7abb1))
+- **utils:** reorganize import statements in utils module ([eeecf3d](https://github.com/DaoChaShao/py-ml-basic/commit/eeecf3ddbd58646c7b800e80db45a07898870e6a))
 - **ml:** update import order and add super call in KNN class ([a5e5338](https://github.com/DaoChaShao/py-ml-basic/commit/a5e533861da35518e6bb7d2474e1114a5024732f))
 - **ml:** update KNN implementation with enhanced distance metrics support ([d924915](https://github.com/DaoChaShao/py-ml-basic/commit/d9249157793b3c45028bcf532f9ca5411d5c875f))
 
