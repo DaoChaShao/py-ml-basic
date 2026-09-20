@@ -23,6 +23,7 @@ from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
 from sklearn.utils.class_weight import compute_class_weight
 
 from ..constants import WIDTH
+from ..decorator import timer
 from ..helper import Access
 
 
@@ -243,7 +244,8 @@ class FileLoader(Access):
         )
 
 
-def check_labels_distribution(labels: Series, *, display: bool = True) -> tuple:
+@timer
+def get_labels_distribution(labels: Series, *, display: bool = False) -> tuple:
     """
     Check the distribution of the labels in the target variable.
     :param labels: the target variable
@@ -258,7 +260,8 @@ def check_labels_distribution(labels: Series, *, display: bool = True) -> tuple:
     return labels.value_counts(), labels.value_counts(normalize=True)
 
 
-def encode_labels(labels: Series, *, top_n: int = 5, display: bool = True) -> tuple[Series, LabelEncoder]:
+@timer
+def encode_labels(labels: Series, *, top_n: int = 5, display: bool = False) -> tuple[Series, LabelEncoder]:
     """
     Encode the labels in the target variable.
     :param labels: the target variable
@@ -272,19 +275,20 @@ def encode_labels(labels: Series, *, top_n: int = 5, display: bool = True) -> tu
     out: Series = Series(
         encoder.fit_transform(labels),
         index=labels.index,
-        name=labels.name
+        name=f"{labels.name}_encoded" if labels.name else "encoded"
     )
 
     if display:
         # Method I
         # print(f"Label encoder classes: { {i: cat for i, cat in enumerate(encoder.classes_)} }")
-        # Method II
-        print(f"Label encoder classes: {dict(enumerate(encoder.classes_))}")
-        print(f"{top_n} / {len(out)} encoded labels:\n{concat([labels.head(top_n), out.head(top_n)], axis=1)}")
+        # Method II (3.12+)
+        print(f"Labels encoder classes: {dict(enumerate(encoder.classes_))}")
+        comparison = concat([labels.head(top_n), out.head(top_n)], axis=1, keys=["Original", "Encoded"])
+        print(f"{top_n} / {len(out)} encoded labels:\n{comparison}")
     return out, encoder
 
 
-class Normaliser(Access):
+class FeaturesNormaliser(Access):
     """ A class for normalising features using MinMaxScaler. """
 
     def __init__(self, features: Any, *, min_value: int | float = 0, max_value: int | float = 1) -> None:
@@ -368,10 +372,10 @@ class Normaliser(Access):
         )
 
 
-class Standardiser(Access):
+class FeaturesStandardiser(Access):
     """ A class for standardising features using StandardScaler. """
 
-    def __init__(self, features: Any = None) -> None:
+    def __init__(self, features: Any) -> None:
         """
         Initialise the Standardiser class
 
@@ -387,8 +391,7 @@ class Standardiser(Access):
 
         :return: self
         """
-        if self._features is not None:
-            self._scaler.fit(self._features)
+        self._scaler.fit(self._features)
         return self
 
     def transform(self, features: Any = None) -> Any:
@@ -445,12 +448,13 @@ class Standardiser(Access):
         )
 
 
+@timer
 def split_data(
         features: DataFrame, labels: Series,
         *,
         randomness: int = 27,
         shuffle_status: bool = True,
-        display: bool = True
+        display: bool = False,
 ) -> tuple[DataFrame, DataFrame, DataFrame, Series, Series, Series]:
     """
     Split the data into training, validation, and proving sets.
@@ -474,18 +478,20 @@ def split_data(
     valid_features, prove_features, valid_labels, prove_labels = train_test_split(
         temp_features, temp_labels,
         test_size=0.5,
-        random_state=randomness,
+        random_state=randomness + randomness,
         shuffle=shuffle_status,
         stratify=temp_labels if shuffle_status else None,
     )
 
     if display:
-        print(f"Training set: {train_features.shape}, {train_labels.shape}")
-        print(f"Validation set: {valid_features.shape}, {valid_labels.shape}")
-        print(f"Proving set: {prove_features.shape}, {prove_labels.shape}")
+        _total = len(features)
+        print(f"Train: {len(train_features)}/{_total} ({len(train_features) / _total:.1%}) -> {train_features.shape}")
+        print(f"Valid: {len(valid_features)}/{_total} ({len(valid_features) / _total:.1%}) -> {valid_features.shape}")
+        print(f"Prove: {len(prove_features)}/{_total} ({len(prove_features) / _total:.1%}) -> {prove_features.shape}")
     return train_features, valid_features, prove_features, train_labels, valid_labels, prove_labels
 
 
+@timer
 def calc_labels_weight(labels: Any, *, display: bool = True) -> ndarray:
     """
     Compute class weight for imbalanced datasets.
