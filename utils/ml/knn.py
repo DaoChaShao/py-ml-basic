@@ -7,12 +7,13 @@
 # @Desc     :
 
 from enum import StrEnum, unique
-from typing import Any, Literal
+from typing import Any, Literal, override
 
 from access_modifiers import protectedmethod
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
 from ..helper import Access
+from .base import Base
 
 
 @unique
@@ -29,7 +30,7 @@ class KNNMetrics(StrEnum):
     MINKOWSKI = "minkowski"
 
 
-class KNN(Access):
+class KNN(Access, Base):
     """ KNN class for classification and regression. """
 
     def __init__(
@@ -39,7 +40,7 @@ class KNN(Access):
             n_neighbours: int = 5,
             metric: str | KNNMetrics | Literal[
                 "euclidean", "manhattan", "chebyshev", "minkowski"
-            ] = KNNMetrics.EUCLIDEAN,
+            ] = KNNMetrics.MINKOWSKI,
             p: float = 2.0,
     ):
         """
@@ -71,6 +72,7 @@ class KNN(Access):
         _estimator = KNeighborsClassifier if self._mission is KNNMissions.CLS else KNeighborsRegressor
         self._estimator = _estimator(n_neighbors=self._neighbours, metric=self._metric.value, p=self._p)
 
+    @override
     def train(self, features: Any, labels: Any) -> None:
         """
         Train the KNN estimator with the given features and labels.
@@ -84,6 +86,7 @@ class KNN(Access):
         self._estimator.fit(features, labels)
         self._fitted = True
 
+    @override
     def predict(self, features: Any) -> Any:
         """
         Predict the labels for the given features using the KNN estimator.
@@ -96,6 +99,19 @@ class KNN(Access):
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._estimator.predict(features)
+
+    def confidence(self, features: Any) -> Any:
+        """
+        Predict the probabilities for the given features using the KNN estimator.
+
+        :param features: The features to predict the probabilities for.
+        :return: The predicted probabilities.
+        """
+        if self._estimator is None:
+            raise RuntimeError("Estimator has not been initialized.")
+        if not self._fitted:
+            raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        return self._estimator.predict_proba(features)
 
     @property
     def mission(self) -> KNNMissions:
@@ -157,7 +173,7 @@ def euclidean_distance(x1: Any, x2: Any) -> float:
     :param x2: The second point.
     :return: The Euclidean distance between the two points.
     """
-    return sum((a - b) ** 2 for a, b in zip(x1, x2)) ** 0.5
+    return sum((a - b) ** 2 for a, b in zip(x1, x2, strict=True)) ** 0.5
 
 
 def manhattan_distance(x1: Any, x2: Any) -> float:
@@ -168,7 +184,7 @@ def manhattan_distance(x1: Any, x2: Any) -> float:
     :param x2: The second point.
     :return: The Manhattan distance between the two points.
     """
-    return sum(abs(a - b) for a, b in zip(x1, x2))
+    return sum(abs(a - b) for a, b in zip(x1, x2, strict=True))
 
 
 def chebyshev_distance(x1: Any, x2: Any) -> float:
@@ -179,7 +195,7 @@ def chebyshev_distance(x1: Any, x2: Any) -> float:
     :param x2: The second point.
     :return: The Chebyshev distance between the two points.
     """
-    return max(abs(a - b) for a, b in zip(x1, x2))
+    return max(abs(a - b) for a, b in zip(x1, x2, strict=True))
 
 
 def minkowski_distance(x1: Any, x2: Any, p: float) -> float:
@@ -196,7 +212,7 @@ def minkowski_distance(x1: Any, x2: Any, p: float) -> float:
     """
     if p < 1:
         raise ValueError("p must be greater than or equal to 1.")
-    return sum(abs(a - b) ** p for a, b in zip(x1, x2)) ** (1 / p)
+    return sum(abs(a - b) ** p for a, b in zip(x1, x2, strict=True)) ** (1 / p)
 
 
 if __name__ == "__main__":
