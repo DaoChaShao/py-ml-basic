@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   __init__.py
-# @Desc     :   
+# @Desc     :
 
 """
 ****************************************************************
@@ -15,15 +15,27 @@ and classes designed for general data processing tasks.
 ****************************************************************
 """
 
+from importlib.metadata import PackageNotFoundError, metadata
+
 from .decorator import beautifier, clock, countdown, timer
 from .helper import Beautifier, RandomSeed, Timer
 from .highlighter import (
-    black, red, green, yellow, blue, purple, cyan, white,
-    bold, underline, invert, strikethrough,
-    stars, lines, sharps
+    black,
+    blue,
+    bold,
+    cyan,
+    green,
+    invert,
+    lines,
+    purple,
+    red,
+    sharps,
+    stars,
+    strikethrough,
+    underline,
+    white,
+    yellow,
 )
-
-from importlib.metadata import metadata, PackageNotFoundError
 
 try:
     _meta = metadata("py-ml-basic")
