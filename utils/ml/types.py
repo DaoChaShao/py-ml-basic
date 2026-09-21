@@ -93,6 +93,6 @@ class ScoreStrategies(StrEnum):
     ROC_AUC_OVR = "roc_auc_ovr"
 
 
-class GridSearchTonesResponse(BaseModel):
+class GridSearchTunesResponse(BaseModel):
     best_params: dict[str, Any] = Field(..., description="The best parameters found during the grid search.")
     best_score: float = Field(..., description="The best score achieved during the grid search.")
