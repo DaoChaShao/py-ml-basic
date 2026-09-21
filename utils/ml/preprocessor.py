@@ -375,14 +375,14 @@ class FeaturesNormaliser(Access):
 class FeaturesStandardiser(Access):
     """ A class for standardising features using StandardScaler. """
 
-    def __init__(self, features: Any) -> None:
+    def __init__(self, features: DataFrame) -> None:
         """
         Initialise the Standardiser class
 
         :param features: The features to standardise.
         """
         super().__init__()
-        self._features: Any = features
+        self._features: DataFrame = features
         self._scaler: StandardScaler = StandardScaler()
 
     def __enter__(self) -> Self:
@@ -394,7 +394,7 @@ class FeaturesStandardiser(Access):
         self._scaler.fit(self._features)
         return self
 
-    def transform(self, features: Any = None) -> Any:
+    def transform(self, features: DataFrame | Series | None = None) -> DataFrame:
         """
         Transform the features using the scaler.
 
@@ -404,9 +404,14 @@ class FeaturesStandardiser(Access):
         _features: Any = features if features is not None else self._features
         if _features is None:
             raise ValueError("No features provided for standardisation.")
-        return self._scaler.transform(_features)
 
-    def inverse_transform(self, features: Any = None) -> Any:
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        _transformed = self._scaler.transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def inverse_transform(self, features: DataFrame | Series | None = None) -> Any:
         """
         Transform the features using the scaler.
 
@@ -416,9 +421,14 @@ class FeaturesStandardiser(Access):
         _features: Any = features if features is not None else self._features
         if _features is None:
             raise ValueError("No features provided for inverse transformation.")
-        return self._scaler.inverse_transform(_features)
 
-    def fit_transform(self, features: Any = None) -> Any:
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        _transformed = self._scaler.inverse_transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def fit_transform(self, features: DataFrame | Series | None = None) -> Any:
         """
         Fit and transform the features using the scaler.
 
@@ -428,7 +438,13 @@ class FeaturesStandardiser(Access):
         _features: Any = features if features is not None else self._features
         if _features is None:
             raise ValueError("No features provided for standardisation.")
-        return self._scaler.fit_transform(_features)
+
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        self._features = _features
+        _transformed = self._scaler.fit_transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
 
     def __exit__(self, exc_type, exc_value, traceback):
         """ Do nothing. """
