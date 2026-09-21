@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   decorator.py
-# @Desc     :   
+# @Desc     :
 
 from collections.abc import Callable
 from functools import wraps
