@@ -95,7 +95,12 @@ def main() -> None:
 
         # grid_params: dict = {
         #     "n_neighbors": list(range(1, 16)),
-        #     "metric": [KNNMetrics.EUCLIDEAN, KNNMetrics.MANHATTAN, KNNMetrics.CHEBYSHEV, KNNMetrics.MINKOWSKI],
+        #     "metric": [
+        #         KNNMetrics.EUCLIDEAN.value,
+        #         KNNMetrics.MANHATTAN.value,
+        #         KNNMetrics.CHEBYSHEV.value,
+        #         KNNMetrics.MINKOWSKI.value,
+        #     ],
         #     "p": [1.0, 2.0, 3.0, 4.0]
         # }
         #
