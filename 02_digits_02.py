@@ -4,24 +4,19 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   02_digits_02.py
-# @Desc     :   
+# @Desc     :
 
-from pandas import DataFrame, Series
 from pathlib import Path
 from pprint import pprint
 from random import randint
 
 from numpy import ndarray
+from pandas import DataFrame, Series
 from sklearn.datasets import load_digits
 from sklearn.utils import Bunch
 
-from utils import red, green
-from utils.ml import (
-    get_labels_distribution,
-    split_data,
-    FeaturesNormaliser,
-    KNN
-)
+from utils import green, red
+from utils.ml import KNN, FeaturesNormaliser, get_labels_distribution, split_data
 
 
 def init_digital_nums() -> Bunch:
