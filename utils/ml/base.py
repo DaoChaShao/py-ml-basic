@@ -7,8 +7,11 @@
 # @Desc     :
 
 from abc import ABC, abstractmethod
+from datetime import datetime
+from joblib import dump, load
+from pathlib import Path
 from pprint import pprint
-from typing import Any, Literal
+from typing import Any, Literal, Self
 
 from pandas import DataFrame, Series
 from sklearn.metrics import (
@@ -24,7 +27,7 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
 from ..helper import Access
 from ..highlighter import lines, stars
-from .types import AveStrategies, GridSearchTonesResponse, KNNMissions, ScoreStrategies
+from .types import AveStrategies, GridSearchTunesResponse, KNNMissions, ScoreStrategies
 
 
 class Base(ABC, Access):
@@ -37,6 +40,7 @@ class Base(ABC, Access):
         :return: None
         """
         super().__init__()
+        self._model: Any = None
 
     @abstractmethod
     def train(self, features: DataFrame, labels: Series) -> None:
@@ -88,34 +92,6 @@ class Base(ABC, Access):
             "f1_score": _f1,
         }
 
-        # _cm = confusion_matrix(valid_labels, predictions)
-        # _cm_metrics: dict[str, float] = {}
-        # if _cm.shape == (2, 2):
-        #     # Binary classification
-        #     TN, FP, FN, TP = _cm.ravel()
-        #     _cm_metrics.update({
-        #         "TP": TP,
-        #         "TN": TN,
-        #         "FP": FP,
-        #         "FN": FN
-        #     })
-        # else:
-        #     # Multi-class classification
-        #     num_classes = _cm.shape[0]
-        #     for i in range(num_classes):
-        #         TP = _cm[i, i]
-        #         FP = _cm[:, i].sum() - TP
-        #         FN = _cm[i, :].sum() - TP
-        #         TN = _cm.sum() - (TP + FP + FN)
-        #         _cm_metrics.update({
-        #             f"cls_{i}_TP": TP,
-        #             f"cls_{i}_FP": FP,
-        #             f"cls_{i}_FN": FN,
-        #             f"cls_{i}_TN": TN
-        #         })
-        #
-        # _metrics.update(_cm_metrics)
-
         if display:
             stars()
             print("Classification Evaluation Metrics")
@@ -128,7 +104,7 @@ class Base(ABC, Access):
             stars()
             print("Classification Report")
             lines()
-            print(classification_report(valid_labels, predictions))
+            print(classification_report(valid_labels, predictions, digits=4))
             stars()
             print()
 
@@ -155,6 +131,46 @@ class Base(ABC, Access):
             print(f"Prediction Result: {'Correct' if status else 'Incorrect'}")
         return status, pred_label
 
+    def save(
+            self,
+            *,
+            model_dir: str | Path = "models",
+            model_name: str | Path = "model",
+            display: bool = True
+    ) -> None:
+        """
+        Save the model to a file.
+
+        :param model_dir: The directory to save the model.
+        :param model_name: The name of the model file.
+        :param display: Whether to display the save path.
+        :return: None
+        """
+        _target_dir = Path(model_dir).resolve()
+        # Create a new dir if it does not exist
+        _target_dir.mkdir(parents=True, exist_ok=True)
+
+        _pure_name = Path(model_name).stem
+        _timer = datetime.now().strftime("%Y%m%d-%H-%M-%S")
+        save_path = _target_dir / f"trained_at_{_timer}_{_pure_name}.pt"
+        dump(self, save_path)
+
+        if display:
+            print(f"Model successfully saved to: {save_path}")
+
+    @classmethod
+    def load(cls, model_path: str | Path) -> Self:
+        """
+        Load the model from a file.
+
+        :param model_path: The path to the model file.
+        :return: The loaded model.
+        """
+        _path = Path(model_path).resolve()
+        if not _path.exists():
+            raise FileNotFoundError(f"Model file not found at: {_path}")
+        return load(_path)
+
 
 def grid_search_tunes(
         train_features: DataFrame,
@@ -169,7 +185,7 @@ def grid_search_tunes(
             "accuracy", "f1_weighted", "f1_macro", "precision_weighted", "recall_weighted", "roc_auc_ovr"
         ] = ScoreStrategies.F1_WEIGHTED,
         display: bool = False
-) -> GridSearchTonesResponse:
+) -> GridSearchTunesResponse:
     """
     Perform Grid Search CV to find optimal hyperparameters on training data.
 
@@ -215,7 +231,7 @@ def grid_search_tunes(
         stars()
         print()
 
-    return GridSearchTonesResponse(
+    return GridSearchTunesResponse(
         best_params=best_params,
         best_score=best_score
     )
