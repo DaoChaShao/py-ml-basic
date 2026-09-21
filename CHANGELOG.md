@@ -5,6 +5,8 @@
 
 ### Features
 
+- **utils:** add ML types module with enums and response models ([43d9e73](https://github.com/DaoChaShao/py-ml-basic/commit/43d9e737df019441b82c2db021e6927c3c9fae0f))
+- **ml:** add comprehensive machine learning toolkit with KNN implementation ([29bf141](https://github.com/DaoChaShao/py-ml-basic/commit/29bf1412395e68249f4ff9b0d28caf6653d4f6bd))
 - **deps:** add pydantic and related dependencies to project ([7e130be](https://github.com/DaoChaShao/py-ml-basic/commit/7e130be466ac4a193ebc2f402b8c48c345a7b717))
 - **ml:** add base class for machine learning models ([1a0dc8a](https://github.com/DaoChaShao/py-ml-basic/commit/1a0dc8ad31595baa7d9dd5baaaf1dbaf639e4cbb))
 - **ml:** add comprehensive machine learning toolkit module ([78eabfa](https://github.com/DaoChaShao/py-ml-basic/commit/78eabfaf6a196729ca183529fff1acba64ed19e5))
@@ -45,6 +47,11 @@
 
 ### Code Refactoring
 
+- **utils:** update ML preprocessor type hints and DataFrame handling ([a57516f](https://github.com/DaoChaShao/py-ml-basic/commit/a57516f35bec2f14cbae3a9a6fa2933ec1f42b02))
+- **utils/ml:** update KNN class with better type hints and validation ([cd544e4](https://github.com/DaoChaShao/py-ml-basic/commit/cd544e4fc8dabfa2f64486c9c3a75abdb66dc54c))
+- **ml:** update base class with enhanced ML utilities and grid search ([9af8fde](https://github.com/DaoChaShao/py-ml-basic/commit/9af8fde86ef8e9b8c820262af213556e18f28c33))
+- **utils/ml:** restructure imports and exports for better organization ([0b0bd92](https://github.com/DaoChaShao/py-ml-basic/commit/0b0bd92eea10196680e54eab3402d15c1a2f8d59))
+- **iris:** optimize iris classification workflow and imports ([945b0e0](https://github.com/DaoChaShao/py-ml-basic/commit/945b0e08d43a99dbafe90e11bf5c830afe4243bc))
 - **ml:** update preprocessor with timing and improved labeling ([a76747e](https://github.com/DaoChaShao/py-ml-basic/commit/a76747ea295ec749fa3b8e09a5851258a14ba2da))
 - **ml:** update KNN implementation with base class inheritance and enhanced functionality ([481bb9a](https://github.com/DaoChaShao/py-ml-basic/commit/481bb9a81b8843759464539ceea9713840c7abb1))
 - **utils:** reorganize import statements in utils module ([eeecf3d](https://github.com/DaoChaShao/py-ml-basic/commit/eeecf3ddbd58646c7b800e80db45a07898870e6a))
