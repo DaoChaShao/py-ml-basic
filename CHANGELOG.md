@@ -5,8 +5,8 @@
 
 ### Features
 
+- **ml:** add comprehensive machine learning toolkit with KNN implementation ([023322c](https://github.com/DaoChaShao/py-ml-basic/commit/023322ce068d340e2b014b336b3eb643ccca77c6))
 - **utils:** add ML types module with enums and response models ([43d9e73](https://github.com/DaoChaShao/py-ml-basic/commit/43d9e737df019441b82c2db021e6927c3c9fae0f))
-- **ml:** add comprehensive machine learning toolkit with KNN implementation ([29bf141](https://github.com/DaoChaShao/py-ml-basic/commit/29bf1412395e68249f4ff9b0d28caf6653d4f6bd))
 - **deps:** add pydantic and related dependencies to project ([7e130be](https://github.com/DaoChaShao/py-ml-basic/commit/7e130be466ac4a193ebc2f402b8c48c345a7b717))
 - **ml:** add base class for machine learning models ([1a0dc8a](https://github.com/DaoChaShao/py-ml-basic/commit/1a0dc8ad31595baa7d9dd5baaaf1dbaf639e4cbb))
 - **ml:** add comprehensive machine learning toolkit module ([78eabfa](https://github.com/DaoChaShao/py-ml-basic/commit/78eabfaf6a196729ca183529fff1acba64ed19e5))
@@ -47,6 +47,8 @@
 
 ### Code Refactoring
 
+- **ml:** update evaluation function return type and metrics calculation ([0fec365](https://github.com/DaoChaShao/py-ml-basic/commit/0fec365d773fc0897824ba4ab3224bd3672e3fe1))
+- **iris:** import grid search tunes function ([bf15ecd](https://github.com/DaoChaShao/py-ml-basic/commit/bf15ecde38b0a078fe2e7d8179e792f7df5a721d))
 - **utils:** update ML preprocessor type hints and DataFrame handling ([a57516f](https://github.com/DaoChaShao/py-ml-basic/commit/a57516f35bec2f14cbae3a9a6fa2933ec1f42b02))
 - **utils/ml:** update KNN class with better type hints and validation ([cd544e4](https://github.com/DaoChaShao/py-ml-basic/commit/cd544e4fc8dabfa2f64486c9c3a75abdb66dc54c))
 - **ml:** update base class with enhanced ML utilities and grid search ([9af8fde](https://github.com/DaoChaShao/py-ml-basic/commit/9af8fde86ef8e9b8c820262af213556e18f28c33))
