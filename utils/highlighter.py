@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   highlighter.py
-# @Desc     :   
+# @Desc     :
 
 from typing import Any
 
