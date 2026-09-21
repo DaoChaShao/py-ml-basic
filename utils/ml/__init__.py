@@ -40,7 +40,7 @@ from .preprocessor import (
 )
 from .types import (
     AveStrategies,
-    GridSearchTonesResponse,
+    GridSearchTunesResponse,
     IrisFeatures,
     IrisLabels,
     KNNMetrics,
@@ -65,7 +65,7 @@ __all__ = [
     "Languages",
     "IrisFeatures", "IrisLabels",
     "AveStrategies",
-    "ScoreStrategies", "GridSearchTonesResponse",
+    "ScoreStrategies", "GridSearchTunesResponse",
 
     "KNN",
     "euclidean_distance", "manhattan_distance", "chebyshev_distance", "minkowski_distance",
