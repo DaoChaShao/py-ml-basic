@@ -25,6 +25,7 @@ from sklearn.utils.class_weight import compute_class_weight
 from ..constants import WIDTH
 from ..decorator import timer
 from ..helper import Access
+from ..highlighter import lines
 
 
 @unique
@@ -245,19 +246,50 @@ class FileLoader(Access):
 
 
 @timer
-def get_labels_distribution(labels: Series, *, display: bool = False) -> tuple:
+def get_labels_distribution(
+        labels: Series,
+        *,
+        threshold: float = 1.5,
+        display: bool = False
+) -> tuple[Series, Series, float, bool]:
     """
-    Check the distribution of the labels in the target variable.
-    :param labels: the target variable
-    :param display: Whether to display the label counts and proportions
-    :return: the label counts and proportions
-    """
-    if display:
-        print(labels.value_counts())
-        print()
-        print(labels.value_counts(normalize=True))
+    Check the distribution of the labels in the target variable and evaluate class balance.
 
-    return labels.value_counts(), labels.value_counts(normalize=True)
+    :param labels: The target label series.
+    :param threshold: The Imbalance Ratio (IR) threshold to judge imbalance (default: 1.5).
+    :param display: Whether to display formatted label counts, proportions, and balance verdict.
+    :return: Tuple of (counts, proportions, imbalance_ratio, is_balanced)
+    """
+    counts: Series = labels.value_counts()
+    proportions: Series = labels.value_counts(normalize=True)
+
+    # Calculate Imbalance Rate (Max Count / Min Count)
+    max_count = int(counts.max())
+    min_count = int(counts.min()) if counts.min() > 0 else 1
+    ir: float = round(max_count / min_count, 2)
+
+    # Determine if the class balance is acceptable
+    is_balanced: bool = ir < threshold
+
+    if display:
+        print(counts)
+        lines()
+        print(proportions)
+        lines()
+        print(f"Max Count / Min Count : {max_count} / {min_count}")
+        print(f"Imbalance Ratio (IR)  : {ir:.2f}")
+
+        # Provide an intuitive conclusion
+        if ir < 1.5:
+            verdict = "Balanced (Sample distribution is very balanced)"
+        elif 1.5 <= ir < 3.0:
+            verdict = "Mildly Imbalanced (Mild imbalance)"
+        elif 3.0 <= ir < 5.0:
+            verdict = "Moderately Imbalanced (Moderate imbalance, pay attention)"
+        else:
+            verdict = "Severely Imbalanced (Severe imbalance, resampling or weight setting required)"
+        print(f"Status                : {verdict}")
+    return counts, proportions, ir, is_balanced
 
 
 @timer
@@ -286,6 +318,49 @@ def encode_labels(labels: Series, *, top_n: int = 5, display: bool = False) -> t
         comparison = concat([labels.head(top_n), out.head(top_n)], axis=1, keys=["Original", "Encoded"])
         print(f"{top_n} / {len(out)} encoded labels:\n{comparison}")
     return out, encoder
+
+
+@timer
+def split_data(
+        features: DataFrame, labels: Series,
+        *,
+        randomness: int = 27,
+        shuffle_status: bool = True,
+        display: bool = False,
+) -> tuple[DataFrame, DataFrame, DataFrame, Series, Series, Series]:
+    """
+    Split the data into training, validation, and proving sets.
+
+    :param features: the DataFrame of features
+    :param labels: the Series of labels
+    :param randomness: the random seed for reproducibility
+    :param shuffle_status: whether to shuffle the data before splitting
+    :param display: Toggle for printing the split sets
+    :return: the training, validation, and proving sets
+    """
+    assert len(features) == len(labels), "The number of features must be equal to the number of labels."
+
+    train_features, temp_features, train_labels, temp_labels = train_test_split(
+        features, labels,
+        test_size=0.3,
+        random_state=randomness,
+        shuffle=shuffle_status,
+        stratify=labels if shuffle_status else None,
+    )
+    valid_features, prove_features, valid_labels, prove_labels = train_test_split(
+        temp_features, temp_labels,
+        test_size=0.5,
+        random_state=randomness + randomness,
+        shuffle=shuffle_status,
+        stratify=temp_labels if shuffle_status else None,
+    )
+
+    if display:
+        _total = len(features)
+        print(f"Train: {len(train_features)}/{_total} ({len(train_features) / _total:.1%}) -> {train_features.shape}")
+        print(f"Valid: {len(valid_features)}/{_total} ({len(valid_features) / _total:.1%}) -> {valid_features.shape}")
+        print(f"Prove: {len(prove_features)}/{_total} ({len(prove_features) / _total:.1%}) -> {prove_features.shape}")
+    return train_features, valid_features, prove_features, train_labels, valid_labels, prove_labels
 
 
 class FeaturesNormaliser(Access):
@@ -462,49 +537,6 @@ class FeaturesStandardiser(Access):
             f"features_shape={_shape}"
             f")"
         )
-
-
-@timer
-def split_data(
-        features: DataFrame, labels: Series,
-        *,
-        randomness: int = 27,
-        shuffle_status: bool = True,
-        display: bool = False,
-) -> tuple[DataFrame, DataFrame, DataFrame, Series, Series, Series]:
-    """
-    Split the data into training, validation, and proving sets.
-
-    :param features: the DataFrame of features
-    :param labels: the Series of labels
-    :param randomness: the random seed for reproducibility
-    :param shuffle_status: whether to shuffle the data before splitting
-    :param display: Toggle for printing the split sets
-    :return: the training, validation, and proving sets
-    """
-    assert len(features) == len(labels), "The number of features must be equal to the number of labels."
-
-    train_features, temp_features, train_labels, temp_labels = train_test_split(
-        features, labels,
-        test_size=0.3,
-        random_state=randomness,
-        shuffle=shuffle_status,
-        stratify=labels if shuffle_status else None,
-    )
-    valid_features, prove_features, valid_labels, prove_labels = train_test_split(
-        temp_features, temp_labels,
-        test_size=0.5,
-        random_state=randomness + randomness,
-        shuffle=shuffle_status,
-        stratify=temp_labels if shuffle_status else None,
-    )
-
-    if display:
-        _total = len(features)
-        print(f"Train: {len(train_features)}/{_total} ({len(train_features) / _total:.1%}) -> {train_features.shape}")
-        print(f"Valid: {len(valid_features)}/{_total} ({len(valid_features) / _total:.1%}) -> {valid_features.shape}")
-        print(f"Prove: {len(prove_features)}/{_total} ({len(prove_features) / _total:.1%}) -> {prove_features.shape}")
-    return train_features, valid_features, prove_features, train_labels, valid_labels, prove_labels
 
 
 @timer
