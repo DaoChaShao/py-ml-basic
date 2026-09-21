@@ -6,31 +6,17 @@
 # @File     :   knn.py
 # @Desc     :
 
-from enum import StrEnum, unique
 from typing import Any, Literal, override
 
 from access_modifiers import protectedmethod
+from pandas import DataFrame, Series
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
-from ..helper import Access
 from .base import Base
+from .types import KNNMetrics, KNNMissions
 
 
-@unique
-class KNNMissions(StrEnum):
-    CLS = "cls"
-    REG = "reg"
-
-
-@unique
-class KNNMetrics(StrEnum):
-    EUCLIDEAN = "euclidean"
-    MANHATTAN = "manhattan"
-    CHEBYSHEV = "chebyshev"
-    MINKOWSKI = "minkowski"
-
-
-class KNN(Access, Base):
+class KNN(Base):
     """ KNN class for classification and regression. """
 
     def __init__(
@@ -73,7 +59,7 @@ class KNN(Access, Base):
         self._estimator = _estimator(n_neighbors=self._neighbours, metric=self._metric.value, p=self._p)
 
     @override
-    def train(self, features: Any, labels: Any) -> None:
+    def train(self, features: DataFrame, labels: Series) -> None:
         """
         Train the KNN estimator with the given features and labels.
 
@@ -87,7 +73,7 @@ class KNN(Access, Base):
         self._fitted = True
 
     @override
-    def predict(self, features: Any) -> Any:
+    def predict(self, features: DataFrame) -> Any:
         """
         Predict the labels for the given features using the KNN estimator.
 
@@ -100,7 +86,7 @@ class KNN(Access, Base):
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._estimator.predict(features)
 
-    def confidence(self, features: Any) -> Any:
+    def confidence(self, features: DataFrame) -> Any:
         """
         Predict the probabilities for the given features using the KNN estimator.
 
@@ -111,6 +97,8 @@ class KNN(Access, Base):
             raise RuntimeError("Estimator has not been initialized.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        if self._mission is not KNNMissions.CLS:
+            raise RuntimeError("Confidence probabilities are only available for classification.")
         return self._estimator.predict_proba(features)
 
     @property
