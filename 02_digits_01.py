@@ -4,24 +4,24 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   02_digits_01.py
-# @Desc     :   
+# @Desc     :
 
-from pandas import DataFrame, Series
 from pprint import pprint
 from random import randint
 
 from numpy import ndarray
+from pandas import DataFrame, Series
 from sklearn.datasets import load_digits
 from sklearn.utils import Bunch
 
-from utils import red, green
+from utils import green, red
 from utils.ml import (
-    get_labels_distribution,
-    split_data,
+    KNN,
     FeaturesNormaliser,
     KNNMetrics,
-    grid_search_tunes,
-    KNN, KNNMissions,
+    KNNMissions,
+    get_labels_distribution,
+    split_data,
 )
 
 
