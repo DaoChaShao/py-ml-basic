@@ -5,6 +5,7 @@
 
 ### Features
 
+- **ml:** add digit recognition model with KNN classifier ([2f5c9cc](https://github.com/DaoChaShao/py-ml-basic/commit/2f5c9ccd91c452c9cc01c6475825a63ccce739f1))
 - add a model for digits ([fb40705](https://github.com/DaoChaShao/py-ml-basic/commit/fb4070575e90e257d341efb5ee25f624e9f8b5fd))
 - **ml:** add model persistence and improve base ML class functionality ([3d2a542](https://github.com/DaoChaShao/py-ml-basic/commit/3d2a542429d107e39808d93f641b9252a9baae66))
 - **ml:** add digit recognition model evaluation script ([a31c685](https://github.com/DaoChaShao/py-ml-basic/commit/a31c685b716245fcecebbecc1a2ebdf560e79fe4))
@@ -31,6 +32,10 @@
 
 ### Chore
 
+- **main:** update file description comment ([18652ba](https://github.com/DaoChaShao/py-ml-basic/commit/18652ba5100fa4eddd7d8b8c94aac80526d4bf76))
+- **highlighter:** update file description comment ([d9e9568](https://github.com/DaoChaShao/py-ml-basic/commit/d9e95688e5a1dc80361cd55fa84edc74928bc282))
+- **utils:** update file description in decorator module ([f8c7f1d](https://github.com/DaoChaShao/py-ml-basic/commit/f8c7f1d241cd04768cabe15f855d672ba6a88fe3))
+- **constants:** update file description comment ([72e725f](https://github.com/DaoChaShao/py-ml-basic/commit/72e725f9f187c3cfe918fb1f7e58fcbecee58d6d))
 - **project:** add .gitignore file for Python project ([b1305b9](https://github.com/DaoChaShao/py-ml-basic/commit/b1305b9a8ac6d2bc3b4289c3704da49fb561f586))
 - **deps:** add pydantic dependency ([62065ad](https://github.com/DaoChaShao/py-ml-basic/commit/62065ad1405330d6721ae650d89d3ba181e0e64e))
 - **project:** update changelog with recent commits and dependency changes ([339d633](https://github.com/DaoChaShao/py-ml-basic/commit/339d63313754ad64bcda55cdef4dbd6eb1853112))
@@ -52,6 +57,12 @@
 
 ### Code Refactoring
 
+- **utils:** reorder imports in helper module ([e4fff2e](https://github.com/DaoChaShao/py-ml-basic/commit/e4fff2ec56dfcbe50017790bdbfd1258682d64f3))
+- **utils:** reorder imports in ml base module ([81ec554](https://github.com/DaoChaShao/py-ml-basic/commit/81ec55432fc24f38feb7193336e83a88f2ab2bbc))
+- **utils:** reorganize import statements and reorder highlighter imports ([c321f16](https://github.com/DaoChaShao/py-ml-basic/commit/c321f16e5cbb186e761d7b8d7b2016a62840086d))
+- **digits:** reorganize imports in digit recognition module ([fc57517](https://github.com/DaoChaShao/py-ml-basic/commit/fc57517bc247acc3f0f07031fb4ff6ba1f158529))
+- **digits:** reorganize imports and update module structure ([cbccecf](https://github.com/DaoChaShao/py-ml-basic/commit/cbccecfcf67533f180f66b9e4b67589127d11c7b))
+- **iris:** remove unused grid search function import ([d7fc6b0](https://github.com/DaoChaShao/py-ml-basic/commit/d7fc6b025a95182f6006b2168c27e544f7a6a459))
 - **utils:** fix typo in GridSearchTunesResponse class name ([c01c7ba](https://github.com/DaoChaShao/py-ml-basic/commit/c01c7ba60e45cca57dfe1dd8000e3b6e937c3cb7))
 - **utils/ml:** enhance preprocessor with class balance evaluation and data splitting ([c824c7c](https://github.com/DaoChaShao/py-ml-basic/commit/c824c7c0f6552cee79a7dfa37dcd08ec10f17062))
 - **ml:** rename estimator attribute to model in KNN class ([1004fde](https://github.com/DaoChaShao/py-ml-basic/commit/1004fde64536625abebc5a7ed03b58f3bfcf7b8b))
