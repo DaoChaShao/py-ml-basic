@@ -1,10 +1,14 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-21)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-22)
 
 ### Features
 
+- add a model for digits ([fb40705](https://github.com/DaoChaShao/py-ml-basic/commit/fb4070575e90e257d341efb5ee25f624e9f8b5fd))
+- **ml:** add model persistence and improve base ML class functionality ([3d2a542](https://github.com/DaoChaShao/py-ml-basic/commit/3d2a542429d107e39808d93f641b9252a9baae66))
+- **ml:** add digit recognition model evaluation script ([a31c685](https://github.com/DaoChaShao/py-ml-basic/commit/a31c685b716245fcecebbecc1a2ebdf560e79fe4))
+- **ml:** add digit recognition implementation with KNN classifier ([49ca5b0](https://github.com/DaoChaShao/py-ml-basic/commit/49ca5b02d1177710769834acf5d743906f86a807))
 - **ml:** add comprehensive machine learning toolkit with KNN implementation ([023322c](https://github.com/DaoChaShao/py-ml-basic/commit/023322ce068d340e2b014b336b3eb643ccca77c6))
 - **utils:** add ML types module with enums and response models ([43d9e73](https://github.com/DaoChaShao/py-ml-basic/commit/43d9e737df019441b82c2db021e6927c3c9fae0f))
 - **deps:** add pydantic and related dependencies to project ([7e130be](https://github.com/DaoChaShao/py-ml-basic/commit/7e130be466ac4a193ebc2f402b8c48c345a7b717))
@@ -27,6 +31,7 @@
 
 ### Chore
 
+- **project:** add .gitignore file for Python project ([b1305b9](https://github.com/DaoChaShao/py-ml-basic/commit/b1305b9a8ac6d2bc3b4289c3704da49fb561f586))
 - **deps:** add pydantic dependency ([62065ad](https://github.com/DaoChaShao/py-ml-basic/commit/62065ad1405330d6721ae650d89d3ba181e0e64e))
 - **project:** update changelog with recent commits and dependency changes ([339d633](https://github.com/DaoChaShao/py-ml-basic/commit/339d63313754ad64bcda55cdef4dbd6eb1853112))
 - **ml-utils:** add gitignore for ml utility directory ([c814510](https://github.com/DaoChaShao/py-ml-basic/commit/c8145106a9eda75a32009ce0e3bb0d08ba91ffd7))
@@ -47,6 +52,12 @@
 
 ### Code Refactoring
 
+- **utils:** fix typo in GridSearchTunesResponse class name ([c01c7ba](https://github.com/DaoChaShao/py-ml-basic/commit/c01c7ba60e45cca57dfe1dd8000e3b6e937c3cb7))
+- **utils/ml:** enhance preprocessor with class balance evaluation and data splitting ([c824c7c](https://github.com/DaoChaShao/py-ml-basic/commit/c824c7c0f6552cee79a7dfa37dcd08ec10f17062))
+- **ml:** rename estimator attribute to model in KNN class ([1004fde](https://github.com/DaoChaShao/py-ml-basic/commit/1004fde64536625abebc5a7ed03b58f3bfcf7b8b))
+- **utils:** rename GridSearchTonesResponse to GridSearchTunesResponse ([4289ca1](https://github.com/DaoChaShao/py-ml-basic/commit/4289ca181291e2f520dbb6f2819c30fa74fe94c4))
+- **iris:** update KNN metrics to use enum values ([8b0e856](https://github.com/DaoChaShao/py-ml-basic/commit/8b0e856dd9cd430811679a7724f6cf4c2280c194))
+- **ml:** update evaluation function and grid search integration ([e433dc5](https://github.com/DaoChaShao/py-ml-basic/commit/e433dc5e683a0e95aefc96c1f6723a0019786a9c))
 - **ml:** update evaluation function return type and metrics calculation ([0fec365](https://github.com/DaoChaShao/py-ml-basic/commit/0fec365d773fc0897824ba4ab3224bd3672e3fe1))
 - **iris:** import grid search tunes function ([bf15ecd](https://github.com/DaoChaShao/py-ml-basic/commit/bf15ecde38b0a078fe2e7d8179e792f7df5a721d))
 - **utils:** update ML preprocessor type hints and DataFrame handling ([a57516f](https://github.com/DaoChaShao/py-ml-basic/commit/a57516f35bec2f14cbae3a9a6fa2933ec1f42b02))
