@@ -6,21 +6,24 @@
 # @File     :   01_iris.py
 # @Desc     :
 
-from enum import StrEnum, Enum, unique
-from pandas import Series, DataFrame
 from pprint import pprint
-from random import uniform, randint
+from random import randint, uniform
 
+from pandas import DataFrame, Series
 from pydantic import Field, validate_call
 from sklearn.datasets import load_iris
 from sklearn.utils import Bunch
 
-from utils import red, green
+from utils import green, red
 from utils.ml import (
-    get_labels_distribution,
+    KNN,
     FeaturesStandardiser,
+    IrisFeatures,
+    IrisLabels,
+    KNNMetrics,
+    KNNMissions,
+    get_labels_distribution,
     split_data,
-    KNNMissions, KNNMetrics, KNN,
 )
 
 
@@ -48,35 +51,6 @@ def init_iris(top_n: int = Field(5, gt=0, le=150), *, display: bool = False, des
     return iris
 
 
-@unique
-class Language(StrEnum):
-    EN = "English"
-    CN = "Chinese"
-
-
-@unique
-class IrisFeatures(Enum):
-    SEPAL_LENGTH = ("sepal length (cm)", "花萼长度 (厘米)")
-    SEPAL_WIDTH = ("sepal width (cm)", "花萼宽度 (厘米)")
-    PETAL_LENGTH = ("petal length (cm)", "花瓣长度 (厘米)")
-    PETAL_WIDTH = ("petal width (cm)", "花瓣宽度 (厘米)")
-
-    def __init__(self, en_name: str, cn_name: str):
-        self.EN: str = en_name
-        self.CN: str = cn_name
-
-
-@unique
-class IrisLabels(Enum):
-    SETOSA = ("setosa", "山鸢尾")
-    VERSICOLOR = ("versicolor", "变色鸢尾")
-    VIRGINICA = ("virginica", "维吉尼亚鸢尾")
-
-    def __init__(self, en_name: str, cn_name: str):
-        self.EN: str = en_name
-        self.CN: str = cn_name
-
-
 def rand_a_sample(amount: int = 1, *, display: bool = False) -> DataFrame:
     """ Random a sample """
     _statistics: dict[IrisFeatures, tuple[float, float]] = {
@@ -91,7 +65,7 @@ def rand_a_sample(amount: int = 1, *, display: bool = False) -> DataFrame:
         _sample = [round(uniform(bounds[0], bounds[1]), 2) for bounds in _statistics.values()]
         _samples.append(_sample)
 
-    _names = [feature.EN for feature in _statistics.keys()]
+    _names = [feature.EN for feature in _statistics]
     dataframe: DataFrame = DataFrame(_samples, columns=_names)
 
     if display:
@@ -106,43 +80,64 @@ def main() -> None:
     labels: Series = Series(iris.target)
     get_labels_distribution(labels, display=True)
 
-    with FeaturesStandardiser(iris.data) as standardiser:
-        result = standardiser.transform(iris.data)
-    features: DataFrame = DataFrame(result, columns=iris.feature_names)
+    features: DataFrame = DataFrame(iris.data, columns=iris.feature_names)
     # print(features.head(), end="\n\n")
-
     train_features, valid_features, prove_features, train_labels, valid_labels, prove_labels = split_data(
         features, labels,
         randomness=27, shuffle_status=True, display=True
     )
 
-    knn: KNN = KNN(KNNMissions.CLS, n_neighbours=3, metric=KNNMetrics.MINKOWSKI, p=3.0)
-    knn.train(train_features, train_labels)
-    predictions = knn.predict(valid_features)
-    # print(f"Predictions: {predictions}", end="\n\n")
-    knn.eval_cls_metrics(valid_labels, predictions, display=True)
+    with FeaturesStandardiser(train_features) as standardiser:
+        train_features = standardiser.transform(train_features)
+        valid_features = standardiser.transform(valid_features)
+        prove_features = standardiser.transform(prove_features)
 
-    row: int = randint(0, prove_features.shape[0] - 1)
-    print(f"Row: {row} / {prove_features.shape[0]}")
-    status, pred_label = knn.inference(prove_features.iloc[[row]], prove_labels.iloc[row], display=False)
-    if status:
-        print(
-            f"{green('Correct')}! "
-            f"Prediction: {list(IrisLabels)[pred_label].CN}, "
-            f"Label: {list(IrisLabels)[prove_labels.iloc[row]].CN}."
-        )
-    else:
-        print(
-            f"{red('Incorrect')}! "
-            f"Prediction: {list(IrisLabels)[pred_label].CN}, "
-            f"Label: {list(IrisLabels)[prove_labels.iloc[row]].CN}."
-        )
+        # grid_params: dict = {
+        #     "n_neighbors": list(range(1, 16)),
+        #     "metric": [KNNMetrics.EUCLIDEAN, KNNMetrics.MANHATTAN, KNNMetrics.CHEBYSHEV, KNNMetrics.MINKOWSKI],
+        #     "p": [1.0, 2.0, 3.0, 4.0]
+        # }
+        #
+        # tunes = grid_search_tunes(train_features, train_labels, grid_params, display=True)
+        #
+        # params: dict = tunes.best_params
+        # score: float = tunes.best_score
+        # pprint(params)
+        # print(f"Best Score: {score:.4f}")
+        """
+        {'metric': <KNNMetrics.MINKOWSKI: 'minkowski'>, 'n_neighbors': 6, 'p': 4.0}
+        Best Score: 0.9809
+        """
 
-    sample = rand_a_sample(amount=1, display=True)
-    pred = knn.predict(sample)[0]
-    print(f"Prediction: {list(IrisLabels)[pred].CN}")
-    prob = knn.confidence(sample)
-    print(f"Probability: {prob}")
+        knn = KNN(KNNMissions.CLS, n_neighbours=6, metric=KNNMetrics.MINKOWSKI, p=4.0)
+        knn.train(train_features, train_labels)
+        predictions = knn.predict(valid_features)
+        # print(f"Predictions: {predictions}", end="\n\n")
+        knn.eval_cls(valid_labels, predictions, display=True)
+
+        row: int = randint(0, prove_features.shape[0] - 1)
+        print(f"Row: {row} / {prove_features.shape[0]}")
+        status, pred_label = knn.inference(prove_features.iloc[[row]], prove_labels.iloc[row], display=False)
+        if status:
+            print(
+                f"{green('Correct')}! "
+                f"Prediction: {list(IrisLabels)[pred_label].CN}, "
+                f"Label: {list(IrisLabels)[prove_labels.iloc[row]].CN}."
+            )
+        else:
+            print(
+                f"{red('Incorrect')}! "
+                f"Prediction: {list(IrisLabels)[pred_label].CN}, "
+                f"Label: {list(IrisLabels)[prove_labels.iloc[row]].CN}."
+            )
+
+        sample = rand_a_sample(amount=1, display=True)
+        sample_features = standardiser.transform(sample)
+        pred = knn.predict(sample_features)[0]
+        print(f"Prediction: {list(IrisLabels)[pred].CN}")
+        probs = knn.confidence(sample_features)[0]
+        for label, prob in zip(IrisLabels, probs, strict=True):
+            print(f"{label.CN:<6}: {prob * 100:6.2f}%")
 
 
 if __name__ == "__main__":
