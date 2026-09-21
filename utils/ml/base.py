@@ -7,41 +7,27 @@
 # @Desc     :
 
 from abc import ABC, abstractmethod
-from enum import StrEnum, unique
 from pprint import pprint
 from typing import Any, Literal
 
+from pandas import DataFrame, Series
 from sklearn.metrics import (
     accuracy_score,
+    classification_report,
+    confusion_matrix,
+    f1_score,
     precision_score,
     recall_score,
-    f1_score,
-    classification_report,
-    confusion_matrix
 )
+from sklearn.model_selection import GridSearchCV, KFold, StratifiedKFold
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
-from ..highlighter import stars, lines
-
-
-@unique
-class MetricStrategies(StrEnum):
-    """
-    Metric strategies for multi-class classification metrics.
-
-    - WEIGHTED: Calculate metrics for each label, and find their average weighted by support (sample count).
-    - MACRO: Calculate metrics for each label, and find their unweighted mean (does not take label imbalance into account).
-    - MICRO: Calculate metrics globally by counting the total true positives, false negatives and false positives.
-    - SAMPLES: Calculate metrics for each instance, and find their average (only meaningful for multilabel classification).
-    - BINARY: Report metrics for the class specified by pos_label (used for binary classification only).
-    """
-    WEIGHTED = "weighted"
-    MACRO = "macro"
-    MICRO = "micro"
-    SAMPLES = "samples"
-    BINARY = "binary"
+from ..helper import Access
+from ..highlighter import lines, stars
+from .types import AveStrategies, GridSearchTonesResponse, KNNMissions, ScoreStrategies
 
 
-class Base(ABC):
+class Base(ABC, Access):
     """ Base class for all machine learning models. """
 
     def __init__(self) -> None:
@@ -53,7 +39,7 @@ class Base(ABC):
         super().__init__()
 
     @abstractmethod
-    def train(self, features: Any, labels: Any) -> None:
+    def train(self, features: DataFrame, labels: Series) -> None:
         """
         Train the model.
 
@@ -64,7 +50,7 @@ class Base(ABC):
         pass
 
     @abstractmethod
-    def predict(self, features: Any) -> Any:
+    def predict(self, features: DataFrame) -> Any:
         """
         Predict the labels for the given features.
 
@@ -74,12 +60,12 @@ class Base(ABC):
         pass
 
     @staticmethod
-    def eval_cls_metrics(
-            valid_labels: Any, predictions: Any,
+    def eval_cls(
+            valid_labels: Series, predictions: Series,
             *,
-            strategy: str | MetricStrategies | Literal[
+            ave_strategy: str | AveStrategies | Literal[
                 "weighted", "macro", "micro", "samples", "binary"
-            ] = MetricStrategies.WEIGHTED,
+            ] = AveStrategies.WEIGHTED,
             display: bool = False
     ) -> dict[str, float]:
         """
@@ -87,14 +73,14 @@ class Base(ABC):
 
         :param valid_labels: The true labels.
         :param predictions: The predicted labels.
-        :param strategy: The average method for multi-class metrics ('weighted', 'macro', etc.).
+        :param ave_strategy: The average method for multi-class metrics ('weighted', 'macro', etc.).
         :param display: Whether to print the formatted evaluation result.
         :return: Dictionary containing calculated evaluation metrics and matrices.
         """
         _acc: float = float(accuracy_score(valid_labels, predictions))
-        _pre: float = float(precision_score(valid_labels, predictions, average=MetricStrategies(strategy)))
-        _rec: float = float(recall_score(valid_labels, predictions, average=MetricStrategies(strategy)))
-        _f1: float = float(f1_score(valid_labels, predictions, average=MetricStrategies(strategy)))
+        _pre: float = float(precision_score(valid_labels, predictions, average=AveStrategies(ave_strategy)))
+        _rec: float = float(recall_score(valid_labels, predictions, average=AveStrategies(ave_strategy)))
+        _f1: float = float(f1_score(valid_labels, predictions, average=AveStrategies(ave_strategy)))
         _metrics = {
             "accuracy": _acc,
             "precision": _pre,
@@ -125,20 +111,85 @@ class Base(ABC):
             stars()
         return _metrics
 
-    def inference(self, sample_features: Any, sample_label: Any, *, display: bool = False) -> tuple[bool, Any]:
+    def inference(self, sample_feature: DataFrame, sample_label: Series, *, display: bool = False) -> tuple[bool, Any]:
         """
         Inference a single sample prediction.
 
-        :param sample_features: 2D feature row (e.g. DataFrame.iloc[[row]])
+        :param sample_feature: 2D feature row (e.g. DataFrame.iloc[[row]])
         :param sample_label: The actual label value
         :param display: Whether to display the inference result.
         :return: Tuple of (is_correct, prediction_label)
         """
-        pred_label = self.predict(sample_features)[0]
+        pred_label = self.predict(sample_feature)[0]
         status: bool = pred_label == sample_label
         if display:
             print(f"Prediction Result: {'Correct' if status else 'Incorrect'}")
         return status, pred_label
+
+
+def grid_search_tunes(
+        train_features: DataFrame,
+        train_labels: Series,
+        grid_params: dict[str, list[Any]],
+        *,
+        mission: str | KNNMissions | Literal["cls", "reg"] = KNNMissions.CLS.value,
+        cv_splits: int = 5,
+        cv_shuffle: bool = True,
+        randomness: int = 27,
+        score_strategy: str | ScoreStrategies | Literal[
+            "accuracy", "f1_weighted", "f1_macro", "precision_weighted", "recall_weighted", "roc_auc_ovr"
+        ] = ScoreStrategies.F1_WEIGHTED.value,
+        display: bool = False
+) -> GridSearchTonesResponse:
+    """
+    Perform Grid Search CV to find optimal hyperparameters on training data.
+
+    :param train_features: Training feature matrix.
+    :param train_labels: Training label vector.
+    :param grid_params: Dictionary with parameters names as keys and lists of parameter settings to try as values.
+    :param mission: Type of machine learning task ("cls" for classification, "reg" for regression).
+    :param cv_splits: Number of CV folds for tuning (default: 5).
+    :param cv_shuffle: Whether to shuffle the training data before splitting (default: True).
+    :param randomness: Random state for K-Fold splitting.
+    :param score_strategy: Strategy to evaluate the performance on the cross-validated data.
+    :param display: Whether to print formatted best parameters and score.
+    :return: Dictionary with best_params and best_score.
+    """
+    base_estimator = KNeighborsClassifier() if mission == "cls" else KNeighborsRegressor()
+
+    if mission == "cls":
+        _cv = StratifiedKFold(n_splits=cv_splits, shuffle=cv_shuffle, random_state=randomness)
+    else:
+        _cv = KFold(n_splits=cv_splits, shuffle=cv_shuffle, random_state=randomness)
+
+    _searcher = GridSearchCV(
+        estimator=base_estimator,
+        param_grid=grid_params,
+        cv=_cv,
+        scoring=ScoreStrategies(score_strategy),
+        n_jobs=-1
+    )
+    _searcher.fit(train_features, train_labels)
+
+    best_params: dict = _searcher.best_params_
+    best_score: float = float(_searcher.best_score_)
+
+    if display:
+        stars()
+        print(f"GridSearchCV Hyperparameter Tuning Results ({cv_splits}-Fold CV)")
+        lines()
+        print(f"Best Scoring Strategy : {score_strategy}")
+        print(f"Best CV Score         : {best_score:.4f}")
+        print("Best Hyperparameters   :")
+        for param, val in best_params.items():
+            print(f"- {param:<20}: {val}")
+        stars()
+        print()
+
+    return GridSearchTonesResponse(
+        best_params=best_params,
+        best_score=best_score
+    )
 
 
 if __name__ == "__main__":
