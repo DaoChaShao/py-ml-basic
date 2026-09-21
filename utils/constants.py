@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   constants.py
-# @Desc     :   
+# @Desc     :
 
 WIDTH: int = 64
 
