@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   __init__.py.py
-# @Desc     :   
+# @Desc     :
 
 """
 ****************************************************************
@@ -17,24 +17,37 @@ feature scaling, data splitting, and class weight computation.
 ****************************************************************
 """
 
-from .base import MetricStrategies, Base
+from importlib.metadata import PackageNotFoundError, metadata
 
+from .base import Base, grid_search_tunes
 from .knn import (
-    KNNMissions, KNNMetrics,
     KNN,
-    euclidean_distance, manhattan_distance, chebyshev_distance, minkowski_distance,
+    chebyshev_distance,
+    euclidean_distance,
+    manhattan_distance,
+    minkowski_distance,
 )
 from .preprocessor import (
+    FeaturesNormaliser,
+    FeaturesStandardiser,
     FileCat,
-    NumpySeed,
     FileLoader,
-    get_labels_distribution, encode_labels,
-    split_data,
-    FeaturesNormaliser, FeaturesStandardiser,
+    NumpySeed,
     calc_labels_weight,
+    encode_labels,
+    get_labels_distribution,
+    split_data,
 )
-
-from importlib.metadata import metadata, PackageNotFoundError
+from .types import (
+    AveStrategies,
+    GridSearchTonesResponse,
+    IrisFeatures,
+    IrisLabels,
+    KNNMetrics,
+    KNNMissions,
+    Languages,
+    ScoreStrategies,
+)
 
 try:
     _meta = metadata("py-ml-basic")
@@ -45,9 +58,15 @@ except PackageNotFoundError:
     __version__ = "0.1.0"
 
 __all__ = [
-    "MetricStrategies", "Base",
+    "Base",
+    "grid_search_tunes",
 
     "KNNMissions", "KNNMetrics",
+    "Languages",
+    "IrisFeatures", "IrisLabels",
+    "AveStrategies",
+    "ScoreStrategies", "GridSearchTonesResponse",
+
     "KNN",
     "euclidean_distance", "manhattan_distance", "chebyshev_distance", "minkowski_distance",
 
