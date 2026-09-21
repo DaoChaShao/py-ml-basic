@@ -67,7 +67,7 @@ class Base(ABC, Access):
                 "weighted", "macro", "micro", "samples", "binary"
             ] = AveStrategies.WEIGHTED,
             display: bool = False
-    ) -> dict[str, float]:
+    ) -> dict[str, Any]:
         """
         Evaluate the _acc of the model.
 
@@ -77,16 +77,44 @@ class Base(ABC, Access):
         :param display: Whether to print the formatted evaluation result.
         :return: Dictionary containing calculated evaluation metrics and matrices.
         """
-        _acc: float = float(accuracy_score(valid_labels, predictions))
-        _pre: float = float(precision_score(valid_labels, predictions, average=AveStrategies(ave_strategy)))
-        _rec: float = float(recall_score(valid_labels, predictions, average=AveStrategies(ave_strategy)))
-        _f1: float = float(f1_score(valid_labels, predictions, average=AveStrategies(ave_strategy)))
+        _acc: float = accuracy_score(valid_labels, predictions)
+        _pre: float = precision_score(valid_labels, predictions, average=AveStrategies(ave_strategy), zero_division=0)
+        _rec: float = recall_score(valid_labels, predictions, average=AveStrategies(ave_strategy), zero_division=0)
+        _f1: float = f1_score(valid_labels, predictions, average=AveStrategies(ave_strategy), zero_division=0)
         _metrics = {
             "accuracy": _acc,
             "precision": _pre,
             "recall": _rec,
             "f1_score": _f1,
         }
+
+        # _cm = confusion_matrix(valid_labels, predictions)
+        # _cm_metrics: dict[str, float] = {}
+        # if _cm.shape == (2, 2):
+        #     # Binary classification
+        #     TN, FP, FN, TP = _cm.ravel()
+        #     _cm_metrics.update({
+        #         "TP": TP,
+        #         "TN": TN,
+        #         "FP": FP,
+        #         "FN": FN
+        #     })
+        # else:
+        #     # Multi-class classification
+        #     num_classes = _cm.shape[0]
+        #     for i in range(num_classes):
+        #         TP = _cm[i, i]
+        #         FP = _cm[:, i].sum() - TP
+        #         FN = _cm[i, :].sum() - TP
+        #         TN = _cm.sum() - (TP + FP + FN)
+        #         _cm_metrics.update({
+        #             f"cls_{i}_TP": TP,
+        #             f"cls_{i}_FP": FP,
+        #             f"cls_{i}_FN": FN,
+        #             f"cls_{i}_TN": TN
+        #         })
+        #
+        # _metrics.update(_cm_metrics)
 
         if display:
             stars()
@@ -95,20 +123,21 @@ class Base(ABC, Access):
             for key, value in _metrics.items():
                 print(f"{key.capitalize():<10}: {value:.4f}")
             stars()
-
             print()
+
             stars()
             print("Classification Report")
             lines()
             print(classification_report(valid_labels, predictions))
             stars()
-
             print()
+
             stars()
             print("Classification Confusion Matrix")
             lines()
             pprint(confusion_matrix(valid_labels, predictions))
             stars()
+            print()
         return _metrics
 
     def inference(self, sample_feature: DataFrame, sample_label: Series, *, display: bool = False) -> tuple[bool, Any]:
@@ -132,13 +161,13 @@ def grid_search_tunes(
         train_labels: Series,
         grid_params: dict[str, list[Any]],
         *,
-        mission: str | KNNMissions | Literal["cls", "reg"] = KNNMissions.CLS.value,
+        mission: str | KNNMissions | Literal["cls", "reg"] = KNNMissions.CLS,
         cv_splits: int = 5,
         cv_shuffle: bool = True,
         randomness: int = 27,
         score_strategy: str | ScoreStrategies | Literal[
             "accuracy", "f1_weighted", "f1_macro", "precision_weighted", "recall_weighted", "roc_auc_ovr"
-        ] = ScoreStrategies.F1_WEIGHTED.value,
+        ] = ScoreStrategies.F1_WEIGHTED,
         display: bool = False
 ) -> GridSearchTonesResponse:
     """
