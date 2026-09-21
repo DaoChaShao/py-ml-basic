@@ -10,7 +10,7 @@ from inspect import currentframe
 from random import getstate, setstate
 from random import seed as rnd_seed
 from time import perf_counter
-from typing import Self, override, Any
+from typing import Any, Self, override
 
 from .constants import WIDTH
 
