@@ -42,9 +42,7 @@ class KNN(Base):
         self._neighbours: int = n_neighbours
         self._metric: KNNMetrics = KNNMetrics(metric)
         self._p: float = p
-
         self._fitted: bool = False
-        self._estimator: KNeighborsClassifier | KNeighborsRegressor | None = None
 
         self._init_model()
 
@@ -56,7 +54,7 @@ class KNN(Base):
         :return: None
         """
         _estimator = KNeighborsClassifier if self._mission is KNNMissions.CLS else KNeighborsRegressor
-        self._estimator = _estimator(n_neighbors=self._neighbours, metric=self._metric.value, p=self._p)
+        self._model = _estimator(n_neighbors=self._neighbours, metric=self._metric.value, p=self._p)
 
     @override
     def train(self, features: DataFrame, labels: Series) -> None:
@@ -67,9 +65,9 @@ class KNN(Base):
         :param labels: The labels to train the KNN estimator.
         :return: None
         """
-        if self._estimator is None:
+        if self._model is None:
             raise RuntimeError("Estimator has not been initialized.")
-        self._estimator.fit(features, labels)
+        self._model.fit(features, labels)
         self._fitted = True
 
     @override
@@ -80,11 +78,11 @@ class KNN(Base):
         :param features: The features to predict the labels for.
         :return: The predicted labels.
         """
-        if self._estimator is None:
+        if self._model is None:
             raise RuntimeError("Estimator has not been initialized.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
-        return self._estimator.predict(features)
+        return self._model.predict(features)
 
     def confidence(self, features: DataFrame) -> Any:
         """
@@ -93,13 +91,13 @@ class KNN(Base):
         :param features: The features to predict the probabilities for.
         :return: The predicted probabilities.
         """
-        if self._estimator is None:
+        if self._model is None:
             raise RuntimeError("Estimator has not been initialized.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         if self._mission is not KNNMissions.CLS:
             raise RuntimeError("Confidence probabilities are only available for classification.")
-        return self._estimator.predict_proba(features)
+        return self._model.predict_proba(features)
 
     @property
     def mission(self) -> KNNMissions:
