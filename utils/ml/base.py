@@ -8,11 +8,11 @@
 
 from abc import ABC, abstractmethod
 from datetime import datetime
-from joblib import dump, load
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Literal, Self
 
+from joblib import dump, load
 from pandas import DataFrame, Series
 from sklearn.metrics import (
     accuracy_score,
