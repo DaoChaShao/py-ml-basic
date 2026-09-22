@@ -13,7 +13,7 @@ from pandas import DataFrame, Series
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
 from .base import Base
-from .types import KNNMetrics, KNNMissions
+from .types import KNNMetrics, Missions
 
 
 class KNN(Base):
@@ -21,7 +21,7 @@ class KNN(Base):
 
     def __init__(
             self,
-            mission: str | KNNMissions | Literal["cls", "reg"],
+            mission: str | Missions | Literal["cls", "reg"],
             *,
             n_neighbours: int = 5,
             metric: str | KNNMetrics | Literal[
@@ -38,7 +38,7 @@ class KNN(Base):
         :param p: Power parameter for the Minkowski metric. (Only effective when metric='minkowski')
         """
         super().__init__()
-        self._mission: KNNMissions = KNNMissions(mission)
+        self._mission: Missions = Missions(mission)
         self._neighbours: int = n_neighbours
         self._metric: KNNMetrics = KNNMetrics(metric)
         self._p: float = p
@@ -53,7 +53,7 @@ class KNN(Base):
 
         :return: None
         """
-        _estimator = KNeighborsClassifier if self._mission is KNNMissions.CLS else KNeighborsRegressor
+        _estimator = KNeighborsClassifier if self._mission is Missions.CLS else KNeighborsRegressor
         self._model = _estimator(n_neighbors=self._neighbours, metric=self._metric.value, p=self._p)
 
     @override
@@ -95,12 +95,12 @@ class KNN(Base):
             raise RuntimeError("Estimator has not been initialized.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
-        if self._mission is not KNNMissions.CLS:
+        if self._mission is not Missions.CLS:
             raise RuntimeError("Confidence probabilities are only available for classification.")
         return self._model.predict_proba(features)
 
     @property
-    def mission(self) -> KNNMissions:
+    def mission(self) -> Missions:
         """
         Get the mode of the KNN algorithm.
 
