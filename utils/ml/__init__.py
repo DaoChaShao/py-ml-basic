@@ -45,6 +45,7 @@ from .preprocessor import (
 )
 from .sgd import SGDReg
 from .types import (
+    AlphaCategories,
     AveStrategies,
     CaliforniaFeatures,
     ClsScoreStrategies,
@@ -93,5 +94,5 @@ __all__ = [
     "AveStrategies",
     "ClsScoreStrategies", "RegScoreStrategies", "GridSearchTunesResponse",
     "CaliforniaFeatures",
-    "RegLosses",
+    "RegLosses", "AlphaCategories",
 ]
