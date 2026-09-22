@@ -5,7 +5,10 @@
 
 ### Features
 
-- **ml:** add comprehensive regression modeling capabilities ([f656e0c](https://github.com/DaoChaShao/py-ml-basic/commit/f656e0cdb4dcba5eb44c6afe14624bcdecdb7ab3))
+- **ml:** add SGD regression implementation ([1cf7064](https://github.com/DaoChaShao/py-ml-basic/commit/1cf7064b9013514f1aa703510ba034a5ac3395b4))
+- **ml:** add diabetes regression analysis with SGD implementation ([462f8b4](https://github.com/DaoChaShao/py-ml-basic/commit/462f8b4fc3e6a41bc592e3790116ae20491ba37d))
+- **ml:** add diabetes regression analysis with polynomial features ([48948a7](https://github.com/DaoChaShao/py-ml-basic/commit/48948a71fd3f991ce4bdc62f8e15df232ece32bd))
+- **ml:** add comprehensive regression modeling capabilities ([307e15e](https://github.com/DaoChaShao/py-ml-basic/commit/307e15eb5012c5d8c22464493ff2f02cdb70a9aa))
 - **ml:** add robust scaler and polynomial feature expansion capabilities ([b6aff24](https://github.com/DaoChaShao/py-ml-basic/commit/b6aff24c71812a1dafae1e7f21a0306217a14497))
 - **ml:** add linear regression implementation ([33e4500](https://github.com/DaoChaShao/py-ml-basic/commit/33e450090e38ddc6f912220782f39a6055c09708))
 - **ml:** add linear regression model and enhanced preprocessing utilities ([2240371](https://github.com/DaoChaShao/py-ml-basic/commit/2240371ffad2a65b6924afc67793a0fcd2214faf))
@@ -68,12 +71,19 @@
 
 ### Docs
 
+- **ml:** add documentation and improve type definitions ([8718f57](https://github.com/DaoChaShao/py-ml-basic/commit/8718f57195af20ea3db8afd76d94085cf896a34d))
+- **california_housing:** update docstring spelling from initialize to initialise ([35e8b82](https://github.com/DaoChaShao/py-ml-basic/commit/35e8b82ff0fb1ff65fc42d8ea393cea23e376ca6))
 - **changelog:** update changelog with ML preprocessing features and recent changes ([beb58d5](https://github.com/DaoChaShao/py-ml-basic/commit/beb58d5692765875d589c1ed20713a829ec89928))
 - **readme:** add Chinese language README with privacy and setup guides ([6a2701e](https://github.com/DaoChaShao/py-ml-basic/commit/6a2701e7200145b3f495ce051cb7abdea8004780))
 - **readme:** add comprehensive README with privacy notice and setup instructions ([b973975](https://github.com/DaoChaShao/py-ml-basic/commit/b973975cd77afba2057c8e9a8086931fa260f9a7))
 
 ### Code Refactoring
 
+- **ml:** update intercept property return type annotation ([fed7e5a](https://github.com/DaoChaShao/py-ml-basic/commit/fed7e5af6e75b801268a51890870adce2c2d2e3f))
+- **ml:** rename Linear class to LinearReg and add intercept configuration ([6e4cfdf](https://github.com/DaoChaShao/py-ml-basic/commit/6e4cfdf7e53597308f8cf3acc59b88749b2610d6))
+- **utils:** update ML module imports and exports ([c6f1ae7](https://github.com/DaoChaShao/py-ml-basic/commit/c6f1ae7716b0dc4ff20f4d4f50d2015717b04701))
+- **ml:** update linear regression implementation and variable naming ([05dbca1](https://github.com/DaoChaShao/py-ml-basic/commit/05dbca190fe2a502436ebd1c55aeb909a59d90dc))
+- **california_reg:** update Linear class reference to LinearReg ([85410e2](https://github.com/DaoChaShao/py-ml-basic/commit/85410e21b92ff7f268e7b206765586ee32e35912))
 - **utils/ml:** reformat sklearn preprocessing imports in preprocessor module ([47c55cf](https://github.com/DaoChaShao/py-ml-basic/commit/47c55cfcbd6df251e07e01b5ce3470590e030fcf))
 - **utils:** reorder imports in ml/liner.py ([59088db](https://github.com/DaoChaShao/py-ml-basic/commit/59088dbe8088765be251fb47d61e0970edee14f2))
 - **utils/ml:** reorganize module imports and dependencies ([7951b58](https://github.com/DaoChaShao/py-ml-basic/commit/7951b583a224797d26f6e6a1bf601bb77d385191))
