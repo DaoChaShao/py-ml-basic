@@ -20,7 +20,7 @@ from utils.ml import (
     FeaturesNormaliser,
     KNNMetrics,
     KNNMissions,
-    get_labels_distribution,
+    get_cls_labels_distribution,
     split_data,
 )
 
@@ -43,7 +43,7 @@ def main() -> None:
     pprint(labels)
 
     labels: Series = Series(digits.target)
-    get_labels_distribution(labels, display=True)
+    get_cls_labels_distribution(labels, display=True)
 
     features: DataFrame = DataFrame(digits.data, columns=digits.feature_names)
     # print(features.head(), end="\n\n")
