@@ -16,7 +16,7 @@ from sklearn.utils import Bunch
 from utils import green, red
 from utils.ml import (
     FeaturesRobustScaler,
-    Linear,
+    LinearReg,
     Missions,
     expand_polynomial_features,
     get_reg_labels_distribution,
@@ -27,7 +27,7 @@ from utils.ml import (
 
 def init_california_housing() -> Bunch:
     """
-    Initialize the California housing dataset.
+    Initialise the California housing dataset.
 
     :return: The California housing dataset.
     """
@@ -67,16 +67,16 @@ def main() -> None:
         ****************************************************************
         Regression Evaluation Metrics - degree 2
         ----------------------------------------------------------------
-        R² Score  : 0.6266
-        RMSE      : 0.7003
-        MAE       : 0.4653
-        MSE       : 0.4905
-        MAPE      : 26.3077%
+        R² Score  : 0.6266 - higher, better (over 0.7 is good)
+        RMSE      : 0.7003 - lower, better
+        MAE       : 0.4653 - lower, better
+        MSE       : 0.4905 - lower, better
+        MAPE      : 26.3077% - lower, better
         ****************************************************************
         Best Polynomial Degree: 2, Best RMSE: 0.7003
         """
 
-        linear = Linear()
+        linear = LinearReg()
         degrees: list[int] = [1, 2, 3]
         best_degree, _ = tune_optimal_degree(
             linear,
@@ -85,21 +85,21 @@ def main() -> None:
             degrees=degrees, display=False
         )
 
-        ploy_train_features, ploy_valid_features, ploy_prove_features = expand_polynomial_features(
+        poly_train_features, poly_valid_features, poly_prove_features = expand_polynomial_features(
             best_degree,
             train_features=train_features,
             valid_features=valid_features,
             prove_features=prove_features
         )
 
-        linear.train(ploy_train_features, train_labels)
-        predictions = linear.predict(ploy_valid_features)
+        linear.train(poly_train_features, train_labels)
+        predictions = linear.predict(poly_valid_features)
         linear.eval_reg(valid_labels, predictions, display=True)
 
-        row: int = randint(0, prove_features.shape[0] - 1)
-        print(f"Row: {row} / {prove_features.shape[0]}")
+        row: int = randint(0, poly_prove_features.shape[0] - 1)
+        print(f"Row: {row} / {poly_prove_features.shape[0]}")
         status, pred_label = linear.inference(
-            ploy_prove_features[row:row + 1], prove_labels.iloc[row],
+            poly_prove_features.iloc[row], prove_labels.iloc[row],
             mission=Missions.REG, error_thresholds=(0.70, 1.40),
             display=False
         )
