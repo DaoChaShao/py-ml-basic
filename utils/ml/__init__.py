@@ -27,7 +27,7 @@ from .knn import (
     manhattan_distance,
     minkowski_distance,
 )
-from .liner import Linear
+from .liner import LinearReg
 from .preprocessor import (
     FeaturesNormaliser,
     FeaturesRobustScaler,
@@ -43,6 +43,7 @@ from .preprocessor import (
     split_data,
     tune_optimal_degree,
 )
+from .sgd import SGDReg
 from .types import (
     AveStrategies,
     CaliforniaFeatures,
@@ -53,6 +54,7 @@ from .types import (
     KNNMetrics,
     Languages,
     Missions,
+    RegLosses,
     RegScoreStrategies,
 )
 
@@ -68,17 +70,10 @@ __all__ = [
     "Base",
     "grid_search_tunes",
 
-    "Linear",
-
-    "Missions", "KNNMetrics",
-    "Languages",
-    "IrisFeatures", "IrisLabels",
-    "AveStrategies",
-    "ClsScoreStrategies", "RegScoreStrategies", "GridSearchTunesResponse",
-    "CaliforniaFeatures",
-
     "KNN",
     "euclidean_distance", "manhattan_distance", "chebyshev_distance", "minkowski_distance",
+
+    "LinearReg",
 
     "FileCat",
     "NumpySeed",
@@ -89,4 +84,14 @@ __all__ = [
     "FeaturesNormaliser", "FeaturesStandardiser", "FeaturesRobustScaler",
     "tune_optimal_degree", "expand_polynomial_features",
     "calc_labels_weight",
+
+    "SGDReg",
+
+    "Missions", "KNNMetrics",
+    "Languages",
+    "IrisFeatures", "IrisLabels",
+    "AveStrategies",
+    "ClsScoreStrategies", "RegScoreStrategies", "GridSearchTunesResponse",
+    "CaliforniaFeatures",
+    "RegLosses",
 ]
