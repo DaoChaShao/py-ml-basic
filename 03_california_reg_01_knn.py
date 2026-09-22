@@ -3,7 +3,7 @@
 # @Time     :   2026/9/22 01:01
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   03_california_01_knn.py
+# @File     :   03_california_reg_01_knn.py
 # @Desc     :
 
 from random import randint
