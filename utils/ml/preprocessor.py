@@ -19,7 +19,13 @@ from numpy import random as np_random
 from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, read_csv, read_excel
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler, RobustScaler, PolynomialFeatures
+from sklearn.preprocessing import (
+    LabelEncoder,
+    MinMaxScaler,
+    PolynomialFeatures,
+    RobustScaler,
+    StandardScaler,
+)
 from sklearn.utils.class_weight import compute_class_weight
 
 from ..constants import WIDTH
