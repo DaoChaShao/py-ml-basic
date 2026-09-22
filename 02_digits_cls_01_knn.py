@@ -115,7 +115,7 @@ def main() -> None:
                 f"Label: {prove_labels.iloc[row]}."
             )
 
-        # knn.save(model_name="digits_knn_model")
+        # knn.save(model_name="digits_knn_cls")
 
 
 if __name__ == "__main__":
