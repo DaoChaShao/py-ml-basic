@@ -42,7 +42,6 @@ class KNN(Base):
         self._neighbours: int = n_neighbours
         self._metric: KNNMetrics = KNNMetrics(metric)
         self._p: float = p
-        self._fitted: bool = False
 
         self._init_model()
 
