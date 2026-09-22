@@ -16,8 +16,8 @@ from sklearn.utils import Bunch
 from utils import green, red
 from utils.ml import (
     FeaturesNormaliser,
-    LinearReg,
     Missions,
+    OLSReg,
     get_reg_labels_distribution,
     split_data,
 )
@@ -64,7 +64,7 @@ def main() -> None:
         ****************************************************************
         """
 
-        linear = LinearReg()
+        linear = OLSReg()
         linear.train(train_features, train_labels)
         predictions = linear.predict(valid_features)
         linear.eval_reg(valid_labels, predictions, display=True)
