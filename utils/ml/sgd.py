@@ -1,3 +1,11 @@
+#!/usr/bin/env python3.12
+# -*- Coding: UTF-8 -*-
+# @Time     :   2026/9/22 23:22
+# @Author   :   Shawn
+# @Version  :   Version 0.1.0
+# @File     :   sgd.py
+# @Desc     :   Stochastic Gradient Descent Regression Estimator Wrapper.
+
 from typing import Any, Literal, override
 
 from access_modifiers import protectedmethod
@@ -5,7 +13,7 @@ from pandas import DataFrame, Series
 from sklearn.linear_model import SGDRegressor
 
 from .base import Base
-from .types import RegLosses
+from .types import AlphaCategories, RegLosses
 
 
 class SGDReg(Base):
@@ -18,8 +26,11 @@ class SGDReg(Base):
             ] = RegLosses.SQUARED_ERROR,
             alpha: float = 0.0001,
             is_intercept: bool = True,
+            epochs: int = 1_000,
             randomness: int = 27,
-            max_iter: int = 1_000
+            lr_category: str | AlphaCategories | Literal[
+                "invscaling", "constant", "optimal", "adaptive"
+            ] = AlphaCategories.INVSCALING,
     ) -> None:
         """
         Initialise the SGD Regression estimator.
@@ -27,16 +38,18 @@ class SGDReg(Base):
         :param loss: The loss function to be used.
         :param alpha: The regularisation strength.
         :param is_intercept: Whether to calculate the intercept for this model.
+        :param epochs: Maximum number of passes over the training data.
         :param randomness: Seed for reproducible random state.
-        :param max_iter: Maximum number of passes over the training data.
+        :param lr_category: The learning rate category.
         :return: None
         """
         super().__init__()
         self._loss: RegLosses = RegLosses(loss)
         self._alpha: float = alpha
         self._is_intercept: bool = is_intercept
-        self._max_iter: int = max_iter
+        self._epochs: int = epochs
         self._randomness: int = randomness
+        self._lr_category: AlphaCategories = AlphaCategories(lr_category)
 
         self._init_model()
 
@@ -51,8 +64,9 @@ class SGDReg(Base):
             loss=self._loss.value,
             alpha=self._alpha,
             fit_intercept=self._is_intercept,
-            max_iter=self._max_iter,
+            max_iter=self._epochs,
             random_state=self._randomness,
+            learning_rate=self._lr_category.value
         )
 
     @override
@@ -113,7 +127,7 @@ class SGDReg(Base):
         return self._model.coef_
 
     @property
-    def intercept(self) -> float:
+    def intercept(self) -> Any:
         """
         Get the regression intercept (bias).
 
@@ -124,6 +138,15 @@ class SGDReg(Base):
         if not self._is_intercept:
             return None
         return self._model.intercept_[0] if self._model.intercept_.ndim > 0 else self._model.intercept_
+
+    @property
+    def lr_category(self) -> AlphaCategories:
+        """
+        Get the learning rate category.
+
+        :return: The learning rate category.
+        """
+        return self._lr_category
 
     def __repr__(self) -> str:
         """
@@ -136,7 +159,8 @@ class SGDReg(Base):
             f"loss={self._loss.value}, "
             f"alpha={self._alpha}, "
             f"intercept={self._is_intercept}, "
-            f"max_iter={self._max_iter}, "
+            f"max_iter={self._epochs}, "
             f"randomness={self._randomness}, "
+            f"lr_category={self._lr_category.value}, "
             f"fitted={self._fitted}"
         )
