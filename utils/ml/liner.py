@@ -6,7 +6,7 @@
 # @File     :   liner.py
 # @Desc     :
 
-from typing import override, Any
+from typing import Any, override
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
