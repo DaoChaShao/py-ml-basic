@@ -19,7 +19,7 @@ from utils.ml import (
     KNN,
     FeaturesNormaliser,
     KNNMetrics,
-    KNNMissions,
+    Missions,
     get_cls_labels_distribution,
     split_data,
 )
@@ -79,7 +79,7 @@ def main() -> None:
         Best Score: 0.9840
         """
 
-        knn = KNN(KNNMissions.CLS, n_neighbours=3, metric=KNNMetrics.EUCLIDEAN, p=1.0)
+        knn = KNN(Missions.CLS, n_neighbours=3, metric=KNNMetrics.EUCLIDEAN, p=1.0)
         knn.train(train_features, train_labels)
         predictions = knn.predict(valid_features)
         # print(f"Predictions: {predictions}", end="\n\n")
@@ -97,7 +97,11 @@ def main() -> None:
 
         row: int = randint(0, prove_features.shape[0] - 1)
         print(f"Row: {row} / {prove_features.shape[0]}")
-        status, pred_label = knn.inference(prove_features[row:row + 1], prove_labels.iloc[row], display=False)
+        status, pred_label = knn.inference(
+            prove_features[row:row + 1], prove_labels.iloc[row],
+            mission=Missions.CLS,
+            display=False
+        )
         if status:
             print(
                 f"{green('Correct')}! "
@@ -111,7 +115,7 @@ def main() -> None:
                 f"Label: {prove_labels.iloc[row]}."
             )
 
-        knn.save(model_name="digits_knn_model")
+        # knn.save(model_name="digits_knn_model")
 
 
 if __name__ == "__main__":
