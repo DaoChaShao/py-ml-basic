@@ -246,7 +246,7 @@ class FileLoader(Access):
 
 
 @timer
-def get_labels_distribution(
+def get_cls_labels_distribution(
         labels: Series,
         *,
         threshold: float = 1.5,
@@ -290,6 +290,47 @@ def get_labels_distribution(
             verdict = "Severely Imbalanced (Severe imbalance, resampling or weight setting required)"
         print(f"Status                : {verdict}")
     return counts, proportions, ir, is_balanced
+
+
+@timer
+def get_reg_labels_distribution(labels: Series, display: bool = True) -> dict:
+    """
+    Analyse the distribution features of continuous regression targets
+
+    :param labels: the target variable
+    :param display: Toggle for printing the distribution summary
+    :return: the distribution summary
+    """
+    _stats: dict[str, float] = {
+        "count": len(labels),
+        "mean": labels.mean(),
+        "std": labels.std(),
+        "min": labels.min(),
+        "25%": labels.quantile(0.25),
+        "median": labels.median(),
+        "75%": labels.quantile(0.75),
+        "max": labels.max(),
+        "skewness": labels.skew(),
+        "kurtosis": labels.kurt(),
+    }
+
+    if display:
+        for key, value in _stats.items():
+            print(f"{key:<10}: {value:.4f}")
+        lines()
+
+        # Bias Situations
+        if _stats["skewness"] > 1.0:
+            print("Status: Highly Right-Skewed (Strongly recommend log1p transformation)")
+        elif 0.5 < _stats["skewness"] <= 1.0:
+            print("Status: Moderately Right-Skewed (Consider log1p transformation)")
+        elif -1.0 <= _stats["skewness"] < -0.5:
+            print("Status: Moderately Left-Skewed")
+        elif _stats["skewness"] < -1.0:
+            print("Status: Highly Left-Skewed")
+        else:
+            print("Status: Fairly Symmetric Distribution")
+    return _stats
 
 
 @timer
@@ -366,7 +407,7 @@ def split_data(
 class FeaturesNormaliser(Access):
     """ A class for normalising features using MinMaxScaler. """
 
-    def __init__(self, features: Any, *, min_value: int | float = 0, max_value: int | float = 1) -> None:
+    def __init__(self, features: DataFrame, *, min_value: int | float = 0, max_value: int | float = 1) -> None:
         """
         Initialise the Normaliser class
 
@@ -375,7 +416,7 @@ class FeaturesNormaliser(Access):
         :param max_value: The maximum value of the range.
         """
         super().__init__()
-        self._features: Any = features
+        self._features: DataFrame = features
         self._min: int | float = min_value
         self._max: int | float = max_value
 
@@ -387,11 +428,10 @@ class FeaturesNormaliser(Access):
 
         :return: self
         """
-        if self._features is not None:
-            self._scaler.fit(self._features)
+        self._scaler.fit(self._features)
         return self
 
-    def transform(self, features: Any = None) -> Any:
+    def transform(self, features: DataFrame | Series | None = None) -> DataFrame:
         """
        Transform the features using the scaler.
 
@@ -401,9 +441,14 @@ class FeaturesNormaliser(Access):
         _features: Any = features if features is not None else self._features
         if _features is None:
             raise ValueError("No features provided for normalisation.")
-        return self._scaler.transform(_features)
 
-    def inverse_transform(self, features: Any = None) -> Any:
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        _transformed = self._scaler.transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def inverse_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
         """
         Transform the features using the scaler.
 
@@ -413,9 +458,14 @@ class FeaturesNormaliser(Access):
         _features: Any = features if features is not None else self._features
         if _features is None:
             raise ValueError("No features provided for inverse transformation.")
-        return self._scaler.inverse_transform(_features)
 
-    def fit_transform(self, features: Any = None) -> Any:
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        _transformed = self._scaler.inverse_transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def fit_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
         """
         Fit and transform the features using the scaler.
 
@@ -425,9 +475,15 @@ class FeaturesNormaliser(Access):
         _features: Any = features if features is not None else self._features
         if _features is None:
             raise ValueError("No features provided for normalisation.")
-        return self._scaler.fit_transform(_features)
 
-    def __exit__(self, exc_type, exc_value, traceback):
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        self._features = _features
+        _transformed = self._scaler.fit_transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
         """ Do nothing. """
         pass
 
@@ -486,7 +542,7 @@ class FeaturesStandardiser(Access):
         _transformed = self._scaler.transform(_features)
         return DataFrame(_transformed, columns=_features.columns, index=_features.index)
 
-    def inverse_transform(self, features: DataFrame | Series | None = None) -> Any:
+    def inverse_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
         """
         Transform the features using the scaler.
 
@@ -503,7 +559,7 @@ class FeaturesStandardiser(Access):
         _transformed = self._scaler.inverse_transform(_features)
         return DataFrame(_transformed, columns=_features.columns, index=_features.index)
 
-    def fit_transform(self, features: DataFrame | Series | None = None) -> Any:
+    def fit_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
         """
         Fit and transform the features using the scaler.
 
@@ -521,7 +577,7 @@ class FeaturesStandardiser(Access):
         _transformed = self._scaler.fit_transform(_features)
         return DataFrame(_transformed, columns=_features.columns, index=_features.index)
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
         """ Do nothing. """
         pass
 
