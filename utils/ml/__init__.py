@@ -27,7 +27,9 @@ from .knn import (
     manhattan_distance,
     minkowski_distance,
 )
-from .liner import LinearReg
+from .lasso import LassoReg
+from .ols import OLSReg
+from .postprocessor import diagnose_fit
 from .preprocessor import (
     FeaturesNormaliser,
     FeaturesRobustScaler,
@@ -43,6 +45,7 @@ from .preprocessor import (
     split_data,
     tune_optimal_degree,
 )
+from .ridge import RidgeReg
 from .sgd import SGDReg
 from .types import (
     AlphaCategories,
@@ -56,6 +59,7 @@ from .types import (
     Languages,
     Missions,
     RegLosses,
+    RegPenalties,
     RegScoreStrategies,
 )
 
@@ -74,7 +78,11 @@ __all__ = [
     "KNN",
     "euclidean_distance", "manhattan_distance", "chebyshev_distance", "minkowski_distance",
 
-    "LinearReg",
+    "LassoReg",
+
+    "OLSReg",
+
+    "diagnose_fit",
 
     "FileCat",
     "NumpySeed",
@@ -86,6 +94,8 @@ __all__ = [
     "tune_optimal_degree", "expand_polynomial_features",
     "calc_labels_weight",
 
+    "RidgeReg",
+
     "SGDReg",
 
     "Missions", "KNNMetrics",
@@ -94,5 +104,5 @@ __all__ = [
     "AveStrategies",
     "ClsScoreStrategies", "RegScoreStrategies", "GridSearchTunesResponse",
     "CaliforniaFeatures",
-    "RegLosses", "AlphaCategories",
+    "RegLosses", "AlphaCategories", "RegPenalties",
 ]
