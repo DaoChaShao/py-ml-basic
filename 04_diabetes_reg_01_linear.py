@@ -16,8 +16,8 @@ from sklearn.utils import Bunch
 from utils import green, red
 from utils.ml import (
     FeaturesRobustScaler,
-    LinearReg,
     Missions,
+    OLSReg,
     expand_polynomial_features,
     get_reg_labels_distribution,
     split_data,
@@ -55,7 +55,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        linear = LinearReg()
+        linear = OLSReg()
         degrees: list[int] = [1, 2, 3]
         best_degree, best_rmse = tune_optimal_degree(
             linear,
