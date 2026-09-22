@@ -5,6 +5,11 @@
 
 ### Features
 
+- **ml:** add mission parameter to data splitting function ([ce451e4](https://github.com/DaoChaShao/py-ml-basic/commit/ce451e4ef4d3dcac74978a3cf30d22ea94aad92a))
+- **ml:** enhance base ML class with regression evaluation and improved inference ([0d5a07f](https://github.com/DaoChaShao/py-ml-basic/commit/0d5a07f44d770927751b6d154469ee3ab4e909e1))
+- **california:** add initial regression script for california housing data ([5308c3d](https://github.com/DaoChaShao/py-ml-basic/commit/5308c3d5926f6fe22442199f66213fe344acded6))
+- **ml:** add California housing dataset KNN regression implementation ([556c96a](https://github.com/DaoChaShao/py-ml-basic/commit/556c96a68c5145d4331d98ccfad80cb90e0dd2ba))
+- **utils:** add California housing features enum and dataset analysis module ([8d076a4](https://github.com/DaoChaShao/py-ml-basic/commit/8d076a4161b27d6ae7cad969717a5d5ff1b705cb))
 - **utils:** add California housing features enum with multilingual support ([f9bb2e7](https://github.com/DaoChaShao/py-ml-basic/commit/f9bb2e7645f3d5e6ed62092ec1f9523a635c3054))
 - **dataset:** add California housing dataset analysis module ([2cc9a89](https://github.com/DaoChaShao/py-ml-basic/commit/2cc9a894ad6957681a37cdf10f314b6b14c5494b))
 - **ml:** add digit recognition model with KNN classifier ([2f5c9cc](https://github.com/DaoChaShao/py-ml-basic/commit/2f5c9ccd91c452c9cc01c6475825a63ccce739f1))
@@ -60,6 +65,11 @@
 
 ### Code Refactoring
 
+- **ml:** rename mission enum and update score strategy classes ([d9004e1](https://github.com/DaoChaShao/py-ml-basic/commit/d9004e183d37b2fcc749d69e8c5729b7a1fde865))
+- **utils/ml:** update KNN class to use Missions enum instead of KNNMissions ([0a19797](https://github.com/DaoChaShao/py-ml-basic/commit/0a19797c08cbbcfd0e18d3d81200722d60b10f98))
+- **utils/ml:** update module exports and type definitions ([5146c4e](https://github.com/DaoChaShao/py-ml-basic/commit/5146c4e97f21bd877504472b38c3bef738486fbb))
+- **digits:** update KNN implementation with proper missions enum ([ed959b1](https://github.com/DaoChaShao/py-ml-basic/commit/ed959b19ea34a169b776da8ef6d43e9c92381bf3))
+- **iris:** update import and usage of missions constant ([34cbbe6](https://github.com/DaoChaShao/py-ml-basic/commit/34cbbe619bf7f63b1865247f4ef201064618f895))
 - **ml:** update preprocessor with regression analysis and type improvements ([0fbc8d2](https://github.com/DaoChaShao/py-ml-basic/commit/0fbc8d2e221b087a201befae1d6ec1672a34ecae))
 - **utils/ml:** update label distribution functions and add California features ([8849b24](https://github.com/DaoChaShao/py-ml-basic/commit/8849b24915e221c5b8092a59279e496d395b0664))
 - **digits:** update label distribution function name ([ba28404](https://github.com/DaoChaShao/py-ml-basic/commit/ba2840483d0e0bffc78d41dff28be41d2bfb0dd2))
