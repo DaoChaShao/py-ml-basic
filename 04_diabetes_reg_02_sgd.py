@@ -15,6 +15,7 @@ from sklearn.utils import Bunch
 
 from utils import green, red
 from utils.ml import (
+    AlphaCategories,
     FeaturesRobustScaler,
     Missions,
     RegLosses,
@@ -56,7 +57,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        linear = SGDReg(loss=RegLosses.SQUARED_ERROR)
+        linear = SGDReg(loss=RegLosses.SQUARED_ERROR, lr_category=AlphaCategories.INVSCALING)
         degrees: list[int] = [1, 2, 3]
         best_degree, best_rmse = tune_optimal_degree(
             linear,
