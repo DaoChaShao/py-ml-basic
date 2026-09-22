@@ -26,6 +26,7 @@ from ..constants import WIDTH
 from ..decorator import timer
 from ..helper import Access
 from ..highlighter import lines
+from .types import Missions
 
 
 @unique
@@ -365,6 +366,7 @@ def encode_labels(labels: Series, *, top_n: int = 5, display: bool = False) -> t
 def split_data(
         features: DataFrame, labels: Series,
         *,
+        mission: str | Missions | Literal["cls", "reg"] = Missions.CLS,
         randomness: int = 27,
         shuffle_status: bool = True,
         display: bool = False,
@@ -374,6 +376,7 @@ def split_data(
 
     :param features: the DataFrame of features
     :param labels: the Series of labels
+    :param mission: the mission type, either "cls" for classification or "reg" for regression
     :param randomness: the random seed for reproducibility
     :param shuffle_status: whether to shuffle the data before splitting
     :param display: Toggle for printing the split sets
@@ -386,14 +389,14 @@ def split_data(
         test_size=0.3,
         random_state=randomness,
         shuffle=shuffle_status,
-        stratify=labels if shuffle_status else None,
+        stratify=None if Missions(mission) == Missions.REG else labels if shuffle_status else None,
     )
     valid_features, prove_features, valid_labels, prove_labels = train_test_split(
         temp_features, temp_labels,
         test_size=0.5,
         random_state=randomness + randomness,
         shuffle=shuffle_status,
-        stratify=temp_labels if shuffle_status else None,
+        stratify=None if Missions(mission) == Missions.REG else temp_labels if shuffle_status else None,
     )
 
     if display:
