@@ -5,6 +5,7 @@
 
 ### Features
 
+- **ml:** add California housing regression model and enhance ML base class ([e6d27c4](https://github.com/DaoChaShao/py-ml-basic/commit/e6d27c4dc929bee06bb5391bbf418173ab290f1e))
 - add model for reg ([604cddb](https://github.com/DaoChaShao/py-ml-basic/commit/604cddb9b5099f1548bc8a10cb5b430b9662c926))
 - **ml:** add California housing regression implementation and enhance ML base class ([7a307e1](https://github.com/DaoChaShao/py-ml-basic/commit/7a307e1cea1a90eba037462e259e4f62b1b344d5))
 - **ml:** add mission parameter to data splitting function ([ce451e4](https://github.com/DaoChaShao/py-ml-basic/commit/ce451e4ef4d3dcac74978a3cf30d22ea94aad92a))
@@ -67,6 +68,7 @@
 
 ### Code Refactoring
 
+- **regression:** rename california regression script file ([162bfad](https://github.com/DaoChaShao/py-ml-basic/commit/162bfad3adcbfa45b1a77507dcb337c0519e6f13))
 - **ml:** disable model saving in california knn example ([6d4ef43](https://github.com/DaoChaShao/py-ml-basic/commit/6d4ef436b45e57513831d71a49391bdd8b234359))
 - **ml:** rename mission enum and update score strategy classes ([d9004e1](https://github.com/DaoChaShao/py-ml-basic/commit/d9004e183d37b2fcc749d69e8c5729b7a1fde865))
 - **utils/ml:** update KNN class to use Missions enum instead of KNNMissions ([0a19797](https://github.com/DaoChaShao/py-ml-basic/commit/0a19797c08cbbcfd0e18d3d81200722d60b10f98))
