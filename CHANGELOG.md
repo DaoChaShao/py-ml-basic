@@ -5,6 +5,7 @@
 
 ### Features
 
+- **ml:** add comprehensive regression modeling capabilities ([f656e0c](https://github.com/DaoChaShao/py-ml-basic/commit/f656e0cdb4dcba5eb44c6afe14624bcdecdb7ab3))
 - **ml:** add robust scaler and polynomial feature expansion capabilities ([b6aff24](https://github.com/DaoChaShao/py-ml-basic/commit/b6aff24c71812a1dafae1e7f21a0306217a14497))
 - **ml:** add linear regression implementation ([33e4500](https://github.com/DaoChaShao/py-ml-basic/commit/33e450090e38ddc6f912220782f39a6055c09708))
 - **ml:** add linear regression model and enhanced preprocessing utilities ([2240371](https://github.com/DaoChaShao/py-ml-basic/commit/2240371ffad2a65b6924afc67793a0fcd2214faf))
@@ -73,6 +74,12 @@
 
 ### Code Refactoring
 
+- **utils/ml:** reformat sklearn preprocessing imports in preprocessor module ([47c55cf](https://github.com/DaoChaShao/py-ml-basic/commit/47c55cfcbd6df251e07e01b5ce3470590e030fcf))
+- **utils:** reorder imports in ml/liner.py ([59088db](https://github.com/DaoChaShao/py-ml-basic/commit/59088dbe8088765be251fb47d61e0970edee14f2))
+- **utils/ml:** reorganize module imports and dependencies ([7951b58](https://github.com/DaoChaShao/py-ml-basic/commit/7951b583a224797d26f6e6a1bf601bb77d385191))
+- **ml:** reorganize imports and clean up polynomial regression script ([eaa4abf](https://github.com/DaoChaShao/py-ml-basic/commit/eaa4abf12b08a667a2550651f4790c392f55f2c5))
+- **utils:** update import order and remove unused class ([62d4149](https://github.com/DaoChaShao/py-ml-basic/commit/62d4149f22d954198288ca14a5228e16e8cd6296))
+- **ml:** remove unused grid search tunes import ([6c6f655](https://github.com/DaoChaShao/py-ml-basic/commit/6c6f65554fde051a8872b17cc98dfc1351030356))
 - **ml:** remove unused fitted flag from KNN class ([eb39d84](https://github.com/DaoChaShao/py-ml-basic/commit/eb39d8423be9184c97701c00a5945d075d7bc30f))
 - **ml:** update model base class with fitted state tracking and rename regression bias parameter ([66c0f9f](https://github.com/DaoChaShao/py-ml-basic/commit/66c0f9fb71d5106bc85c7020024bb2dd9dedae12))
 - **ml:** update KNN regression parameter naming ([ae01047](https://github.com/DaoChaShao/py-ml-basic/commit/ae01047d1a1abe82392898450452f2f28dc5c5b8))
