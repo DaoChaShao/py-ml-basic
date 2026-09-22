@@ -13,7 +13,7 @@ from pandas import DataFrame, Series
 from sklearn.linear_model import SGDRegressor
 
 from .base import Base
-from .types import AlphaCategories, RegLosses
+from .types import AlphaCategories, RegLosses, RegPenalties
 
 
 class SGDReg(Base):
@@ -24,6 +24,7 @@ class SGDReg(Base):
             loss: str | RegLosses | Literal[
                 "squared_error", "huber", "epsilon_insensitive", "squared_epsilon_insensitive"
             ] = RegLosses.SQUARED_ERROR,
+            penalty: str | RegPenalties | Literal["l2", "l1", "elasticnet"] = RegPenalties.L2,
             alpha: float = 0.0001,
             is_intercept: bool = True,
             epochs: int = 1_000,
@@ -36,6 +37,7 @@ class SGDReg(Base):
         Initialise the SGD Regression estimator.
 
         :param loss: The loss function to be used.
+        :param penalty: The regularisation penalty to be used.
         :param alpha: The regularisation strength.
         :param is_intercept: Whether to calculate the intercept for this model.
         :param epochs: Maximum number of passes over the training data.
@@ -45,6 +47,7 @@ class SGDReg(Base):
         """
         super().__init__()
         self._loss: RegLosses = RegLosses(loss)
+        self._penalty: RegPenalties = RegPenalties(penalty)
         self._alpha: float = alpha
         self._is_intercept: bool = is_intercept
         self._epochs: int = epochs
@@ -62,6 +65,7 @@ class SGDReg(Base):
         """
         self._model = SGDRegressor(
             loss=self._loss.value,
+            penalty=self._penalty.value,
             alpha=self._alpha,
             fit_intercept=self._is_intercept,
             max_iter=self._epochs,
@@ -158,8 +162,8 @@ class SGDReg(Base):
             f"SGDReg("
             f"loss={self._loss.value}, "
             f"alpha={self._alpha}, "
-            f"intercept={self._is_intercept}, "
-            f"max_iter={self._epochs}, "
+            f"is_intercept={self._is_intercept}, "
+            f"epochs={self._epochs}, "
             f"randomness={self._randomness}, "
             f"lr_category={self._lr_category.value}, "
             f"fitted={self._fitted}"
