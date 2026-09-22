@@ -3,7 +3,7 @@
 # @Time     :   2026/9/21 22:35
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   02_digits_01.py
+# @File     :   02_digits_cls_01_knn.py
 # @Desc     :
 
 from pprint import pprint
