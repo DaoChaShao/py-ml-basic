@@ -5,6 +5,9 @@
 
 ### Features
 
+- **model:** add trained diabetes SGD regression model ([276738f](https://github.com/DaoChaShao/py-ml-basic/commit/276738f55e645cf6f769d09fd80c2c8315d47ab6))
+- rename model ([f3c6941](https://github.com/DaoChaShao/py-ml-basic/commit/f3c6941ab99bc7f9c8f1459daa5b0124b88629ab))
+- **ml:** add learning rate category support to SGD regression ([ef24867](https://github.com/DaoChaShao/py-ml-basic/commit/ef2486755e2a55e4996714491e73092d6f76d1ca))
 - **utils:** add alpha categories enum for regressor learning rate schedules ([95e0dc1](https://github.com/DaoChaShao/py-ml-basic/commit/95e0dc15d9304d4c5bf93fb9e28aef3ad82bfea6))
 - **ml:** enhance SGD regression with learning rate category support ([5d6ed4e](https://github.com/DaoChaShao/py-ml-basic/commit/5d6ed4e0acdb23cf5e865e89d9ba925f06ebbe06))
 - **utils/ml:** add AlphaCategories to module exports ([e6b2fd8](https://github.com/DaoChaShao/py-ml-basic/commit/e6b2fd8401992801994b67907cb4cbfe3d134796))
@@ -53,6 +56,10 @@
 - **utils:** add constants module with WIDTH configuration ([bdc5c20](https://github.com/DaoChaShao/py-ml-basic/commit/bdc5c20b92b3710c34d147dc945956e9625f06ac))
 - **utils:** initialize utility module with core components ([4c7cd7f](https://github.com/DaoChaShao/py-ml-basic/commit/4c7cd7f33530f9859f1f395d72d1803fadf79721))
 
+### Bug Fixes
+
+- **model:** update model file extension from .pt to .cls ([17d89de](https://github.com/DaoChaShao/py-ml-basic/commit/17d89dee845e386a1d75229d1dd71d000e6a1520))
+
 ### Chore
 
 - **docs:** update file descriptions and reorganize imports in ML modules ([1002a1e](https://github.com/DaoChaShao/py-ml-basic/commit/1002a1e04ccb70ce3219ab5b4b581e75e6055390))
@@ -83,6 +90,9 @@
 
 ### Code Refactoring
 
+- **diabetes-regression:** rename linear variable to sgd for clarity ([8f9c25f](https://github.com/DaoChaShao/py-ml-basic/commit/8f9c25f2bb2a3d713b7278b06276b636421a7ca7))
+- **ml:** update model name for california regression ([9aafb7a](https://github.com/DaoChaShao/py-ml-basic/commit/9aafb7a6654332deec00163b7ad5ebdecfc67b7b))
+- **digits_cls:** update model name in KNN classifier ([b478f6b](https://github.com/DaoChaShao/py-ml-basic/commit/b478f6b3870d222c6c241d4ab6d6f851197abfa0))
 - **utils:** update intercept property return type in LinearRegression ([55ecdd1](https://github.com/DaoChaShao/py-ml-basic/commit/55ecdd10d612016ba3322af212bde199c757ed4d))
 - **ml:** rename Linear class to LinearReg and update implementation ([2e54ae8](https://github.com/DaoChaShao/py-ml-basic/commit/2e54ae85577a5262a9aa301e1e6c6b8a9899c224))
 - **ml:** update intercept property return type annotation ([fed7e5a](https://github.com/DaoChaShao/py-ml-basic/commit/fed7e5af6e75b801268a51890870adce2c2d2e3f))
