@@ -3,7 +3,7 @@
 # @Time     :   2026/9/22 00:26
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   02_digits_02.py
+# @File     :   02_digits_cls_02_knn_load.py
 # @Desc     :
 
 from pathlib import Path
