@@ -50,7 +50,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        filepath: Path = Path("models/trained_at_20260922-00-25-30_digits_knn_model.pt")
+        filepath: Path = Path("models/trained_at_20260922-00-25-30_digits_knn_cls.pt")
         knn = KNN.load(filepath)
 
         predictions = knn.predict(valid_features)
