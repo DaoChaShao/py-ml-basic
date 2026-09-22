@@ -22,7 +22,7 @@ from utils.ml import (
     IrisLabels,
     KNNMetrics,
     KNNMissions,
-    get_labels_distribution,
+    get_cls_labels_distribution,
     split_data,
 )
 
@@ -78,7 +78,7 @@ def main() -> None:
     iris: Bunch = init_iris()
 
     labels: Series = Series(iris.target)
-    get_labels_distribution(labels, display=True)
+    get_cls_labels_distribution(labels, display=True)
 
     features: DataFrame = DataFrame(iris.data, columns=iris.feature_names)
     # print(features.head(), end="\n\n")
