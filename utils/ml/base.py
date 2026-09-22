@@ -52,6 +52,7 @@ class Base(ABC, Access):
         """
         super().__init__()
         self._model: Any = None
+        self._fitted: bool = False
 
     @abstractmethod
     def train(self, features: DataFrame, labels: Series) -> None:
@@ -142,7 +143,7 @@ class Base(ABC, Access):
         :return: Dictionary containing calculated evaluation metrics.
         """
         _mse: float = mean_squared_error(valid_labels, predictions)
-        _rmse: float = root_mean_squared_error(valid_labels, predictions)  # sklearn >= 1.4 支持
+        _rmse: float = root_mean_squared_error(valid_labels, predictions)
         _mae: float = mean_absolute_error(valid_labels, predictions)
         _r2: float = r2_score(valid_labels, predictions)
         _mape: float = mean_absolute_percentage_error(valid_labels, predictions)
@@ -163,7 +164,7 @@ class Base(ABC, Access):
             print(f"RMSE      : {_rmse:.4f}")
             print(f"MAE       : {_mae:.4f}")
             print(f"MSE       : {_mse:.4f}")
-            print(f"MAPE      : {_mape:.4%}")  # MAPE 适合用百分比展示
+            print(f"MAPE      : {_mape:.4%}")
             stars()
             print()
 
@@ -174,7 +175,7 @@ class Base(ABC, Access):
             sample_feature: DataFrame | Series, sample_label: Series,
             *,
             mission: str | Missions | Literal["cls", "reg"] = Missions.CLS,
-            reg_bias: tuple[float, float] = (0.6, 1.2),
+            error_thresholds: tuple[float, float] = (0.0, 1.0),
             display: bool = False
     ) -> tuple[bool, Any]:
         """
@@ -183,7 +184,7 @@ class Base(ABC, Access):
         :param sample_feature: 2D feature row (e.g. DataFrame.iloc[[row]])
         :param sample_label: The actual label value
         :param mission: Type of machine learning task ("cls" for classification, "reg" for regression).
-        :param reg_bias: The bias for comparison
+        :param error_thresholds: Error bounds (excellent_threshold, acceptable_threshold) used to rate prediction quality. 1 - 2 RMSE units
         :param display: Whether to display the inference result.
         :return: Tuple of (is_correct, prediction_label)
         """
@@ -202,12 +203,12 @@ class Base(ABC, Access):
 
             case Missions.REG:
                 error: float = abs(true_label - pred_label)
-                status: bool = error <= reg_bias[1]
+                status: bool = error <= error_thresholds[1]
 
                 if display:
-                    if error <= reg_bias[0]:
+                    if error <= error_thresholds[0]:
                         level = "Excellent"
-                    elif error <= reg_bias[1]:
+                    elif error <= error_thresholds[1]:
                         level = "Acceptable"
                     else:
                         level = "Unreasonable"
