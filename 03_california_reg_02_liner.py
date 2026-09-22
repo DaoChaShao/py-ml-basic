@@ -16,7 +16,7 @@ from sklearn.utils import Bunch
 from utils import green, red
 from utils.ml import (
     FeaturesNormaliser,
-    Linear,
+    LinearReg,
     Missions,
     get_reg_labels_distribution,
     split_data,
@@ -25,7 +25,7 @@ from utils.ml import (
 
 def init_california_housing() -> Bunch:
     """
-    Initialize the California housing dataset.
+    Initialise the California housing dataset.
 
     :return: The California housing dataset.
     """
@@ -64,7 +64,7 @@ def main() -> None:
         ****************************************************************
         """
 
-        linear = Linear()
+        linear = LinearReg()
         linear.train(train_features, train_labels)
         predictions = linear.predict(valid_features)
         linear.eval_reg(valid_labels, predictions, display=True)
