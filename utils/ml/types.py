@@ -164,3 +164,11 @@ class RegLosses(StrEnum):
     HUBER = "huber"
     EPSILON_INSENSITIVE = "epsilon_insensitive"
     SQUARED_EPSILON_INSENSITIVE = "squared_epsilon_insensitive"
+
+
+class AlphaCategories(StrEnum):
+    """ Supported learning rate schedules for Regressor. """
+    INVSCALING = "invscaling"
+    OPTIMAL = "optimal"
+    CONSTANT = "constant"
+    ADAPTIVE = "adaptive"
