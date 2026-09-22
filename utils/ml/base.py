@@ -19,15 +19,26 @@ from sklearn.metrics import (
     classification_report,
     confusion_matrix,
     f1_score,
+    mean_absolute_error,
+    mean_absolute_percentage_error,
+    mean_squared_error,
     precision_score,
+    r2_score,
     recall_score,
+    root_mean_squared_error,
 )
 from sklearn.model_selection import GridSearchCV, KFold, StratifiedKFold
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
 from ..helper import Access
 from ..highlighter import lines, stars
-from .types import AveStrategies, GridSearchTunesResponse, KNNMissions, ScoreStrategies
+from .types import (
+    AveStrategies,
+    ClsScoreStrategies,
+    GridSearchTunesResponse,
+    Missions,
+    RegScoreStrategies,
+)
 
 
 class Base(ABC, Access):
@@ -116,20 +127,94 @@ class Base(ABC, Access):
             print()
         return _metrics
 
-    def inference(self, sample_feature: DataFrame, sample_label: Series, *, display: bool = False) -> tuple[bool, Any]:
+    @staticmethod
+    def eval_reg(
+            valid_labels: Series, predictions: Series,
+            *,
+            display: bool = False
+    ) -> dict[str, Any]:
+        """
+        Evaluate the regression performance of the model.
+
+        :param valid_labels: The true continuous target values.
+        :param predictions: The predicted continuous target values.
+        :param display: Whether to print the formatted evaluation result.
+        :return: Dictionary containing calculated evaluation metrics.
+        """
+        _mse: float = mean_squared_error(valid_labels, predictions)
+        _rmse: float = root_mean_squared_error(valid_labels, predictions)  # sklearn >= 1.4 支持
+        _mae: float = mean_absolute_error(valid_labels, predictions)
+        _r2: float = r2_score(valid_labels, predictions)
+        _mape: float = mean_absolute_percentage_error(valid_labels, predictions)
+
+        _metrics = {
+            "mse": _mse,
+            "rmse": _rmse,
+            "mae": _mae,
+            "r2": _r2,
+            "mape": _mape
+        }
+
+        if display:
+            stars()
+            print("Regression Evaluation Metrics")
+            lines()
+            print(f"R² Score  : {_r2:.4f}")
+            print(f"RMSE      : {_rmse:.4f}")
+            print(f"MAE       : {_mae:.4f}")
+            print(f"MSE       : {_mse:.4f}")
+            print(f"MAPE      : {_mape:.4%}")  # MAPE 适合用百分比展示
+            stars()
+            print()
+
+        return _metrics
+
+    def inference(
+            self,
+            sample_feature: DataFrame | Series, sample_label: Series,
+            *,
+            mission: str | Missions | Literal["cls", "reg"] = Missions.CLS,
+            reg_bias: tuple[float, float] = (0.6, 1.2),
+            display: bool = False
+    ) -> tuple[bool, Any]:
         """
         Inference a single sample prediction.
 
         :param sample_feature: 2D feature row (e.g. DataFrame.iloc[[row]])
         :param sample_label: The actual label value
+        :param mission: Type of machine learning task ("cls" for classification, "reg" for regression).
+        :param reg_bias: The bias for comparison
         :param display: Whether to display the inference result.
         :return: Tuple of (is_correct, prediction_label)
         """
+        if isinstance(sample_feature, Series):
+            sample_feature = sample_feature.to_frame().T
+
+        true_label = sample_label.iloc[0] if isinstance(sample_label, Series) else sample_label
         pred_label = self.predict(sample_feature)[0]
-        status: bool = pred_label == sample_label
-        if display:
-            print(f"Prediction Result: {'Correct' if status else 'Incorrect'}")
-        return status, pred_label
+
+        match Missions(mission):
+            case Missions.CLS:
+                status: bool = pred_label == true_label
+                if display:
+                    print(f"Prediction Result: {'Correct' if status else 'Incorrect'}")
+                return status, pred_label
+
+            case Missions.REG:
+                error: float = abs(true_label - pred_label)
+                status: bool = error <= reg_bias[1]
+
+                if display:
+                    if error <= reg_bias[0]:
+                        level = "Excellent"
+                    elif error <= reg_bias[1]:
+                        level = "Acceptable"
+                    else:
+                        level = "Unreasonable"
+                    print(f"Pred: {pred_label:.4f} | True: {true_label:.4f} | Error: {error:.4f} | Level: {level}")
+                return status, pred_label
+            case _:
+                raise TypeError("There is no such mission!")
 
     def save(
             self,
@@ -177,13 +262,14 @@ def grid_search_tunes(
         train_labels: Series,
         grid_params: dict[str, list[Any]],
         *,
-        mission: str | KNNMissions | Literal["cls", "reg"] = KNNMissions.CLS,
+        mission: str | Missions | Literal["cls", "reg"] = Missions.CLS,
         cv_splits: int = 5,
         cv_shuffle: bool = True,
         randomness: int = 27,
-        score_strategy: str | ScoreStrategies | Literal[
-            "accuracy", "f1_weighted", "f1_macro", "precision_weighted", "recall_weighted", "roc_auc_ovr"
-        ] = ScoreStrategies.F1_WEIGHTED,
+        score_strategy: str | ClsScoreStrategies | RegScoreStrategies | Literal[
+            "accuracy", "f1_weighted", "f1_macro", "precision_weighted", "recall_weighted", "roc_auc_ovr",
+            "neg_root_mean_squared_error", "neg_mean_squared_error", "neg_mean_absolute_error", "r2", "neg_mean_absolute_percentage_error"
+        ] = ClsScoreStrategies.F1_WEIGHTED,
         display: bool = False
 ) -> GridSearchTunesResponse:
     """
@@ -200,9 +286,11 @@ def grid_search_tunes(
     :param display: Whether to print formatted best parameters and score.
     :return: Dictionary with best_params and best_score.
     """
-    base_estimator = KNeighborsClassifier() if mission == "cls" else KNeighborsRegressor()
+    is_cls: bool = Missions(mission) == Missions.CLS
 
-    if mission == "cls":
+    base_estimator = KNeighborsClassifier() if is_cls else KNeighborsRegressor()
+
+    if is_cls:
         _cv = StratifiedKFold(n_splits=cv_splits, shuffle=cv_shuffle, random_state=randomness)
     else:
         _cv = KFold(n_splits=cv_splits, shuffle=cv_shuffle, random_state=randomness)
@@ -211,7 +299,7 @@ def grid_search_tunes(
         estimator=base_estimator,
         param_grid=grid_params,
         cv=_cv,
-        scoring=ScoreStrategies(score_strategy),
+        scoring=ClsScoreStrategies(score_strategy) if is_cls else RegScoreStrategies(score_strategy),
         n_jobs=-1
     )
     _searcher.fit(train_features, train_labels)
@@ -223,11 +311,11 @@ def grid_search_tunes(
         stars()
         print(f"GridSearchCV Hyperparameter Tuning Results ({cv_splits}-Fold CV)")
         lines()
-        print(f"Best Scoring Strategy : {score_strategy}")
-        print(f"Best CV Score         : {best_score:.4f}")
-        print("Best Hyperparameters   :")
+        print(f"Best Scoring Strategy   : {score_strategy}")
+        print(f"Best CV Score           : {best_score:.4f}")
+        print("Best Hyperparameters    :")
         for param, val in best_params.items():
-            print(f"- {param:<20}: {val}")
+            print(f"- {param:<22}: {val}")
         stars()
         print()
 
