@@ -3,7 +3,7 @@
 # @Time     :   2026/9/22 19:11
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   03_california_02_reg.py
+# @File     :   03_california_reg_02.py
 # @Desc     :
 
 def main() -> None:
