@@ -26,7 +26,7 @@ from utils.ml import (
 
 def init_california_housing() -> Bunch:
     """
-    Initialize the California housing dataset.
+    Initialise the California housing dataset.
 
     :return: The California housing dataset.
     """
