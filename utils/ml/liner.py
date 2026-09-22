@@ -78,7 +78,7 @@ class LinearReg(Base):
         return self._model.coef_
 
     @property
-    def intercept(self) -> Any:
+    def intercept(self) -> float:
         """
         Get the regression intercept (bias).
 
