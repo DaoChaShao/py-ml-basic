@@ -3,8 +3,8 @@
 # @Time     :   2026/9/22 19:32
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   liner.py
-# @Desc     :
+# @File     :   ols.py
+# @Desc     :   Ordinary Least Squares
 
 from typing import Any, override
 
@@ -15,11 +15,11 @@ from sklearn.linear_model import LinearRegression
 from .base import Base
 
 
-class LinearReg(Base):
+class OLSReg(Base):
 
     def __init__(self, is_intercept: bool = True) -> None:
         """
-        Initialise the Linear Regression estimator.
+        Initialise the Ordinary Least Squares estimator.
 
         :param is_intercept: Whether to include an intercept term in the model. Default is True.
         :return: None
