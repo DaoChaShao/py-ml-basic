@@ -16,7 +16,7 @@ from sklearn.datasets import load_digits
 from sklearn.utils import Bunch
 
 from utils import green, red
-from utils.ml import KNN, FeaturesNormaliser, get_labels_distribution, split_data
+from utils.ml import KNN, FeaturesNormaliser, get_cls_labels_distribution, split_data
 
 
 def init_digital_nums() -> Bunch:
@@ -37,7 +37,7 @@ def main() -> None:
     pprint(labels)
 
     labels: Series = Series(digits.target)
-    get_labels_distribution(labels, display=True)
+    get_cls_labels_distribution(labels, display=True)
 
     features: DataFrame = DataFrame(digits.data, columns=digits.feature_names)
     # print(features.head(), end="\n\n")
