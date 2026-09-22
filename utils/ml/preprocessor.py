@@ -19,7 +19,7 @@ from numpy import random as np_random
 from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, read_csv, read_excel
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler, RobustScaler, PolynomialFeatures
 from sklearn.utils.class_weight import compute_class_weight
 
 from ..constants import WIDTH
@@ -453,7 +453,7 @@ class FeaturesNormaliser(Access):
 
     def inverse_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
         """
-        Transform the features using the scaler.
+        Inverse transform the features using the scaler.
 
         :param features: The features to transform.
         :return: The transformed features.
@@ -547,7 +547,7 @@ class FeaturesStandardiser(Access):
 
     def inverse_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
         """
-        Transform the features using the scaler.
+        Inverse transform the features using the scaler.
 
         :param features: The features to transform.
         :return: The transformed features.
@@ -596,6 +596,200 @@ class FeaturesStandardiser(Access):
             f"features_shape={_shape}"
             f")"
         )
+
+
+class FeaturesRobustScaler(Access):
+    """ A class for robustly scaling features using RobustScaler. """
+
+    def __init__(self, features: DataFrame) -> None:
+
+        """
+        Initialise the RobustScaler class
+
+        :param features: The features to robustly scale.
+        """
+        super().__init__()
+        self._features: DataFrame = features
+        self._scaler: RobustScaler = RobustScaler()
+
+    def __enter__(self) -> Self:
+        """
+        Fit the scaler to the features.
+
+        :return: self
+        """
+        self._scaler.fit(self._features)
+        return self
+
+    def transform(self, features: DataFrame | Series | None = None) -> DataFrame:
+        """
+        Transform the features using the scaler.
+
+        :param features: The features to transform.
+        :return: The transformed features.
+        """
+        _features: Any = features if features is not None else self._features
+        if _features is None:
+            raise ValueError("No features provided for robust scaling.")
+
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        _transformed = self._scaler.transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def inverse_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
+        """
+        Inverse transform the features using the scaler.
+
+        :param features: The features to transform.
+        :return: The transformed features.
+        """
+        _features: Any = features if features is not None else self._features
+        if _features is None:
+            raise ValueError("No features provided for inverse transformation.")
+
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        _transformed = self._scaler.inverse_transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def fit_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
+        """
+        Fit and transform the features using the scaler.
+
+        :param features: The features to fit and transform.
+        :return: The transformed features.
+        """
+        _features: Any = features if features is not None else self._features
+        if _features is None:
+            raise ValueError("No features provided for robust scaling.")
+
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        self._features = _features
+        _transformed = self._scaler.fit_transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """ Do nothing. """
+        pass
+
+    def __repr__(self) -> str:
+        """
+        Return the string representation of the RobustScaler class.
+
+        :return: The string representation of the RobustScaler class.
+        """
+        _shape: Any = getattr(self._features, "shape", type(self._features).__name__)
+        return (
+            f"FeaturesRobustScaler("
+            f"features_shape={_shape}"
+            f")"
+        )
+
+
+@timer
+def tune_optimal_degree(
+        linear: Any,
+        *,
+        train_features: DataFrame, train_labels: Series,
+        valid_features: DataFrame, valid_labels: Series,
+        degrees: list[int] | None = None,
+        display: bool = False
+) -> tuple[int, float]:
+    """
+    Search for the optimal polynomial degree for linear regression.
+
+    :param linear: An instance of the Linear model wrapper.
+    :param train_features: Features for training.
+    :param train_labels: Labels for training.
+    :param valid_features: Features for validation.
+    :param valid_labels: Labels for validation.
+    :param degrees: List of polynomial degrees to iterate over. Defaults to [1, 2, 3].
+    :param display: Whether to print metrics for each degree.
+    :return: A tuple of (best_degree, best_rmse).
+    """
+    _degrees: list = [1, 2, 3] if degrees is None else degrees
+    _best_rmse: float = float("inf")
+    _best_degree: int = _degrees[0]
+
+    for degree in _degrees:
+        _poly = PolynomialFeatures(degree=degree, include_bias=False)
+
+        _train_poly = DataFrame(
+            _poly.fit_transform(train_features),
+            columns=_poly.get_feature_names_out(train_features.columns)
+        )
+        _valid_poly = DataFrame(
+            _poly.transform(valid_features),
+            columns=_poly.get_feature_names_out(valid_features.columns)
+        )
+
+        linear.train(_train_poly, train_labels)
+        _predictions = linear.predict(_valid_poly)
+
+        if display:
+            print(f"Evaluating Polynomial Degree: {degree!r}.")
+
+        _metrics = linear.eval_reg(valid_labels, _predictions, display=display)
+        current_rmse = _metrics.get("rmse", float("inf"))
+        if current_rmse < _best_rmse:
+            _best_rmse = current_rmse
+            _best_degree = degree
+
+    if display:
+        print(f"Best Polynomial Degree: {_best_degree}, Best RMSE: {_best_rmse:.4f}")
+    return _best_degree, _best_rmse
+
+
+@timer
+def expand_polynomial_features(
+        best_degree: int,
+        *,
+        train_features: DataFrame,
+        valid_features: DataFrame,
+        prove_features: DataFrame,
+        display: bool = True,
+) -> tuple[DataFrame, DataFrame, DataFrame]:
+    """
+    Expand features into polynomial features using the specified degree.
+
+    :param best_degree: Optimal polynomial degree.
+    :param train_features: Feature DataFrame for training.
+    :param valid_features: Feature DataFrame for validation.
+    :param prove_features: Feature DataFrame for inference/proving.
+    :param display: Whether to print shape transformations.
+    :return: Tuple of transformed (train, valid, prove) DataFrames.
+    """
+    _poly = PolynomialFeatures(degree=best_degree, include_bias=False)
+
+    if train_features is None or valid_features is None or prove_features is None:
+        raise ValueError("train_features, valid_features, and prove_features cannot be None.")
+
+    poly_train = DataFrame(
+        _poly.fit_transform(train_features),
+        columns=_poly.get_feature_names_out(train_features.columns),
+        index=train_features.index
+    )
+    poly_valid = DataFrame(
+        _poly.transform(valid_features),
+        columns=_poly.get_feature_names_out(valid_features.columns),
+        index=valid_features.index
+    )
+    poly_prove = DataFrame(
+        _poly.transform(prove_features),
+        columns=_poly.get_feature_names_out(prove_features.columns),
+        index=prove_features.index
+    )
+
+    if display:
+        print(f"Train: Original {train_features.shape} -> Poly {poly_train.shape}")
+        print(f"Valid: Original {valid_features.shape} -> Poly {poly_valid.shape}")
+        print(f"Prove: Original {prove_features.shape} -> Poly {poly_prove.shape}")
+    return poly_train, poly_valid, poly_prove
 
 
 @timer
