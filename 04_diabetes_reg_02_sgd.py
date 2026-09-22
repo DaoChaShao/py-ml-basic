@@ -19,6 +19,7 @@ from utils.ml import (
     FeaturesRobustScaler,
     Missions,
     RegLosses,
+    RegPenalties,
     SGDReg,
     expand_polynomial_features,
     get_reg_labels_distribution,
@@ -57,7 +58,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        sgd = SGDReg(loss=RegLosses.SQUARED_ERROR, lr_category=AlphaCategories.INVSCALING)
+        sgd = SGDReg(loss=RegLosses.SQUARED_ERROR, penalty=RegPenalties.L2, lr_category=AlphaCategories.INVSCALING)
         degrees: list[int] = [1, 2, 3]
         best_degree, best_rmse = tune_optimal_degree(
             sgd,
@@ -145,7 +146,7 @@ def main() -> None:
         ****************************************************************
         """
 
-        sgd.save(model_name="diabetes_sgd_reg")
+        # sgd.save(model_name="diabetes_sgd_reg")
 
 
 if __name__ == "__main__":
