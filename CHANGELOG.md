@@ -5,7 +5,17 @@
 
 ### Features
 
-- **model:** add trained diabetes SGD regression model ([276738f](https://github.com/DaoChaShao/py-ml-basic/commit/276738f55e645cf6f769d09fd80c2c8315d47ab6))
+- **ml:** add new enum types for ML configurations ([c23a310](https://github.com/DaoChaShao/py-ml-basic/commit/c23a31084760b398376ad3bc988d9bd12c3d71f9))
+- **ml:** add penalty parameter to SGD regression implementation ([402bbae](https://github.com/DaoChaShao/py-ml-basic/commit/402bbae321d60354065e59417ebcf3e4d90b325d))
+- **ml:** add Ridge regression implementation ([4a6ba65](https://github.com/DaoChaShao/py-ml-basic/commit/4a6ba6512d58f3551214bbe509f3522bbbf34a6f))
+- **utils:** add ML model diagnosis postprocessor utility ([3b21224](https://github.com/DaoChaShao/py-ml-basic/commit/3b21224ed3ae42f24cbe89761acabdb723e852d5))
+- **ml:** add Lasso regression estimator wrapper ([185acb5](https://github.com/DaoChaShao/py-ml-basic/commit/185acb56dd6952e98acbbb8ecdd6ed2da56d4d52))
+- **utils/ml:** add new regression models and update module exports ([2bc4600](https://github.com/DaoChaShao/py-ml-basic/commit/2bc4600383be41a45c0cf29255714629943d9b18))
+- **ml:** add diabetes regression analysis with Ridge algorithm ([0750e84](https://github.com/DaoChaShao/py-ml-basic/commit/0750e846e63e6fb6ead374ecb2a8472d9cf244b7))
+- **ml:** add diabetes regression analysis with Lasso diagnosis ([8e1f3de](https://github.com/DaoChaShao/py-ml-basic/commit/8e1f3de388f8e070a3a9f7bb101781d90d9258a2))
+- **ml:** add diabetes regression analysis with Lasso implementation ([b31a6d1](https://github.com/DaoChaShao/py-ml-basic/commit/b31a6d1379a19cae74702e2acf0a88baaa176f9a))
+- **regression:** add L2 regularization to SGD regression model ([de46aef](https://github.com/DaoChaShao/py-ml-basic/commit/de46aef79b755154984c07e619d9031b977089e8))
+- **model:** add trained diabetes SGD regression model ([ce70311](https://github.com/DaoChaShao/py-ml-basic/commit/ce70311f26f81649706b58ab49463274709cd2a6))
 - rename model ([f3c6941](https://github.com/DaoChaShao/py-ml-basic/commit/f3c6941ab99bc7f9c8f1459daa5b0124b88629ab))
 - **ml:** add learning rate category support to SGD regression ([ef24867](https://github.com/DaoChaShao/py-ml-basic/commit/ef2486755e2a55e4996714491e73092d6f76d1ca))
 - **utils:** add alpha categories enum for regressor learning rate schedules ([95e0dc1](https://github.com/DaoChaShao/py-ml-basic/commit/95e0dc15d9304d4c5bf93fb9e28aef3ad82bfea6))
@@ -90,6 +100,10 @@
 
 ### Code Refactoring
 
+- **utils/ml:** rename linear regression module to OLS ([254651f](https://github.com/DaoChaShao/py-ml-basic/commit/254651f73cb8692f68cd3132a20c45787b41e905))
+- **ml:** replace LinearReg with OLSReg for diabetes regression model ([c60a10f](https://github.com/DaoChaShao/py-ml-basic/commit/c60a10f9c52fdf60eb781fa76254737ed481506c))
+- **ml:** replace LinearReg with OLSReg in polynomial regression ([0adc612](https://github.com/DaoChaShao/py-ml-basic/commit/0adc61244723322d9359edcc36abe337e923e5e5))
+- **regression:** replace LinearReg with OLSReg implementation ([ffb241f](https://github.com/DaoChaShao/py-ml-basic/commit/ffb241f0dbefb1caf93da824eae19c7e013085a1))
 - **diabetes-regression:** rename linear variable to sgd for clarity ([8f9c25f](https://github.com/DaoChaShao/py-ml-basic/commit/8f9c25f2bb2a3d713b7278b06276b636421a7ca7))
 - **ml:** update model name for california regression ([9aafb7a](https://github.com/DaoChaShao/py-ml-basic/commit/9aafb7a6654332deec00163b7ad5ebdecfc67b7b))
 - **digits_cls:** update model name in KNN classifier ([b478f6b](https://github.com/DaoChaShao/py-ml-basic/commit/b478f6b3870d222c6c241d4ab6d6f851197abfa0))
