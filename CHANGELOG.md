@@ -5,6 +5,8 @@
 
 ### Features
 
+- **utils:** add California housing features enum with multilingual support ([f9bb2e7](https://github.com/DaoChaShao/py-ml-basic/commit/f9bb2e7645f3d5e6ed62092ec1f9523a635c3054))
+- **dataset:** add California housing dataset analysis module ([2cc9a89](https://github.com/DaoChaShao/py-ml-basic/commit/2cc9a894ad6957681a37cdf10f314b6b14c5494b))
 - **ml:** add digit recognition model with KNN classifier ([2f5c9cc](https://github.com/DaoChaShao/py-ml-basic/commit/2f5c9ccd91c452c9cc01c6475825a63ccce739f1))
 - add a model for digits ([fb40705](https://github.com/DaoChaShao/py-ml-basic/commit/fb4070575e90e257d341efb5ee25f624e9f8b5fd))
 - **ml:** add model persistence and improve base ML class functionality ([3d2a542](https://github.com/DaoChaShao/py-ml-basic/commit/3d2a542429d107e39808d93f641b9252a9baae66))
@@ -32,6 +34,7 @@
 
 ### Chore
 
+- **docs:** update file descriptions and reorganize imports in ML modules ([1002a1e](https://github.com/DaoChaShao/py-ml-basic/commit/1002a1e04ccb70ce3219ab5b4b581e75e6055390))
 - **main:** update file description comment ([18652ba](https://github.com/DaoChaShao/py-ml-basic/commit/18652ba5100fa4eddd7d8b8c94aac80526d4bf76))
 - **highlighter:** update file description comment ([d9e9568](https://github.com/DaoChaShao/py-ml-basic/commit/d9e95688e5a1dc80361cd55fa84edc74928bc282))
 - **utils:** update file description in decorator module ([f8c7f1d](https://github.com/DaoChaShao/py-ml-basic/commit/f8c7f1d241cd04768cabe15f855d672ba6a88fe3))
@@ -57,6 +60,11 @@
 
 ### Code Refactoring
 
+- **ml:** update preprocessor with regression analysis and type improvements ([0fbc8d2](https://github.com/DaoChaShao/py-ml-basic/commit/0fbc8d2e221b087a201befae1d6ec1672a34ecae))
+- **utils/ml:** update label distribution functions and add California features ([8849b24](https://github.com/DaoChaShao/py-ml-basic/commit/8849b24915e221c5b8092a59279e496d395b0664))
+- **digits:** update label distribution function name ([ba28404](https://github.com/DaoChaShao/py-ml-basic/commit/ba2840483d0e0bffc78d41dff28be41d2bfb0dd2))
+- **data:** rename get_labels_distribution to get_cls_labels_distribution ([64ba636](https://github.com/DaoChaShao/py-ml-basic/commit/64ba636ebc2136cc33476cc232f816c0bd3cda6f))
+- **iris:** update labels distribution function name ([7b0efd3](https://github.com/DaoChaShao/py-ml-basic/commit/7b0efd38c4b60fe16e249a8830bd8a3a9664c179))
 - **utils:** reorder imports in helper module ([e4fff2e](https://github.com/DaoChaShao/py-ml-basic/commit/e4fff2ec56dfcbe50017790bdbfd1258682d64f3))
 - **utils:** reorder imports in ml base module ([81ec554](https://github.com/DaoChaShao/py-ml-basic/commit/81ec55432fc24f38feb7193336e83a88f2ab2bbc))
 - **utils:** reorganize import statements and reorder highlighter imports ([c321f16](https://github.com/DaoChaShao/py-ml-basic/commit/c321f16e5cbb186e761d7b8d7b2016a62840086d))
