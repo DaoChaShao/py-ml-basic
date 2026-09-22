@@ -14,12 +14,14 @@ from pydantic import BaseModel, Field
 
 @unique
 class Missions(StrEnum):
+    """ Machine learning missions. """
     CLS = "cls"
     REG = "reg"
 
 
 @unique
 class KNNMetrics(StrEnum):
+    """ K-Nearest Neighbors metrics. """
     EUCLIDEAN = "euclidean"
     MANHATTAN = "manhattan"
     CHEBYSHEV = "chebyshev"
@@ -28,12 +30,14 @@ class KNNMetrics(StrEnum):
 
 @unique
 class Languages(StrEnum):
+    """ Programming languages. """
     EN = "English"
     CN = "Chinese"
 
 
 @unique
 class IrisFeatures(Enum):
+    """ Iris dataset features. """
     SEPAL_LENGTH = ("sepal length (cm)", "花萼长度 (厘米)")
     SEPAL_WIDTH = ("sepal width (cm)", "花萼宽度 (厘米)")
     PETAL_LENGTH = ("petal length (cm)", "花瓣长度 (厘米)")
@@ -46,11 +50,20 @@ class IrisFeatures(Enum):
 
 @unique
 class IrisLabels(Enum):
+    """ Iris dataset labels. """
     SETOSA = ("setosa", "山鸢尾")
     VERSICOLOR = ("versicolor", "变色鸢尾")
     VIRGINICA = ("virginica", "维吉尼亚鸢尾")
 
-    def __init__(self, en_name: str, cn_name: str):
+    def __init__(self, en_name: str, cn_name: str) -> None:
+        """
+        Initialize the enum member with English and Chinese names.
+
+        :param en_name: English name
+        :param cn_name: Chinese name
+        :return: None
+        """
+        super().__init__()
         self.EN: str = en_name
         self.CN: str = cn_name
 
@@ -98,7 +111,7 @@ class RegScoreStrategies(StrEnum):
     """
     Metric strategies for regression evaluation.
 
-    - RMSE: Root Mean Squared Error. Standard regression metric, penalizes larger errors more heavily.
+    - RMSE: Root Mean Squared Error. Standard regression metric, penalises larger errors more heavily.
     - MSE: Mean Squared Error. Average squared difference between predicted and actual values.
     - MAE: Mean Absolute Error. Average absolute difference, more robust to outliers than MSE.
     - R2: Coefficient of determination ($R^2$). Represents the proportion of variance explained by the model (best = 1.0).
@@ -112,12 +125,14 @@ class RegScoreStrategies(StrEnum):
 
 
 class GridSearchTunesResponse(BaseModel):
+    """ Response model for grid search tunes. """
     best_params: dict[str, Any] = Field(..., description="The best parameters found during the grid search.")
     best_score: float = Field(..., description="The best score achieved during the grid search.")
 
 
 @unique
 class CaliforniaFeatures(Enum):
+    """ California housing dataset features. """
     MED_INC = ("MedInc", "该区域居民收入中位数", "万美金")
     HOUSE_AGE = ("HouseAge", "房屋工龄中位数", "年")
     AVE_ROOMS = ("AveRooms", "平均房间数", "间")
@@ -127,7 +142,25 @@ class CaliforniaFeatures(Enum):
     LATITUDE = ("Latitude", "纬度", "度")
     LONGITUDE = ("Longitude", "经度", "度")
 
-    def __init__(self, en_name: str, cn_name: str, unit: str):
+    def __init__(self, en_name: str, cn_name: str, unit: str) -> None:
+        """
+        Initialize the enum member with English name, Chinese name, and unit.
+
+        :param en_name: English name
+        :param cn_name: Chinese name
+        :param unit: Unit of measurement
+        """
+        super().__init__()
         self.EN: str = en_name
         self.CN: str = cn_name
         self.UNIT: str = unit
+
+
+@unique
+class RegLosses(StrEnum):
+    """ Supported loss functions for SGDRegressor in Scikit-Learn. """
+    SQUARED_ERROR = "squared_error"
+    ABSOLUTE_ERROR = "absolute_error"  # Not for SGD Regression
+    HUBER = "huber"
+    EPSILON_INSENSITIVE = "epsilon_insensitive"
+    SQUARED_EPSILON_INSENSITIVE = "squared_epsilon_insensitive"
