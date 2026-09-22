@@ -35,11 +35,13 @@ from .preprocessor import (
     NumpySeed,
     calc_labels_weight,
     encode_labels,
-    get_labels_distribution,
+    get_cls_labels_distribution,
+    get_reg_labels_distribution,
     split_data,
 )
 from .types import (
     AveStrategies,
+    CaliforniaFeatures,
     GridSearchTunesResponse,
     IrisFeatures,
     IrisLabels,
@@ -66,6 +68,7 @@ __all__ = [
     "IrisFeatures", "IrisLabels",
     "AveStrategies",
     "ScoreStrategies", "GridSearchTunesResponse",
+    "CaliforniaFeatures",
 
     "KNN",
     "euclidean_distance", "manhattan_distance", "chebyshev_distance", "minkowski_distance",
@@ -73,7 +76,8 @@ __all__ = [
     "FileCat",
     "NumpySeed",
     "FileLoader",
-    "get_labels_distribution", "encode_labels",
+    "get_cls_labels_distribution", "get_reg_labels_distribution",
+    "encode_labels",
     "split_data",
     "FeaturesNormaliser", "FeaturesStandardiser",
     "calc_labels_weight",
