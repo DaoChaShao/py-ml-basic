@@ -17,7 +17,6 @@ from utils import green, red
 from utils.ml import (
     KNN,
     FeaturesNormaliser,
-    grid_search_tunes,
     KNNMetrics,
     Missions,
     get_reg_labels_distribution,
