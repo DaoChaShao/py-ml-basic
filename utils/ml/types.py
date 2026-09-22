@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 
 
 @unique
-class KNNMissions(StrEnum):
+class Missions(StrEnum):
     CLS = "cls"
     REG = "reg"
 
@@ -74,7 +74,7 @@ class AveStrategies(StrEnum):
 
 
 @unique
-class ScoreStrategies(StrEnum):
+class ClsScoreStrategies(StrEnum):
     """
     Score strategies for classification evaluation.
 
@@ -91,6 +91,24 @@ class ScoreStrategies(StrEnum):
     PRECISION_WEIGHTED = "precision_weighted"
     RECALL_WEIGHTED = "recall_weighted"
     ROC_AUC_OVR = "roc_auc_ovr"
+
+
+@unique
+class RegScoreStrategies(StrEnum):
+    """
+    Metric strategies for regression evaluation.
+
+    - RMSE: Root Mean Squared Error. Standard regression metric, penalizes larger errors more heavily.
+    - MSE: Mean Squared Error. Average squared difference between predicted and actual values.
+    - MAE: Mean Absolute Error. Average absolute difference, more robust to outliers than MSE.
+    - R2: Coefficient of determination ($R^2$). Represents the proportion of variance explained by the model (best = 1.0).
+    - MAPE: Mean Absolute Percentage Error. Relative error percentage, useful for scale-independent comparisons.
+    """
+    RMSE = "neg_root_mean_squared_error"
+    MSE = "neg_mean_squared_error"
+    MAE = "neg_mean_absolute_error"
+    R2 = "r2"
+    MAPE = "neg_mean_absolute_percentage_error"
 
 
 class GridSearchTunesResponse(BaseModel):
