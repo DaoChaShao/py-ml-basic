@@ -57,10 +57,10 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        linear = SGDReg(loss=RegLosses.SQUARED_ERROR, lr_category=AlphaCategories.INVSCALING)
+        sgd = SGDReg(loss=RegLosses.SQUARED_ERROR, lr_category=AlphaCategories.INVSCALING)
         degrees: list[int] = [1, 2, 3]
         best_degree, best_rmse = tune_optimal_degree(
-            linear,
+            sgd,
             train_features=train_features, train_labels=train_labels,
             valid_features=valid_features, valid_labels=valid_labels,
             degrees=degrees, display=False
@@ -73,9 +73,9 @@ def main() -> None:
             prove_features=prove_features
         )
 
-        linear.train(poly_train_features, train_labels)
-        predictions = linear.predict(poly_valid_features)
-        metrics = linear.eval_reg(valid_labels, predictions, display=True)
+        sgd.train(poly_train_features, train_labels)
+        predictions = sgd.predict(poly_valid_features)
+        metrics = sgd.eval_reg(valid_labels, predictions, display=True)
         """
         ****************************************************************
         Regression Evaluation Metrics - Linear Regression
@@ -101,7 +101,7 @@ def main() -> None:
 
         row: int = randint(0, poly_prove_features.shape[0] - 1)
         print(f"Row: {row} / {poly_prove_features.shape[0]}")
-        status, pred_label = linear.inference(
+        status, pred_label = sgd.inference(
             poly_prove_features.iloc[row:row + 1], prove_labels.iloc[row],
             mission=Missions.REG, error_thresholds=(curr_rmse, curr_rmse * 2),
             display=False
@@ -122,8 +122,8 @@ def main() -> None:
             print()
 
         print("Coefficients:")
-        pprint(linear.coefficient)
-        print(f"Intercept: {linear.intercept}")
+        pprint(sgd.coefficient)
+        print(f"Intercept: {sgd.intercept}")
         """
         ****************************************************************
         Linear Regression
@@ -144,6 +144,8 @@ def main() -> None:
         Intercept: 153.10458137874136
         ****************************************************************
         """
+
+        sgd.save(model_name="diabetes_sgd_reg")
 
 
 if __name__ == "__main__":
