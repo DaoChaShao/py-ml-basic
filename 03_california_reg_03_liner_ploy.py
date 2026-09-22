@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   03_california_reg_03_liner_ploy.py
-# @Desc     :   
+# @Desc     :
 
 from pprint import pprint
 from random import randint
@@ -16,11 +16,12 @@ from sklearn.utils import Bunch
 from utils import green, red
 from utils.ml import (
     FeaturesRobustScaler,
+    Linear,
     Missions,
+    expand_polynomial_features,
     get_reg_labels_distribution,
     split_data,
-    Linear,
-    tune_optimal_degree, expand_polynomial_features,
+    tune_optimal_degree,
 )
 
 
@@ -63,7 +64,6 @@ def main() -> None:
         MSE       : 0.5623
         MAPE      : 31.4934%
         ****************************************************************
-        
         ****************************************************************
         Regression Evaluation Metrics - degree 2
         ----------------------------------------------------------------
@@ -130,7 +130,6 @@ def main() -> None:
        -1.68982438e-01, -1.66029658e-01,  2.30284225e-03,  1.71460041e-02,
         8.11414442e-02,  5.06362394e-02,  7.14640674e-05,  6.45680855e-02,
         1.84856191e-02,  8.94500362e-01,  1.54033270e+00,  5.71579919e-01])
-        
         1.9885889286266694
         """
 
