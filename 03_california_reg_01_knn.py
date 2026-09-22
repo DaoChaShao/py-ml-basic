@@ -17,6 +17,7 @@ from utils import green, red
 from utils.ml import (
     KNN,
     FeaturesNormaliser,
+    grid_search_tunes,
     KNNMetrics,
     Missions,
     get_reg_labels_distribution,
@@ -25,6 +26,11 @@ from utils.ml import (
 
 
 def init_california_housing() -> Bunch:
+    """
+    Initialize the California housing dataset.
+
+    :return: The California housing dataset.
+    """
     return fetch_california_housing()
 
 
@@ -83,7 +89,7 @@ def main() -> None:
         print(f"Row: {row} / {prove_features.shape[0]}")
         status, pred_label = knn.inference(
             prove_features[row:row + 1], prove_labels.iloc[row],
-            mission=Missions.REG, reg_bias=(0.6, 1.2),
+            mission=Missions.REG, error_thresholds=(0.6, 1.2),
             display=False
         )
         if status:
