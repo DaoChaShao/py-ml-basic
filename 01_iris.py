@@ -21,7 +21,7 @@ from utils.ml import (
     IrisFeatures,
     IrisLabels,
     KNNMetrics,
-    KNNMissions,
+    Missions,
     get_cls_labels_distribution,
     split_data,
 )
@@ -114,7 +114,7 @@ def main() -> None:
         Best Score: 0.9809
         """
 
-        knn = KNN(KNNMissions.CLS, n_neighbours=6, metric=KNNMetrics.MINKOWSKI, p=4.0)
+        knn = KNN(Missions.CLS, n_neighbours=6, metric=KNNMetrics.MINKOWSKI, p=4.0)
         knn.train(train_features, train_labels)
         predictions = knn.predict(valid_features)
         # print(f"Predictions: {predictions}", end="\n\n")
