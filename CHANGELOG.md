@@ -1,10 +1,14 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-22)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-23)
 
 ### Features
 
+- **utils:** add alpha categories enum for regressor learning rate schedules ([95e0dc1](https://github.com/DaoChaShao/py-ml-basic/commit/95e0dc15d9304d4c5bf93fb9e28aef3ad82bfea6))
+- **ml:** enhance SGD regression with learning rate category support ([5d6ed4e](https://github.com/DaoChaShao/py-ml-basic/commit/5d6ed4e0acdb23cf5e865e89d9ba925f06ebbe06))
+- **utils/ml:** add AlphaCategories to module exports ([e6b2fd8](https://github.com/DaoChaShao/py-ml-basic/commit/e6b2fd8401992801994b67907cb4cbfe3d134796))
+- **regression:** add learning rate category support to SGD regression ([c8eb0fc](https://github.com/DaoChaShao/py-ml-basic/commit/c8eb0fc7096b1951e07a668c830f6594d2105033))
 - **ml:** add SGD regression implementation ([1cf7064](https://github.com/DaoChaShao/py-ml-basic/commit/1cf7064b9013514f1aa703510ba034a5ac3395b4))
 - **ml:** add diabetes regression analysis with SGD implementation ([462f8b4](https://github.com/DaoChaShao/py-ml-basic/commit/462f8b4fc3e6a41bc592e3790116ae20491ba37d))
 - **ml:** add diabetes regression analysis with polynomial features ([48948a7](https://github.com/DaoChaShao/py-ml-basic/commit/48948a71fd3f991ce4bdc62f8e15df232ece32bd))
@@ -79,6 +83,8 @@
 
 ### Code Refactoring
 
+- **utils:** update intercept property return type in LinearRegression ([55ecdd1](https://github.com/DaoChaShao/py-ml-basic/commit/55ecdd10d612016ba3322af212bde199c757ed4d))
+- **ml:** rename Linear class to LinearReg and update implementation ([2e54ae8](https://github.com/DaoChaShao/py-ml-basic/commit/2e54ae85577a5262a9aa301e1e6c6b8a9899c224))
 - **ml:** update intercept property return type annotation ([fed7e5a](https://github.com/DaoChaShao/py-ml-basic/commit/fed7e5af6e75b801268a51890870adce2c2d2e3f))
 - **ml:** rename Linear class to LinearReg and add intercept configuration ([6e4cfdf](https://github.com/DaoChaShao/py-ml-basic/commit/6e4cfdf7e53597308f8cf3acc59b88749b2610d6))
 - **utils:** update ML module imports and exports ([c6f1ae7](https://github.com/DaoChaShao/py-ml-basic/commit/c6f1ae7716b0dc4ff20f4d4f50d2015717b04701))
