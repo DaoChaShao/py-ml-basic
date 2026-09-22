@@ -166,9 +166,18 @@ class RegLosses(StrEnum):
     SQUARED_EPSILON_INSENSITIVE = "squared_epsilon_insensitive"
 
 
+@unique
 class AlphaCategories(StrEnum):
     """ Supported learning rate schedules for Regressor. """
     INVSCALING = "invscaling"
     OPTIMAL = "optimal"
     CONSTANT = "constant"
     ADAPTIVE = "adaptive"
+
+
+@unique
+class RegPenalties(StrEnum):
+    """ Supported regularisation penalties for SGDRegressor and linear models. """
+    L2 = "l2"
+    L1 = "l1"
+    ELASTICNET = "elasticnet"
