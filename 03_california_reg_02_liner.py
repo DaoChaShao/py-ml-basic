@@ -15,11 +15,11 @@ from sklearn.utils import Bunch
 
 from utils import green, red
 from utils.ml import (
-    FeaturesNormaliser, FeaturesRobustScaler,
+    FeaturesNormaliser,
+    Linear,
     Missions,
     get_reg_labels_distribution,
     split_data,
-    Linear,
 )
 
 
@@ -94,7 +94,6 @@ def main() -> None:
         """
         array([  6.47239289,   0.50032988, -17.10649225,  20.16492109,
          0.02308527,  -4.13769135,  -3.95736822,  -4.32796381])
-         
         3.5884511215585335
         """
 
