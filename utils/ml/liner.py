@@ -15,10 +15,18 @@ from sklearn.linear_model import LinearRegression
 from .base import Base
 
 
-class Linear(Base):
+class LinearReg(Base):
 
-    def __init__(self) -> None:
+    def __init__(self, is_intercept: bool = True) -> None:
+        """
+        Initialise the Linear Regression estimator.
+
+        :param is_intercept: Whether to include an intercept term in the model. Default is True.
+        :return: None
+        """
         super().__init__()
+        self._is_intercept: bool = is_intercept
+
         self._init_model()
 
     @protectedmethod
@@ -28,7 +36,7 @@ class Linear(Base):
 
         :return: None
         """
-        self._model = LinearRegression()
+        self._model = LinearRegression(fit_intercept=self._is_intercept)
 
     @override
     def train(self, features: DataFrame, labels: Series) -> None:
@@ -78,4 +86,14 @@ class Linear(Base):
         """
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        if not self._is_intercept:
+            return None
         return self._model.intercept_
+
+    def __repr__(self) -> str:
+        """
+        Get the string representation of the estimator.
+
+        :return: The string representation of the estimator.
+        """
+        return f"Linear(is_intercept={self._is_intercept})"
