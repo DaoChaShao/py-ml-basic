@@ -96,3 +96,20 @@ class ScoreStrategies(StrEnum):
 class GridSearchTunesResponse(BaseModel):
     best_params: dict[str, Any] = Field(..., description="The best parameters found during the grid search.")
     best_score: float = Field(..., description="The best score achieved during the grid search.")
+
+
+@unique
+class CaliforniaFeatures(Enum):
+    MED_INC = ("MedInc", "该区域居民收入中位数", "万美金")
+    HOUSE_AGE = ("HouseAge", "房屋工龄中位数", "年")
+    AVE_ROOMS = ("AveRooms", "平均房间数", "间")
+    AVE_BEDRMS = ("AveBedrms", "平均卧室数", "间")
+    POPULATION = ("Population", "该区域人口数", "人")
+    AVE_OCCUP = ("AveOccup", "平均每户入住人数", "人")
+    LATITUDE = ("Latitude", "纬度", "度")
+    LONGITUDE = ("Longitude", "经度", "度")
+
+    def __init__(self, en_name: str, cn_name: str, unit: str):
+        self.EN: str = en_name
+        self.CN: str = cn_name
+        self.UNIT: str = unit
