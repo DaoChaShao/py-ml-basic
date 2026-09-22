@@ -42,13 +42,14 @@ from .preprocessor import (
 from .types import (
     AveStrategies,
     CaliforniaFeatures,
+    ClsScoreStrategies,
     GridSearchTunesResponse,
     IrisFeatures,
     IrisLabels,
     KNNMetrics,
-    KNNMissions,
     Languages,
-    ScoreStrategies,
+    Missions,
+    RegScoreStrategies,
 )
 
 try:
@@ -63,11 +64,11 @@ __all__ = [
     "Base",
     "grid_search_tunes",
 
-    "KNNMissions", "KNNMetrics",
+    "Missions", "KNNMetrics",
     "Languages",
     "IrisFeatures", "IrisLabels",
     "AveStrategies",
-    "ScoreStrategies", "GridSearchTunesResponse",
+    "ClsScoreStrategies", "RegScoreStrategies", "GridSearchTunesResponse",
     "CaliforniaFeatures",
 
     "KNN",
