@@ -20,6 +20,7 @@ feature scaling, data splitting, and class weight computation.
 from importlib.metadata import PackageNotFoundError, metadata
 
 from .base import Base, grid_search_tunes
+from .liner import Linear
 from .knn import (
     KNN,
     chebyshev_distance,
@@ -28,10 +29,13 @@ from .knn import (
     minkowski_distance,
 )
 from .preprocessor import (
+    expand_polynomial_features,
     FeaturesNormaliser,
     FeaturesStandardiser,
+    FeaturesRobustScaler,
     FileCat,
     FileLoader,
+    tune_optimal_degree,
     NumpySeed,
     calc_labels_weight,
     encode_labels,
@@ -64,6 +68,8 @@ __all__ = [
     "Base",
     "grid_search_tunes",
 
+    "Linear",
+
     "Missions", "KNNMetrics",
     "Languages",
     "IrisFeatures", "IrisLabels",
@@ -80,6 +86,7 @@ __all__ = [
     "get_cls_labels_distribution", "get_reg_labels_distribution",
     "encode_labels",
     "split_data",
-    "FeaturesNormaliser", "FeaturesStandardiser",
+    "FeaturesNormaliser", "FeaturesStandardiser", "FeaturesRobustScaler",
+    "tune_optimal_degree", "expand_polynomial_features",
     "calc_labels_weight",
 ]
