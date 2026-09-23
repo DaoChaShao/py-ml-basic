@@ -5,6 +5,7 @@
 
 ### Features
 
+- **ml:** add ElasticNet regression estimator and utilities ([f628d4d](https://github.com/DaoChaShao/py-ml-basic/commit/f628d4ddad4aeaf797558f551df38b98a5f4e678))
 - **ml:** add ElasticNet regression estimator wrapper ([c0ba4b8](https://github.com/DaoChaShao/py-ml-basic/commit/c0ba4b8407d389be0476e738686b7a1ce5a7b3ba))
 - **ml:** add ElasticNet regression estimator to ML utilities ([37f3abf](https://github.com/DaoChaShao/py-ml-basic/commit/37f3abfdc94f59d010452c69f6f9bc6770111611))
 - **ml:** add diabetes regression analysis with elastic net implementation ([d110949](https://github.com/DaoChaShao/py-ml-basic/commit/d1109491949ab82e4f36a6615e07e038bf8ff8be))
@@ -108,6 +109,10 @@
 
 ### Code Refactoring
 
+- **ml:** update SGD regressor with pydantic validation and parameter renaming ([b9c3f12](https://github.com/DaoChaShao/py-ml-basic/commit/b9c3f120cb9715d7004bdef3a3e2e329ac3759ff))
+- **ml:** update ridge regression estimator with pydantic validation ([72cb34b](https://github.com/DaoChaShao/py-ml-basic/commit/72cb34b044dfbdf3a44d78c782540d2359b533e4))
+- **ml:** update Lasso regression estimator with Pydantic validation ([063a56a](https://github.com/DaoChaShao/py-ml-basic/commit/063a56ae738e902b5ad8e3be629015469af319de))
+- **ml:** rename alpha parameter to penalty_strength in ElasticNetReg ([a3941d4](https://github.com/DaoChaShao/py-ml-basic/commit/a3941d456a6ae3be282d90526047c810a0b1e4d2))
 - **ml:** clean up KNN estimator implementation ([db8369e](https://github.com/DaoChaShao/py-ml-basic/commit/db8369e0c50f7812afb0619c95784874ad94da3f))
 - **ml:** clean up base estimator module ([cc0797a](https://github.com/DaoChaShao/py-ml-basic/commit/cc0797a028995568427bb5bb63c938aa2052c4d0))
 - **ml:** restructure machine learning modules and add core utilities ([b9b61f4](https://github.com/DaoChaShao/py-ml-basic/commit/b9b61f4027b5d7c18c0971476e8cc3b2f1ab239d))
