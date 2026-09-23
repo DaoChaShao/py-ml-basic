@@ -10,6 +10,7 @@ from typing import Any, Literal, override
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
+from pydantic import Field, validate_call
 from sklearn.linear_model import SGDRegressor
 
 from utils.ml.types import AlphaCategories, RegLosses, RegPenalties
@@ -18,7 +19,9 @@ from .base import Base
 
 
 class SGDReg(Base):
+    """ Stochastic Gradient Descent Regression Estimator Wrapper. """
 
+    @validate_call
     def __init__(
             self,
             *,
@@ -26,9 +29,9 @@ class SGDReg(Base):
                 "squared_error", "huber", "epsilon_insensitive", "squared_epsilon_insensitive"
             ] = RegLosses.SQUARED_ERROR,
             penalty: str | RegPenalties | Literal["l2", "l1", "elasticnet"] = RegPenalties.L2,
-            alpha: float = 0.0001,
+            penalty_strength: float = Field(0.0001, gt=0, description="Bigger strength, stronger regularisation."),
             is_intercept: bool = True,
-            epochs: int = 1_000,
+            epochs: int = Field(1_000, gt=0, description="Maximum number of passes over the training data."),
             randomness: int = 27,
             lr_category: str | AlphaCategories | Literal[
                 "invscaling", "constant", "optimal", "adaptive"
@@ -39,7 +42,7 @@ class SGDReg(Base):
 
         :param loss: The loss function to be used.
         :param penalty: The regularisation penalty to be used.
-        :param alpha: The regularisation strength.
+        :param penalty_strength: The regularisation strength.
         :param is_intercept: Whether to calculate the intercept for this model.
         :param epochs: Maximum number of passes over the training data.
         :param randomness: Seed for reproducible random state.
@@ -49,7 +52,7 @@ class SGDReg(Base):
         super().__init__()
         self._loss: RegLosses = RegLosses(loss)
         self._penalty: RegPenalties = RegPenalties(penalty)
-        self._alpha: float = alpha
+        self._strength: float = penalty_strength
         self._is_intercept: bool = is_intercept
         self._epochs: int = epochs
         self._randomness: int = randomness
@@ -67,7 +70,7 @@ class SGDReg(Base):
         self._model = SGDRegressor(
             loss=self._loss.value,
             penalty=self._penalty.value,
-            alpha=self._alpha,
+            alpha=self._strength,
             fit_intercept=self._is_intercept,
             max_iter=self._epochs,
             random_state=self._randomness,
@@ -84,7 +87,7 @@ class SGDReg(Base):
         :return: None
         """
         if self._model is None:
-            raise RuntimeError("Estimator has not been initialized.")
+            raise RuntimeError("Estimator has not been initialised.")
         self._model.fit(features, labels)
         self._fitted = True
 
@@ -97,7 +100,7 @@ class SGDReg(Base):
         :return: The predicted labels.
         """
         if self._model is None:
-            raise RuntimeError("Estimator has not been initialized.")
+            raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.predict(features)
@@ -112,13 +115,13 @@ class SGDReg(Base):
         return self._loss
 
     @property
-    def alpha(self) -> float:
+    def penalty_strength(self) -> float:
         """
         Get the regularisation strength.
 
         :return: The regularisation strength.
         """
-        return self._alpha
+        return self._strength
 
     @property
     def coefficient(self) -> Any:
@@ -138,6 +141,8 @@ class SGDReg(Base):
 
         :return: The regression intercept (bias).
         """
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         if not self._is_intercept:
@@ -162,7 +167,7 @@ class SGDReg(Base):
         return (
             f"SGDReg("
             f"loss={self._loss.value}, "
-            f"alpha={self._alpha}, "
+            f"penalty_strength={self._strength}, "
             f"is_intercept={self._is_intercept}, "
             f"epochs={self._epochs}, "
             f"randomness={self._randomness}, "
