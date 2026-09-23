@@ -24,6 +24,7 @@ from .base import Base
 from .enet import ElasticNetReg
 from .knn import KNN
 from .lasso import LassoReg
+from .logistic import LogisticRegClassifier
 from .ols import OLSReg
 from .ridge import RidgeReg
 from .sgd import SGDReg
@@ -36,6 +37,7 @@ __all__ = [
     "ElasticNetReg",
     "KNN",
     "LassoReg",
+    "LogisticRegClassifier",
     "OLSReg",
     "RidgeReg",
     "SGDReg",
