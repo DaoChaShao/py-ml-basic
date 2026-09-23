@@ -3,7 +3,7 @@
 # @Time     :   2026/9/23 14:30
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   05_logistic_reg_01.py
+# @File     :   05_logistic_reg.py
 # @Desc     :
 
 from random import randint
