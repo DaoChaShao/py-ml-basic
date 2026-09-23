@@ -19,7 +19,10 @@ and pipeline diagnostics.
 __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
-from .postprocessor import diagnose_fit
+from .postprocessor import (
+    diagnose_cls_fit,
+    diagnose_reg_fit,
+)
 from .preprocessor import (
     FeaturesNormaliser,
     FeaturesRobustScaler,
@@ -38,7 +41,8 @@ from .preprocessor import (
     manhattan_distance,
     minkowski_distance,
     split_data,
-    tune_optimal_degree,
+    tune_optimal_cls_degree,
+    tune_optimal_reg_degree,
 )
 from .types import (
     AlphaCategories,
@@ -50,6 +54,7 @@ from .types import (
     IrisLabels,
     KNNMetrics,
     Languages,
+    LogisticSolvers,
     Missions,
     RegLosses,
     RegPenalties,
@@ -58,7 +63,8 @@ from .types import (
 
 __all__ = [
     # Postprocessing & Diagnostics
-    "diagnose_fit",
+    "diagnose_cls_fit",
+    "diagnose_reg_fit",
 
     # Preprocessing & Utilities
     "FeaturesNormaliser",
@@ -78,7 +84,8 @@ __all__ = [
     "manhattan_distance",
     "minkowski_distance",
     "split_data",
-    "tune_optimal_degree",
+    "tune_optimal_cls_degree",
+    "tune_optimal_reg_degree",
 
     # Preprocessing & Utilities
     "AlphaCategories",
@@ -90,6 +97,7 @@ __all__ = [
     "IrisLabels",
     "KNNMetrics",
     "Languages",
+    "LogisticSolvers",
     "Missions",
     "RegLosses",
     "RegPenalties",
