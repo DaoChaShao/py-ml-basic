@@ -1,10 +1,17 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-23)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-24)
 
 ### Features
 
+- **utils:** add Titanic dataset feature and label enums ([ba5a2e0](https://github.com/DaoChaShao/py-ml-basic/commit/ba5a2e072e72bf82588feedeef0bded0281472c3))
+- **ml:** add CARTree implementation for decision tree algorithms ([496905f](https://github.com/DaoChaShao/py-ml-basic/commit/496905fd6caa7208dc20fe6df2c74e22ade0fdd2))
+- **utils:** add dataframe summary function with timer decorator ([5917cd5](https://github.com/DaoChaShao/py-ml-basic/commit/5917cd5fa4e2d2b5d13e4c78f412062fe4a7ec2b))
+- **utils:** add CARTree estimator to ml estimators module ([189c42f](https://github.com/DaoChaShao/py-ml-basic/commit/189c42f264d7e005f5cf16dbaecebf0e523dd9c5))
+- **utils/ml:** expose new utility functions and constants in public API ([2606f0f](https://github.com/DaoChaShao/py-ml-basic/commit/2606f0fe2b319435440d9781ccb7431bc53ef1ba))
+- **tree:** add initial implementation of tree algorithm with Titanic dataset ([c67af17](https://github.com/DaoChaShao/py-ml-basic/commit/c67af179aae95a337e37fb179a4503be96df5a72))
+- **ml:** add logistic regression classifier and related utilities ([c5fd77c](https://github.com/DaoChaShao/py-ml-basic/commit/c5fd77c3a7bc404f054b4c175211496b154688f0))
 - **deps:** add colorama and tqdm dependencies ([1c793de](https://github.com/DaoChaShao/py-ml-basic/commit/1c793de2ff4f4c49c9a7f23fa9ef519013d6bcfd))
 - **utils:** add LogisticSolvers enum for scikit-learn logistic regression ([9567a0b](https://github.com/DaoChaShao/py-ml-basic/commit/9567a0b96e5427114ceb4f39383a9686e1bb23f8))
 - **ml:** add logistic regression classifier wrapper ([4601112](https://github.com/DaoChaShao/py-ml-basic/commit/4601112c419cd266f7b7ff1c96a06b9d175a11b0))
@@ -81,12 +88,14 @@
 
 ### Bug Fixes
 
+- **decorator:** correct authorization logic in decorator functions ([9fef134](https://github.com/DaoChaShao/py-ml-basic/commit/9fef134738c9a8a4803cc93bf6661e9329eaa243))
 - **ml:** correct string formatting in SGD estimator repr method ([59ee720](https://github.com/DaoChaShao/py-ml-basic/commit/59ee72062188038ca85b2dd5eabce3b0fcb5cc63))
 - **ml:** correct string formatting in KNN estimator repr method ([80e46c5](https://github.com/DaoChaShao/py-ml-basic/commit/80e46c550977169b3d873d25ec7b828eb2398dda))
 - **model:** update model file extension from .pt to .cls ([17d89de](https://github.com/DaoChaShao/py-ml-basic/commit/17d89dee845e386a1d75229d1dd71d000e6a1520))
 
 ### Chore
 
+- **files:** rename 05_logistic_reg_01.py to 05_logistic_reg.py ([98bebf0](https://github.com/DaoChaShao/py-ml-basic/commit/98bebf0a1f1b0dea47e5d3e46e5cdcbe6387e7b7))
 - **ml:** add gitignore for ml estimators module ([aa12304](https://github.com/DaoChaShao/py-ml-basic/commit/aa123049c2abb431ca60c0add11badedf9da0b16))
 - **docs:** update file descriptions and reorganize imports in ML modules ([1002a1e](https://github.com/DaoChaShao/py-ml-basic/commit/1002a1e04ccb70ce3219ab5b4b581e75e6055390))
 - **main:** update file description comment ([18652ba](https://github.com/DaoChaShao/py-ml-basic/commit/18652ba5100fa4eddd7d8b8c94aac80526d4bf76))
@@ -120,6 +129,7 @@
 
 ### Code Refactoring
 
+- **ml:** remove mission property from KNN estimator ([10cde76](https://github.com/DaoChaShao/py-ml-basic/commit/10cde763f4bae3162144702ff60199e24b458582))
 - **ml:** rename polynomial degree tuning function and add classification support ([51bb39a](https://github.com/DaoChaShao/py-ml-basic/commit/51bb39a7585017ef7977b4be4d392528dd3a0fc9))
 - **ml:** rename regression diagnosis function and add classification diagnosis ([e23cf39](https://github.com/DaoChaShao/py-ml-basic/commit/e23cf3931b02a6a322be23627aae6120cb981f27))
 - **utils/ml/estimators:** rename _l1_ratio to _ratio in ElasticNet class ([4bc2f56](https://github.com/DaoChaShao/py-ml-basic/commit/4bc2f565766b0ed8e19143784ac77dbecbe59762))
