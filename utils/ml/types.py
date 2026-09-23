@@ -198,3 +198,98 @@ class LogisticSolvers(StrEnum):
     LIBLINEAR = "liblinear"
     NEWTON_CG = "newton-cg"
     NEWTON_CHOLESKY = "newton-cholesky"
+
+
+@unique
+class TitanicFeatures(Enum):
+    """ Titanic raw dataset features (13 columns). """
+    PCLASS = ("pclass", "客舱等级", "Social-economic class (1 = 1st, 2 = 2nd, 3 = 3rd)")
+    NAME = ("name", "乘客姓名", "Passenger name")
+    SEX = ("sex", "性别", "Biological sex (male / female)")
+    AGE = ("age", "年龄", "Age in years")
+    SIBSP = ("sibsp", "同辈亲属数", "Number of siblings / spouses aboard")
+    PARCH = ("parch", "直系亲属数", "Number of parents / children aboard")
+    TICKET = ("ticket", "船票编号", "Ticket number")
+    FARE = ("fare", "乘客票价", "Passenger fare")
+    CABIN = ("cabin", "客舱号码", "Cabin number")
+    EMBARKED = ("embarked", "登船港口", "Port of embarkation (C, Q, S)")
+    BOAT = ("boat", "救生艇编号", "Lifeboat number (if rescued)")
+    BODY = ("body", "遗体编号", "Body identification number (if deceased)")
+    HOME_DEST = ("home.dest", "家乡/目的地", "Home / Destination")
+
+    def __init__(self, en_name: str, cn_name: str, desc: str = "") -> None:
+        """
+        Initialise the enum member with English name, Chinese name, and description.
+
+        :param en_name: English name
+        :param cn_name: Chinese name
+        :param desc: Description
+        """
+        super().__init__()
+        self.EN: str = en_name
+        self.CN: str = cn_name
+        self.DESC: str = desc
+
+    @classmethod
+    def get_en_names(cls) -> list[str]:
+        """ Get all original English feature names. """
+        return [feature.EN for feature in cls]
+
+    @classmethod
+    def get_cn_names(cls) -> list[str]:
+        """ Get all Chinese feature names. """
+        return [feature.CN for feature in cls]
+
+
+@unique
+class TitanicLabels(Enum):
+    """ Titanic dataset target label (survived). """
+    DECEASED = ("0", "Perished", "遇难", 0)
+    SURVIVED = ("1", "Survived", "幸存", 1)
+
+    def __init__(self, str_label: str, en_name: str, cn_name: str, int_label: int) -> None:
+        """
+        Initialise the enum member with string, Chinese, and integer values.
+
+        :param str_label: String value
+        :param en_name: English name
+        :param cn_name: Chinese name
+        :param int_label: Integer value
+        :return: None
+        """
+        super().__init__()
+        self.STR_LABEL: str = str_label
+        self.EN: str = en_name
+        self.CN: str = cn_name
+        self.INT_LABEL: int = int_label
+
+    @classmethod
+    def get_str_labels(cls) -> list[str]:
+        """ Get target string labels ['0', '1']. """
+        return [target.STR_VAL for target in cls]
+
+    @classmethod
+    def get_int_labels(cls) -> list[int]:
+        """ Get target integer labels [0, 1]. """
+        return [target.INT_VAL for target in cls]
+
+
+@unique
+class TreeClsCriteria(StrEnum):
+    GINI = "gini"
+    ENTROPY = "entropy"
+    LOG_LOSS = "log_loss"
+
+
+@unique
+class TreeRegCriteria(StrEnum):
+    SQUARED_ERROR = "squared_error"
+    FRIEDMAN_MSE = "friedman_mse"
+    ABSOLUTE_ERROR = "absolute_error"
+    POISSON = "poisson"
+
+
+@unique
+class TreeSplitters(StrEnum):
+    BEST = "best"
+    RANDOM = "random"
