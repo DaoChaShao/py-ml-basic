@@ -12,8 +12,9 @@ from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
+from utils.ml.types import KNNMetrics, Missions
+
 from .base import Base
-from .types import KNNMetrics, Missions
 
 
 class KNN(Base):
@@ -148,56 +149,6 @@ class KNN(Base):
             f"p={self._p!r}"
             f")"
         )
-
-
-def euclidean_distance(x1: Any, x2: Any) -> float:
-    """
-    Calculate the Euclidean distance between two points.
-
-    :param x1: The first point.
-    :param x2: The second point.
-    :return: The Euclidean distance between the two points.
-    """
-    return sum((a - b) ** 2 for a, b in zip(x1, x2, strict=True)) ** 0.5
-
-
-def manhattan_distance(x1: Any, x2: Any) -> float:
-    """
-    Calculate the Manhattan distance between two points.
-
-    :param x1: The first point.
-    :param x2: The second point.
-    :return: The Manhattan distance between the two points.
-    """
-    return sum(abs(a - b) for a, b in zip(x1, x2, strict=True))
-
-
-def chebyshev_distance(x1: Any, x2: Any) -> float:
-    """
-    Calculate the Chebyshev distance between two points.
-
-    :param x1: The first point.
-    :param x2: The second point.
-    :return: The Chebyshev distance between the two points.
-    """
-    return max(abs(a - b) for a, b in zip(x1, x2, strict=True))
-
-
-def minkowski_distance(x1: Any, x2: Any, p: float) -> float:
-    """
-    Calculate the Minkowski distance between two points.
-    - If p = 1, it becomes the Manhattan distance.
-    - If p = 2, it becomes the Euclidean distance.
-    - If p = infinity, it becomes the Chebyshev distance.
-
-    :param x1: The first point.
-    :param x2: The second point.
-    :param p: The order of the Minkowski distance.
-    :return: The Minkowski distance between the two points.
-    """
-    if p < 1:
-        raise ValueError("p must be greater than or equal to 1.")
-    return sum(abs(a - b) ** p for a, b in zip(x1, x2, strict=True)) ** (1 / p)
 
 
 if __name__ == "__main__":
