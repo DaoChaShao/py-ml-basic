@@ -17,12 +17,12 @@ from utils import green, red
 from utils.ml import (
     FeaturesRobustScaler,
     Missions,
-    OLSReg,
     expand_polynomial_features,
     get_reg_labels_distribution,
     split_data,
     tune_optimal_degree,
 )
+from utils.ml.estimators import OLSReg
 
 
 def init_diabetes() -> Bunch:
