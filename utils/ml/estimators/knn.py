@@ -149,7 +149,3 @@ class KNN(Base):
             f"p={self._p!r}"
             f")"
         )
-
-
-if __name__ == "__main__":
-    pass
