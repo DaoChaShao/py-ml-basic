@@ -15,13 +15,13 @@ from sklearn.utils import Bunch
 
 from utils import green, red
 from utils.ml import (
-    KNN,
     FeaturesNormaliser,
     KNNMetrics,
     Missions,
     get_reg_labels_distribution,
     split_data,
 )
+from utils.ml.estimators import KNN
 
 
 def init_california_housing() -> Bunch:
