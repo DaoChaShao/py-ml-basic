@@ -16,7 +16,8 @@ from sklearn.datasets import load_digits
 from sklearn.utils import Bunch
 
 from utils import green, red
-from utils.ml import KNN, FeaturesNormaliser, get_cls_labels_distribution, split_data
+from utils.ml import FeaturesNormaliser, get_cls_labels_distribution, split_data
+from utils.ml.estimators import KNN
 
 
 def init_digital_nums() -> Bunch:
@@ -50,7 +51,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        filepath: Path = Path("models/trained_at_20260922-00-25-30_digits_knn_cls.pt")
+        filepath: Path = Path("models/trained_at_20260923-13-35-57_digits_knn_cls.pt")
         knn = KNN.load(filepath)
 
         predictions = knn.predict(valid_features)
