@@ -5,6 +5,9 @@
 
 ### Features
 
+- **ml:** add ElasticNet regression estimator wrapper ([c0ba4b8](https://github.com/DaoChaShao/py-ml-basic/commit/c0ba4b8407d389be0476e738686b7a1ce5a7b3ba))
+- **ml:** add ElasticNet regression estimator to ML utilities ([37f3abf](https://github.com/DaoChaShao/py-ml-basic/commit/37f3abfdc94f59d010452c69f6f9bc6770111611))
+- **ml:** add diabetes regression analysis with elastic net implementation ([d110949](https://github.com/DaoChaShao/py-ml-basic/commit/d1109491949ab82e4f36a6615e07e038bf8ff8be))
 - **utils:** add file categories enum for ml utilities ([8ce8d79](https://github.com/DaoChaShao/py-ml-basic/commit/8ce8d79cc32fcf0f6177ba481e8ea99e24ed8cd4))
 - **ml:** enhance preprocessor with distance metrics and grid search tuning ([ec0626f](https://github.com/DaoChaShao/py-ml-basic/commit/ec0626ff205bab2d3891beb09b098a8ceecd05e5))
 - **ml:** add machine learning estimators suite with base protocol ([006bc18](https://github.com/DaoChaShao/py-ml-basic/commit/006bc1859e58087ca33c68a33ea8016906cacd75))
@@ -105,6 +108,9 @@
 
 ### Code Refactoring
 
+- **ml:** clean up KNN estimator implementation ([db8369e](https://github.com/DaoChaShao/py-ml-basic/commit/db8369e0c50f7812afb0619c95784874ad94da3f))
+- **ml:** clean up base estimator module ([cc0797a](https://github.com/DaoChaShao/py-ml-basic/commit/cc0797a028995568427bb5bb63c938aa2052c4d0))
+- **ml:** restructure machine learning modules and add core utilities ([b9b61f4](https://github.com/DaoChaShao/py-ml-basic/commit/b9b61f4027b5d7c18c0971476e8cc3b2f1ab239d))
 - **models:** move sdg to a new package ([9f65518](https://github.com/DaoChaShao/py-ml-basic/commit/9f655188a1624e445032784f6065385097e38985))
 - **models:** move ridge to a new package ([2eedc7a](https://github.com/DaoChaShao/py-ml-basic/commit/2eedc7a22dac033416a07675c06a31f75ac45f71))
 - **models:** update model serialization structure and add penalty tracking ([78df9ac](https://github.com/DaoChaShao/py-ml-basic/commit/78df9acb8f8498fa19b9a265acf8d66c081e1af9))
