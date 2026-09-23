@@ -187,3 +187,14 @@ class RegPenalties(StrEnum):
     L2 = "l2"
     L1 = "l1"
     ELASTICNET = "elasticnet"
+
+
+@unique
+class LogisticSolvers(StrEnum):
+    """ Supported solvers for LogisticRegression in Scikit-Learn. """
+    LBFGS = "lbfgs"
+    SAGA = "saga"
+    SAG = "sag"
+    LIBLINEAR = "liblinear"
+    NEWTON_CG = "newton-cg"
+    NEWTON_CHOLESKY = "newton-cholesky"
