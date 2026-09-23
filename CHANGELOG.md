@@ -5,6 +5,11 @@
 
 ### Features
 
+- **deps:** add colorama and tqdm dependencies ([1c793de](https://github.com/DaoChaShao/py-ml-basic/commit/1c793de2ff4f4c49c9a7f23fa9ef519013d6bcfd))
+- **utils:** add LogisticSolvers enum for scikit-learn logistic regression ([9567a0b](https://github.com/DaoChaShao/py-ml-basic/commit/9567a0b96e5427114ceb4f39383a9686e1bb23f8))
+- **ml:** add logistic regression classifier wrapper ([4601112](https://github.com/DaoChaShao/py-ml-basic/commit/4601112c419cd266f7b7ff1c96a06b9d175a11b0))
+- **utils:** add logistic regression classifier to estimators module ([d6d0857](https://github.com/DaoChaShao/py-ml-basic/commit/d6d0857ec9b60e752ae0a95676ab4c40fc7ef9e7))
+- **ml:** add logistic regression implementation for breast cancer classification ([bae208d](https://github.com/DaoChaShao/py-ml-basic/commit/bae208d367f529ce3d9f16fb8acecd5761fba799))
 - **ml:** add ElasticNet regression estimator and utilities ([f628d4d](https://github.com/DaoChaShao/py-ml-basic/commit/f628d4ddad4aeaf797558f551df38b98a5f4e678))
 - **ml:** add ElasticNet regression estimator wrapper ([c0ba4b8](https://github.com/DaoChaShao/py-ml-basic/commit/c0ba4b8407d389be0476e738686b7a1ce5a7b3ba))
 - **ml:** add ElasticNet regression estimator to ML utilities ([37f3abf](https://github.com/DaoChaShao/py-ml-basic/commit/37f3abfdc94f59d010452c69f6f9bc6770111611))
@@ -76,6 +81,8 @@
 
 ### Bug Fixes
 
+- **ml:** correct string formatting in SGD estimator repr method ([59ee720](https://github.com/DaoChaShao/py-ml-basic/commit/59ee72062188038ca85b2dd5eabce3b0fcb5cc63))
+- **ml:** correct string formatting in KNN estimator repr method ([80e46c5](https://github.com/DaoChaShao/py-ml-basic/commit/80e46c550977169b3d873d25ec7b828eb2398dda))
 - **model:** update model file extension from .pt to .cls ([17d89de](https://github.com/DaoChaShao/py-ml-basic/commit/17d89dee845e386a1d75229d1dd71d000e6a1520))
 
 ### Chore
@@ -107,8 +114,26 @@
 - **readme:** add Chinese language README with privacy and setup guides ([6a2701e](https://github.com/DaoChaShao/py-ml-basic/commit/6a2701e7200145b3f495ce051cb7abdea8004780))
 - **readme:** add comprehensive README with privacy notice and setup instructions ([b973975](https://github.com/DaoChaShao/py-ml-basic/commit/b973975cd77afba2057c8e9a8086931fa260f9a7))
 
+### Build
+
+- **deps:** add tqdm dependency to project ([37af37a](https://github.com/DaoChaShao/py-ml-basic/commit/37af37aaaaa1855c55dfe97076de7231936b1ddc))
+
 ### Code Refactoring
 
+- **ml:** rename polynomial degree tuning function and add classification support ([51bb39a](https://github.com/DaoChaShao/py-ml-basic/commit/51bb39a7585017ef7977b4be4d392528dd3a0fc9))
+- **ml:** rename regression diagnosis function and add classification diagnosis ([e23cf39](https://github.com/DaoChaShao/py-ml-basic/commit/e23cf3931b02a6a322be23627aae6120cb981f27))
+- **utils/ml/estimators:** rename _l1_ratio to _ratio in ElasticNet class ([4bc2f56](https://github.com/DaoChaShao/py-ml-basic/commit/4bc2f565766b0ed8e19143784ac77dbecbe59762))
+- **ml:** rename error_thresholds parameter to reg_error_thresholds in base estimator ([1960ae9](https://github.com/DaoChaShao/py-ml-basic/commit/1960ae9b3d2d43a4468c5b59ecc7ed3b83d75ad2))
+- **utils/ml:** separate classification and regression functions in ml utilities ([34e16a7](https://github.com/DaoChaShao/py-ml-basic/commit/34e16a752b35f9603ebe62e5288497ca9963328e))
+- **utils:** update regression function names and parameters ([d124c13](https://github.com/DaoChaShao/py-ml-basic/commit/d124c13d385d75957bb4ba052e26cdf5ea23547e))
+- **utils:** rename regression functions and update parameter names ([8f736bd](https://github.com/DaoChaShao/py-ml-basic/commit/8f736bd0071852cb99773029aac0a92d316b99e7))
+- **diabetes-reg:** update function name and parameter for regression tuning ([d863016](https://github.com/DaoChaShao/py-ml-basic/commit/d863016bb252215f581106944b13085379ed8743))
+- **diabetes-reg:** rename degree tuning function and update error threshold parameter ([6b19ad8](https://github.com/DaoChaShao/py-ml-basic/commit/6b19ad8c0f6fda7a31681b1f85495b780a297f5e))
+- **diabetes-regression:** update function names and parameter for regression tuning ([3ec6dec](https://github.com/DaoChaShao/py-ml-basic/commit/3ec6dec834130870e53a50b79388b68b560af128))
+- **ml:** rename degree tuning function and update error threshold parameter ([ffc296d](https://github.com/DaoChaShao/py-ml-basic/commit/ffc296db71a86a4f2ea46f1c0557dcbf325f1c2b))
+- **model:** update regression error threshold parameter name ([78a1c14](https://github.com/DaoChaShao/py-ml-basic/commit/78a1c14f6c97c49c358fd2ec38bd99ea3f8ff27c))
+- **model:** update KNN inference parameter name ([5f96706](https://github.com/DaoChaShao/py-ml-basic/commit/5f96706cf71a740ac714603c65e774cc0ea4ec3d))
+- **ml:** update regression estimators with pydantic validation and parameter renaming ([ed56f76](https://github.com/DaoChaShao/py-ml-basic/commit/ed56f76326b7864d04da69b39cc9d24c82459ea8))
 - **ml:** update SGD regressor with pydantic validation and parameter renaming ([b9c3f12](https://github.com/DaoChaShao/py-ml-basic/commit/b9c3f120cb9715d7004bdef3a3e2e329ac3759ff))
 - **ml:** update ridge regression estimator with pydantic validation ([72cb34b](https://github.com/DaoChaShao/py-ml-basic/commit/72cb34b044dfbdf3a44d78c782540d2359b533e4))
 - **ml:** update Lasso regression estimator with Pydantic validation ([063a56a](https://github.com/DaoChaShao/py-ml-basic/commit/063a56ae738e902b5ad8e3be629015469af319de))
