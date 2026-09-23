@@ -172,5 +172,5 @@ class SGDReg(Base):
             f"epochs={self._epochs}, "
             f"randomness={self._randomness}, "
             f"lr_category={self._lr_category.value}, "
-            f"fitted={self._fitted}"
+            f"fitted={self._fitted})"
         )
