@@ -16,13 +16,13 @@ from sklearn.utils import Bunch
 from utils import green, red
 from utils.ml import (
     FeaturesRobustScaler,
-    LassoReg,
     Missions,
     expand_polynomial_features,
     get_reg_labels_distribution,
     split_data,
     tune_optimal_degree,
 )
+from utils.ml.estimators import LassoReg
 
 
 def init_diabetes() -> Bunch:
