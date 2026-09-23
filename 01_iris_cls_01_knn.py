@@ -16,7 +16,6 @@ from sklearn.utils import Bunch
 
 from utils import green, red
 from utils.ml import (
-    KNN,
     FeaturesStandardiser,
     IrisFeatures,
     IrisLabels,
@@ -25,6 +24,7 @@ from utils.ml import (
     get_cls_labels_distribution,
     split_data,
 )
+from utils.ml.estimators import KNN
 
 
 @validate_call
