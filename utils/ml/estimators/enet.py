@@ -17,21 +17,22 @@ from .base import Base
 
 
 class ElasticNetReg(Base):
+    """ ElasticNet (L1 + L2 Regularised) Regression Estimator Wrapper. """
 
     @validate_call
     def __init__(
             self,
             *,
-            alpha: float = 1.0,
+            penalty_strength: float = Field(1.0, gt=0, description="Bigger strength, stronger regularisation."),
             l1_ratio: float = Field(0.5, ge=0, le=1, description="l1_ratio = 1 is Lasso, l1_ratio = 0 is Ridge."),
             is_intercept: bool = True,
-            epochs: int = 1_000,
+            epochs: int = Field(1_000, gt=0, description="Maximum number of iterations for coordinate descent."),
             randomness: int = 27,
     ) -> None:
         """
         Initialise the ElasticNet Regression estimator.
 
-        :param alpha: Constant that multiplies the penalty terms. Defaults to 1.0.
+        :param penalty_strength: Constant that multiplies the penalty terms. Defaults to 1.0.
         :param l1_ratio: ElasticNet mixing parameter (0 <= l1_ratio <= 1).
         :param is_intercept: Whether to calculate the intercept for this model.
         :param epochs: Maximum number of iterations for coordinate descent.
@@ -39,7 +40,7 @@ class ElasticNetReg(Base):
         :return: None
         """
         super().__init__()
-        self._alpha: float = alpha
+        self._strength: float = penalty_strength
         self._l1_ratio: float = l1_ratio
         self._is_intercept: bool = is_intercept
         self._epochs: int = epochs
@@ -55,7 +56,7 @@ class ElasticNetReg(Base):
         :return: None
         """
         self._model = ElasticNet(
-            alpha=self._alpha,
+            alpha=self._strength,
             l1_ratio=self._l1_ratio,
             fit_intercept=self._is_intercept,
             max_iter=self._epochs,
@@ -72,7 +73,7 @@ class ElasticNetReg(Base):
         :return: None
         """
         if self._model is None:
-            raise RuntimeError("Estimator has not been initialized.")
+            raise RuntimeError("Estimator has not been initialised.")
         self._model.fit(features, labels)
         self._fitted = True
 
@@ -85,19 +86,19 @@ class ElasticNetReg(Base):
         :return: The predicted labels.
         """
         if self._model is None:
-            raise RuntimeError("Estimator has not been initialized.")
+            raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.predict(features)
 
     @property
-    def alpha(self) -> float:
+    def penalty_strength(self) -> float:
         """
         Get the regularisation strength (alpha).
 
         :return: The alpha value.
         """
-        return self._alpha
+        return self._strength
 
     @property
     def l1_ratio(self) -> float:
@@ -116,7 +117,7 @@ class ElasticNetReg(Base):
         :return: The regression coefficients.
         """
         if self._model is None:
-            raise RuntimeError("Estimator has not been initialized.")
+            raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.coef_
@@ -128,7 +129,9 @@ class ElasticNetReg(Base):
 
         :return: The regression intercept value or None if disabled.
         """
-        if not self._fitted or self._model is None:
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+        if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         if not self._is_intercept:
             return None
@@ -141,8 +144,8 @@ class ElasticNetReg(Base):
         :return: The string representation.
         """
         return (
-            f"ElasticReg("
-            f"alpha={self._alpha}, "
+            f"ElasticNetReg("
+            f"penalty_strength={self._strength}, "
             f"l1_ratio={self._l1_ratio}, "
             f"intercept={self._is_intercept}, "
             f"epochs={self._epochs}, "
