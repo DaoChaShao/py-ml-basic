@@ -100,15 +100,6 @@ class KNN(Base):
         return self._model.predict_proba(features)
 
     @property
-    def mission(self) -> Missions:
-        """
-        Get the mode of the KNN algorithm.
-
-        :return: The mode of the KNN algorithm.
-        """
-        return self._mission
-
-    @property
     def neighbours(self) -> int:
         """
         Get the number of neighbors considered for classification or regression.
