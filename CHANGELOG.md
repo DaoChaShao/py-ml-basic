@@ -5,6 +5,10 @@
 
 ### Features
 
+- **utils:** add file categories enum for ml utilities ([8ce8d79](https://github.com/DaoChaShao/py-ml-basic/commit/8ce8d79cc32fcf0f6177ba481e8ea99e24ed8cd4))
+- **ml:** enhance preprocessor with distance metrics and grid search tuning ([ec0626f](https://github.com/DaoChaShao/py-ml-basic/commit/ec0626ff205bab2d3891beb09b098a8ceecd05e5))
+- **ml:** add machine learning estimators suite with base protocol ([006bc18](https://github.com/DaoChaShao/py-ml-basic/commit/006bc1859e58087ca33c68a33ea8016906cacd75))
+- **ml:** add comprehensive regression models and utilities ([4a0f8ab](https://github.com/DaoChaShao/py-ml-basic/commit/4a0f8abefcdf6a39d43522d5d766d2f904374006))
 - **ml:** add new enum types for ML configurations ([c23a310](https://github.com/DaoChaShao/py-ml-basic/commit/c23a31084760b398376ad3bc988d9bd12c3d71f9))
 - **ml:** add penalty parameter to SGD regression implementation ([402bbae](https://github.com/DaoChaShao/py-ml-basic/commit/402bbae321d60354065e59417ebcf3e4d90b325d))
 - **ml:** add Ridge regression implementation ([4a6ba65](https://github.com/DaoChaShao/py-ml-basic/commit/4a6ba6512d58f3551214bbe509f3522bbbf34a6f))
@@ -72,6 +76,7 @@
 
 ### Chore
 
+- **ml:** add gitignore for ml estimators module ([aa12304](https://github.com/DaoChaShao/py-ml-basic/commit/aa123049c2abb431ca60c0add11badedf9da0b16))
 - **docs:** update file descriptions and reorganize imports in ML modules ([1002a1e](https://github.com/DaoChaShao/py-ml-basic/commit/1002a1e04ccb70ce3219ab5b4b581e75e6055390))
 - **main:** update file description comment ([18652ba](https://github.com/DaoChaShao/py-ml-basic/commit/18652ba5100fa4eddd7d8b8c94aac80526d4bf76))
 - **highlighter:** update file description comment ([d9e9568](https://github.com/DaoChaShao/py-ml-basic/commit/d9e95688e5a1dc80361cd55fa84edc74928bc282))
@@ -100,6 +105,25 @@
 
 ### Code Refactoring
 
+- **models:** move sdg to a new package ([9f65518](https://github.com/DaoChaShao/py-ml-basic/commit/9f655188a1624e445032784f6065385097e38985))
+- **models:** move ridge to a new package ([2eedc7a](https://github.com/DaoChaShao/py-ml-basic/commit/2eedc7a22dac033416a07675c06a31f75ac45f71))
+- **models:** update model serialization structure and add penalty tracking ([78df9ac](https://github.com/DaoChaShao/py-ml-basic/commit/78df9acb8f8498fa19b9a265acf8d66c081e1af9))
+- **utils:** move ols estimator to dedicated estimators module ([a0eb5d9](https://github.com/DaoChaShao/py-ml-basic/commit/a0eb5d9ee024ac88cfef175606e1334817bc0b37))
+- **utils:** move lasso estimator to dedicated estimators module ([c548592](https://github.com/DaoChaShao/py-ml-basic/commit/c5485924acbc65283f022501a17fee6af86b60cf))
+- **utils:** move KNN estimator to dedicated estimators module ([ad39409](https://github.com/DaoChaShao/py-ml-basic/commit/ad39409e107800fc750ffddbbbac7bca26e79b62))
+- **utils:** move ML base class to estimators module and remove grid search function ([8079606](https://github.com/DaoChaShao/py-ml-basic/commit/807960678117cad91ff12316e121e23be1a78e8b))
+- **utils/ml:** restructure ml module imports and documentation ([0808ffd](https://github.com/DaoChaShao/py-ml-basic/commit/0808ffde4201fe383a4060e9defb3bd852b6234c))
+- **diabetes:** update RidgeReg import path ([4bcd7b8](https://github.com/DaoChaShao/py-ml-basic/commit/4bcd7b85689db33c3c1f28cd8ae5a1dcc5497d3f))
+- **diabetes:** reorganize LassoReg import to proper module ([e520e00](https://github.com/DaoChaShao/py-ml-basic/commit/e520e007d0039ac7b65807c9513f6517ced3d458))
+- **diabetes:** update LassoReg import path ([6a7b36a](https://github.com/DaoChaShao/py-ml-basic/commit/6a7b36a02d0606654b154a46b7b3bec8fd86eaf9))
+- **diabetes:** update SGDReg import location ([6513c1c](https://github.com/DaoChaShao/py-ml-basic/commit/6513c1c6f6e9c956b8ec845eb151b78e17db86a1))
+- **diabetes:** update OLSReg import path ([29c2e88](https://github.com/DaoChaShao/py-ml-basic/commit/29c2e88fdebf62ea09d37f0266a0282ea71c69a7))
+- **utils:** update OLSReg import path in california regression script ([aeff228](https://github.com/DaoChaShao/py-ml-basic/commit/aeff22870c38233fc7bf5faddd641317a5ee58b8))
+- **utils:** update OLSReg import path in california regression example ([c7c377d](https://github.com/DaoChaShao/py-ml-basic/commit/c7c377d6d9d68ef1009de14811683bf02c9ad8c6))
+- **california_reg:** update KNN import location ([5e4825d](https://github.com/DaoChaShao/py-ml-basic/commit/5e4825db09b328b2a77e3b79375b387a17ef6fa5))
+- **digits:** update KNN import path and model timestamp ([58d3f2d](https://github.com/DaoChaShao/py-ml-basic/commit/58d3f2d0173c5464063d45f09a7d347c7338edb0))
+- **digits:** update KNN import location ([6e948e4](https://github.com/DaoChaShao/py-ml-basic/commit/6e948e47d0e46645150ab4e4a7e0da428f06da3a))
+- **iris_cls:** update KNN import path ([b10cea0](https://github.com/DaoChaShao/py-ml-basic/commit/b10cea03b57fe14cc7d1f27056e2d4b49bb626cf))
 - **utils/ml:** rename linear regression module to OLS ([254651f](https://github.com/DaoChaShao/py-ml-basic/commit/254651f73cb8692f68cd3132a20c45787b41e905))
 - **ml:** replace LinearReg with OLSReg for diabetes regression model ([c60a10f](https://github.com/DaoChaShao/py-ml-basic/commit/c60a10f9c52fdf60eb781fa76254737ed481506c))
 - **ml:** replace LinearReg with OLSReg in polynomial regression ([0adc612](https://github.com/DaoChaShao/py-ml-basic/commit/0adc61244723322d9359edcc36abe337e923e5e5))
