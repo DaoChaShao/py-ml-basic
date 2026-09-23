@@ -6,7 +6,6 @@
 # @File     :   preprocessor.py
 # @Desc     :
 
-from enum import StrEnum, unique
 from pathlib import Path
 from random import getstate, setstate
 from random import seed as rnd_seed
@@ -18,7 +17,13 @@ from numpy import ndarray
 from numpy import random as np_random
 from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, read_csv, read_excel
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import (
+    GridSearchCV,
+    KFold,
+    StratifiedKFold,
+    train_test_split,
+)
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.preprocessing import (
     LabelEncoder,
     MinMaxScaler,
@@ -31,14 +36,14 @@ from sklearn.utils.class_weight import compute_class_weight
 from ..constants import WIDTH
 from ..decorator import timer
 from ..helper import Access
-from ..highlighter import lines
-from .types import Missions
-
-
-@unique
-class FileCat(StrEnum):
-    CSV = "csv"
-    EXCEL = "excel"
+from ..highlighter import lines, stars
+from .types import (
+    ClsScoreStrategies,
+    FileCategories,
+    GridSearchTunesResponse,
+    Missions,
+    RegScoreStrategies,
+)
 
 
 class NumpySeed:
@@ -142,7 +147,7 @@ class FileLoader(Access):
             self,
             filepath: str | Path,
             *,
-            file_category: str | FileCat | Literal["csv", "excel"] = FileCat.CSV,
+            file_category: str | FileCategories | Literal["csv", "excel"] = FileCategories.CSV,
             display: bool = True
     ) -> None:
         """
@@ -155,7 +160,7 @@ class FileLoader(Access):
         """
         super().__init__()
         self._path: Path = Path(filepath)
-        self._type: FileCat = FileCat(file_category)
+        self._type: FileCategories = FileCategories(file_category)
         self._display: bool = display
         self._dataset: DataFrame | None = None
 
@@ -167,9 +172,9 @@ class FileLoader(Access):
         :return: None
         """
         match self._type:
-            case FileCat.CSV:
+            case FileCategories.CSV:
                 self._dataset = read_csv(self._path.resolve())
-            case FileCat.EXCEL:
+            case FileCategories.EXCEL:
                 self._dataset = read_excel(self._path.resolve())
             case _:
                 raise ValueError(f"Invalid file category: {self._type}")
@@ -697,6 +702,124 @@ class FeaturesRobustScaler(Access):
         )
 
 
+def euclidean_distance(x1: Any, x2: Any) -> float:
+    """
+    Calculate the Euclidean distance between two points.
+
+    :param x1: The first point.
+    :param x2: The second point.
+    :return: The Euclidean distance between the two points.
+    """
+    return sum((a - b) ** 2 for a, b in zip(x1, x2, strict=True)) ** 0.5
+
+
+def manhattan_distance(x1: Any, x2: Any) -> float:
+    """
+    Calculate the Manhattan distance between two points.
+
+    :param x1: The first point.
+    :param x2: The second point.
+    :return: The Manhattan distance between the two points.
+    """
+    return sum(abs(a - b) for a, b in zip(x1, x2, strict=True))
+
+
+def chebyshev_distance(x1: Any, x2: Any) -> float:
+    """
+    Calculate the Chebyshev distance between two points.
+
+    :param x1: The first point.
+    :param x2: The second point.
+    :return: The Chebyshev distance between the two points.
+    """
+    return max(abs(a - b) for a, b in zip(x1, x2, strict=True))
+
+
+def minkowski_distance(x1: Any, x2: Any, p: float) -> float:
+    """
+    Calculate the Minkowski distance between two points.
+    - If p = 1, it becomes the Manhattan distance.
+    - If p = 2, it becomes the Euclidean distance.
+    - If p = infinity, it becomes the Chebyshev distance.
+
+    :param x1: The first point.
+    :param x2: The second point.
+    :param p: The order of the Minkowski distance.
+    :return: The Minkowski distance between the two points.
+    """
+    if p < 1:
+        raise ValueError("p must be greater than or equal to 1.")
+    return sum(abs(a - b) ** p for a, b in zip(x1, x2, strict=True)) ** (1 / p)
+
+
+def grid_search_tunes(
+        train_features: DataFrame,
+        train_labels: Series,
+        grid_params: dict[str, list[Any]],
+        *,
+        mission: str | Missions | Literal["cls", "reg"] = Missions.CLS,
+        cv_splits: int = 5,
+        cv_shuffle: bool = True,
+        randomness: int = 27,
+        score_strategy: str | ClsScoreStrategies | RegScoreStrategies | Literal[
+            "accuracy", "f1_weighted", "f1_macro", "precision_weighted", "recall_weighted", "roc_auc_ovr",
+            "neg_root_mean_squared_error", "neg_mean_squared_error", "neg_mean_absolute_error", "r2", "neg_mean_absolute_percentage_error"
+        ] = ClsScoreStrategies.F1_WEIGHTED,
+        display: bool = False
+) -> GridSearchTunesResponse:
+    """
+    Perform Grid Search CV to find optimal hyperparameters on training data.
+
+    :param train_features: Training feature matrix.
+    :param train_labels: Training label vector.
+    :param grid_params: Dictionary with parameters names as keys and lists of parameter settings to try as values.
+    :param mission: Type of machine learning task ("cls" for classification, "reg" for regression).
+    :param cv_splits: Number of CV folds for tuning (default: 5).
+    :param cv_shuffle: Whether to shuffle the training data before splitting (default: True).
+    :param randomness: Random state for K-Fold splitting.
+    :param score_strategy: Strategy to evaluate the performance on the cross-validated data.
+    :param display: Whether to print formatted best parameters and score.
+    :return: Dictionary with best_params and best_score.
+    """
+    is_cls: bool = Missions(mission) == Missions.CLS
+
+    base_estimator = KNeighborsClassifier() if is_cls else KNeighborsRegressor()
+
+    if is_cls:
+        _cv = StratifiedKFold(n_splits=cv_splits, shuffle=cv_shuffle, random_state=randomness)
+    else:
+        _cv = KFold(n_splits=cv_splits, shuffle=cv_shuffle, random_state=randomness)
+
+    _searcher = GridSearchCV(
+        estimator=base_estimator,
+        param_grid=grid_params,
+        cv=_cv,
+        scoring=ClsScoreStrategies(score_strategy) if is_cls else RegScoreStrategies(score_strategy),
+        n_jobs=-1
+    )
+    _searcher.fit(train_features, train_labels)
+
+    best_params: dict = _searcher.best_params_
+    best_score: float = float(_searcher.best_score_)
+
+    if display:
+        stars()
+        print(f"GridSearchCV Hyperparameter Tuning Results ({cv_splits}-Fold CV)")
+        lines()
+        print(f"Best Scoring Strategy   : {score_strategy}")
+        print(f"Best CV Score           : {best_score:.4f}")
+        print("Best Hyperparameters    :")
+        for param, val in best_params.items():
+            print(f"- {param:<22}: {val}")
+        stars()
+        print()
+
+    return GridSearchTunesResponse(
+        best_params=best_params,
+        best_score=best_score
+    )
+
+
 @timer
 def tune_optimal_degree(
         linear: Any,
@@ -814,7 +937,6 @@ def calc_labels_weight(labels: Any, *, display: bool = True) -> ndarray:
 
     if display:
         print(_weight)
-
     return _weight
 
 
