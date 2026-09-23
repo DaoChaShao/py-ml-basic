@@ -17,6 +17,7 @@ from numpy import ndarray
 from numpy import random as np_random
 from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, read_csv, read_excel
+from sklearn.metrics import f1_score
 from sklearn.model_selection import (
     GridSearchCV,
     KFold,
@@ -821,8 +822,8 @@ def grid_search_tunes(
 
 
 @timer
-def tune_optimal_degree(
-        linear: Any,
+def tune_optimal_reg_degree(
+        reg_estimators: Any,
         *,
         train_features: DataFrame, train_labels: Series,
         valid_features: DataFrame, valid_labels: Series,
@@ -832,7 +833,7 @@ def tune_optimal_degree(
     """
     Search for the optimal polynomial degree for linear regression.
 
-    :param linear: An instance of the Linear model wrapper.
+    :param reg_estimators: An instance of the Linear model wrapper.
     :param train_features: Features for training.
     :param train_labels: Labels for training.
     :param valid_features: Features for validation.
@@ -857,21 +858,78 @@ def tune_optimal_degree(
             columns=_poly.get_feature_names_out(valid_features.columns)
         )
 
-        linear.train(_train_poly, train_labels)
-        _predictions = linear.predict(_valid_poly)
+        reg_estimators.train(_train_poly, train_labels)
+        _predictions = reg_estimators.predict(_valid_poly)
 
         if display:
             print(f"Evaluating Polynomial Degree: {degree!r}.")
 
-        _metrics = linear.eval_reg(valid_labels, _predictions, display=display)
+        _metrics = reg_estimators.eval_reg(valid_labels, _predictions, display=display)
         current_rmse = _metrics.get("rmse", float("inf"))
         if current_rmse < _best_rmse:
             _best_rmse = current_rmse
             _best_degree = degree
 
     if display:
+        lines()
         print(f"Best Polynomial Degree: {_best_degree}, Best RMSE: {_best_rmse:.4f}")
     return _best_degree, _best_rmse
+
+
+@timer
+def tune_optimal_cls_degree(
+        classifier: Any,
+        *,
+        train_features: DataFrame, train_labels: Series,
+        valid_features: DataFrame, valid_labels: Series,
+        degrees: list[int] | None = None,
+        display: bool = False
+) -> tuple[int, float]:
+    """
+    Search for the optimal polynomial degree for classification models.
+
+    :param classifier: An instance of the Classification model wrapper.
+    :param train_features: Features for training.
+    :param train_labels: Labels for training.
+    :param valid_features: Features for validation.
+    :param valid_labels: Labels for validation.
+    :param degrees: List of polynomial degrees to iterate over. Defaults to [1, 2, 3].
+    :param display: Whether to print metrics for each degree.
+    :return: A tuple of (best_degree, best_f1_score).
+    """
+    _degrees: list[int] = [1, 2, 3] if degrees is None else degrees
+    _best_f1: float = -1.0
+    _best_degree: int = _degrees[0]
+
+    for degree in _degrees:
+        _poly = PolynomialFeatures(degree=degree, include_bias=False)
+
+        _train_poly = DataFrame(
+            _poly.fit_transform(train_features),
+            columns=_poly.get_feature_names_out(train_features.columns)
+        )
+        _valid_poly = DataFrame(
+            _poly.transform(valid_features),
+            columns=_poly.get_feature_names_out(valid_features.columns)
+        )
+
+        classifier.train(_train_poly, train_labels)
+        _predictions = classifier.predict(_valid_poly)
+
+        # F1-Score: higher, better
+        current_f1 = f1_score(valid_labels, _predictions, average="weighted")
+
+        if display:
+            print(f"Polynomial Degree: {degree}, Weighted F1-Score: {current_f1:.4f}")
+
+        if current_f1 > _best_f1:
+            _best_f1 = current_f1
+            _best_degree = degree
+
+    if display:
+        lines()
+        print(f"Best Polynomial Degree: {_best_degree}, Best F1-Score: {_best_f1:.4f}")
+    return _best_degree, _best_f1
 
 
 @timer
