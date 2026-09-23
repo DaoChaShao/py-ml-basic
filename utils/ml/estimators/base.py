@@ -248,7 +248,3 @@ class Base(ABC, Access):
         if not _path.exists():
             raise FileNotFoundError(f"Model file not found at: {_path}")
         return load(_path)
-
-
-if __name__ == "__main__":
-    pass
