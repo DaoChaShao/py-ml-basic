@@ -20,12 +20,12 @@ from utils.ml import (
     Missions,
     RegLosses,
     RegPenalties,
-    SGDReg,
     expand_polynomial_features,
     get_reg_labels_distribution,
     split_data,
     tune_optimal_degree,
 )
+from utils.ml.estimators import SGDReg
 
 
 def init_diabetes() -> Bunch:
