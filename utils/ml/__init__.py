@@ -11,42 +11,35 @@
 Machine Learning Module - Comprehensive Toolkit
 ----------------------------------------------------------------
 This module provides a comprehensive suite of machine learning
-algorithms and data preprocessing utilities, including
-classifiers, distance metrics, file loading, label encoding,
-feature scaling, data splitting, and class weight computation.
+estimators, data preprocessing utilities, model evaluation,
+and pipeline diagnostics.
 ****************************************************************
 """
 
-from importlib.metadata import PackageNotFoundError, metadata
+__author__ = "Shawn Yu"
+__version__ = "0.1.0"
 
-from .base import Base, grid_search_tunes
-from .knn import (
-    KNN,
-    chebyshev_distance,
-    euclidean_distance,
-    manhattan_distance,
-    minkowski_distance,
-)
-from .lasso import LassoReg
-from .ols import OLSReg
 from .postprocessor import diagnose_fit
 from .preprocessor import (
     FeaturesNormaliser,
     FeaturesRobustScaler,
     FeaturesStandardiser,
-    FileCat,
+    FileCategories,
     FileLoader,
     NumpySeed,
     calc_labels_weight,
+    chebyshev_distance,
     encode_labels,
+    euclidean_distance,
     expand_polynomial_features,
     get_cls_labels_distribution,
     get_reg_labels_distribution,
+    grid_search_tunes,
+    manhattan_distance,
+    minkowski_distance,
     split_data,
     tune_optimal_degree,
 )
-from .ridge import RidgeReg
-from .sgd import SGDReg
 from .types import (
     AlphaCategories,
     AveStrategies,
@@ -63,46 +56,42 @@ from .types import (
     RegScoreStrategies,
 )
 
-try:
-    _meta = metadata("py-ml-basic")
-    __version__ = _meta.get("Version", "0.0.0")
-    __author__ = _meta.get("Author", "Shawn Yu")
-except PackageNotFoundError:
-    __author__ = "Shawn Yu"
-    __version__ = "0.1.0"
-
 __all__ = [
-    "Base",
-    "grid_search_tunes",
-
-    "KNN",
-    "euclidean_distance", "manhattan_distance", "chebyshev_distance", "minkowski_distance",
-
-    "LassoReg",
-
-    "OLSReg",
-
+    # Postprocessing & Diagnostics
     "diagnose_fit",
 
-    "FileCat",
-    "NumpySeed",
+    # Preprocessing & Utilities
+    "FeaturesNormaliser",
+    "FeaturesRobustScaler",
+    "FeaturesStandardiser",
+    "FileCategories",
     "FileLoader",
-    "get_cls_labels_distribution", "get_reg_labels_distribution",
-    "encode_labels",
-    "split_data",
-    "FeaturesNormaliser", "FeaturesStandardiser", "FeaturesRobustScaler",
-    "tune_optimal_degree", "expand_polynomial_features",
+    "NumpySeed",
     "calc_labels_weight",
+    "chebyshev_distance",
+    "encode_labels",
+    "euclidean_distance",
+    "expand_polynomial_features",
+    "get_cls_labels_distribution",
+    "get_reg_labels_distribution",
+    "grid_search_tunes",
+    "manhattan_distance",
+    "minkowski_distance",
+    "split_data",
+    "tune_optimal_degree",
 
-    "RidgeReg",
-
-    "SGDReg",
-
-    "Missions", "KNNMetrics",
-    "Languages",
-    "IrisFeatures", "IrisLabels",
+    # Preprocessing & Utilities
+    "AlphaCategories",
     "AveStrategies",
-    "ClsScoreStrategies", "RegScoreStrategies", "GridSearchTunesResponse",
     "CaliforniaFeatures",
-    "RegLosses", "AlphaCategories", "RegPenalties",
+    "ClsScoreStrategies",
+    "GridSearchTunesResponse",
+    "IrisFeatures",
+    "IrisLabels",
+    "KNNMetrics",
+    "Languages",
+    "Missions",
+    "RegLosses",
+    "RegPenalties",
+    "RegScoreStrategies",
 ]
