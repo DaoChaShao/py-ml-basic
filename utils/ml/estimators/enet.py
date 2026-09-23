@@ -41,7 +41,7 @@ class ElasticNetReg(Base):
         """
         super().__init__()
         self._strength: float = penalty_strength
-        self._l1_ratio: float = l1_ratio
+        self._ratio: float = l1_ratio
         self._is_intercept: bool = is_intercept
         self._epochs: int = epochs
         self._randomness: int = randomness
@@ -57,7 +57,7 @@ class ElasticNetReg(Base):
         """
         self._model = ElasticNet(
             alpha=self._strength,
-            l1_ratio=self._l1_ratio,
+            l1_ratio=self._ratio,
             fit_intercept=self._is_intercept,
             max_iter=self._epochs,
             random_state=self._randomness,
@@ -107,7 +107,7 @@ class ElasticNetReg(Base):
 
         :return: The l1_ratio value.
         """
-        return self._l1_ratio
+        return self._ratio
 
     @property
     def coefficient(self) -> Any:
@@ -146,7 +146,7 @@ class ElasticNetReg(Base):
         return (
             f"ElasticNetReg("
             f"penalty_strength={self._strength}, "
-            f"l1_ratio={self._l1_ratio}, "
+            f"l1_ratio={self._ratio}, "
             f"intercept={self._is_intercept}, "
             f"epochs={self._epochs}, "
             f"randomness={self._randomness}, "
