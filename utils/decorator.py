@@ -111,7 +111,7 @@ def clock(desc: str | None = None):
             :return: The return value of the original function.
             """
             _desc = desc or func.__name__
-            _authorise: bool = kwargs.pop("display", True)
+            _authorise: bool = kwargs.get("display", True)
 
             if not _authorise:
                 return func(*args, **kwargs)
@@ -171,6 +171,11 @@ def _build_wrapper(func, desc: str | None) -> Callable:
     @wraps(func)
     def wrapper(*args, **kwargs):
         _desc = desc or func.__name__
+        _authorise: bool = kwargs.get("display", True)
+
+        if not _authorise:
+            return func(*args, **kwargs)
+
         print("*" * WIDTH)
         print(f"The function named {_desc!r} is starting:")
         print("-" * WIDTH)
