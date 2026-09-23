@@ -23,7 +23,7 @@ from utils.ml import (
     expand_polynomial_features,
     get_reg_labels_distribution,
     split_data,
-    tune_optimal_degree,
+    tune_optimal_reg_degree,
 )
 from utils.ml.estimators import SGDReg
 
@@ -60,7 +60,7 @@ def main() -> None:
 
         sgd = SGDReg(loss=RegLosses.SQUARED_ERROR, penalty=RegPenalties.L2, lr_category=AlphaCategories.INVSCALING)
         degrees: list[int] = [1, 2, 3]
-        best_degree, best_rmse = tune_optimal_degree(
+        best_degree, best_rmse = tune_optimal_reg_degree(
             sgd,
             train_features=train_features, train_labels=train_labels,
             valid_features=valid_features, valid_labels=valid_labels,
@@ -104,7 +104,7 @@ def main() -> None:
         print(f"Row: {row} / {poly_prove_features.shape[0]}")
         status, pred_label = sgd.inference(
             poly_prove_features.iloc[row:row + 1], prove_labels.iloc[row],
-            mission=Missions.REG, error_thresholds=(curr_rmse, curr_rmse * 2),
+            mission=Missions.REG, reg_error_thresholds=(curr_rmse, curr_rmse * 2),
             display=False
         )
         if status:
