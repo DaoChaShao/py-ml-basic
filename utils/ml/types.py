@@ -13,6 +13,12 @@ from pydantic import BaseModel, Field
 
 
 @unique
+class FileCategories(StrEnum):
+    CSV = "csv"
+    EXCEL = "excel"
+
+
+@unique
 class Missions(StrEnum):
     """ Machine learning missions. """
     CLS = "cls"
