@@ -167,7 +167,7 @@ class Base(ABC, Access):
             sample_feature: DataFrame | Series, sample_label: Series,
             *,
             mission: str | Missions | Literal["cls", "reg"] = Missions.CLS,
-            error_thresholds: tuple[float, float] = (0.0, 1.0),
+            reg_error_thresholds: tuple[float, float] | None = None,
             display: bool = False
     ) -> tuple[bool, Any]:
         """
@@ -176,7 +176,7 @@ class Base(ABC, Access):
         :param sample_feature: 2D feature row (e.g. DataFrame.iloc[[row]])
         :param sample_label: The actual label value
         :param mission: Type of machine learning task ("cls" for classification, "reg" for regression).
-        :param error_thresholds: Error bounds (excellent_threshold, acceptable_threshold) used to rate prediction quality. 1 - 2 RMSE units
+        :param reg_error_thresholds: Error bounds (excellent_threshold, acceptable_threshold) used to rate prediction quality. 1 - 2 RMSE units
         :param display: Whether to display the inference result.
         :return: Tuple of (is_correct, prediction_label)
         """
@@ -194,13 +194,16 @@ class Base(ABC, Access):
                 return status, pred_label
 
             case Missions.REG:
+                if reg_error_thresholds is None:
+                    raise ValueError("reg_error_thresholds must be provided for regression tasks.")
+
                 error: float = abs(true_label - pred_label)
-                status: bool = error <= error_thresholds[1]
+                status: bool = error <= reg_error_thresholds[1]
 
                 if display:
-                    if error <= error_thresholds[0]:
+                    if error <= reg_error_thresholds[0]:
                         level = "Excellent"
-                    elif error <= error_thresholds[1]:
+                    elif error <= reg_error_thresholds[1]:
                         level = "Acceptable"
                     else:
                         level = "Unreasonable"
