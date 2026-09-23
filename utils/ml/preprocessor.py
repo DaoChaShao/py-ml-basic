@@ -259,6 +259,19 @@ class FileLoader(Access):
 
 
 @timer
+def summary_dataframe(data: DataFrame) -> None:
+    """
+    Print summary statistics of the data
+
+    :param data: DataFrame containing the data
+    :return: None
+    """
+    print(data.describe())
+    print(f"Missing Values: {data.isnull().sum()[data.isnull().sum() > 0]}")
+    print(f"Duplicated Rows: {data.duplicated().sum()}")
+
+
+@timer
 def get_cls_labels_distribution(
         labels: Series,
         *,
