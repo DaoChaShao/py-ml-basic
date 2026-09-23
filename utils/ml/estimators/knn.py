@@ -146,6 +146,5 @@ class KNN(Base):
             f"mission={self._mission.value!r}, "
             f"neighbours={self._neighbours!r}, "
             f"metric={self._metric.value!r}, "
-            f"p={self._p!r}"
-            f")"
+            f"p={self._p!r})"
         )
