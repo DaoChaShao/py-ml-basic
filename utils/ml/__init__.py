@@ -41,6 +41,7 @@ from .preprocessor import (
     manhattan_distance,
     minkowski_distance,
     split_data,
+    summary_dataframe,
     tune_optimal_cls_degree,
     tune_optimal_reg_degree,
 )
@@ -59,6 +60,11 @@ from .types import (
     RegLosses,
     RegPenalties,
     RegScoreStrategies,
+    TitanicFeatures,
+    TitanicLabels,
+    TreeClsCriteria,
+    TreeRegCriteria,
+    TreeSplitters,
 )
 
 __all__ = [
@@ -84,6 +90,7 @@ __all__ = [
     "manhattan_distance",
     "minkowski_distance",
     "split_data",
+    "summary_dataframe",
     "tune_optimal_cls_degree",
     "tune_optimal_reg_degree",
 
@@ -102,4 +109,9 @@ __all__ = [
     "RegLosses",
     "RegPenalties",
     "RegScoreStrategies",
+    "TitanicFeatures",
+    "TitanicLabels",
+    "TreeClsCriteria",
+    "TreeRegCriteria",
+    "TreeSplitters",
 ]
