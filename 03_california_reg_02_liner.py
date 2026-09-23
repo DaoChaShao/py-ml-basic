@@ -17,10 +17,10 @@ from utils import green, red
 from utils.ml import (
     FeaturesNormaliser,
     Missions,
-    OLSReg,
     get_reg_labels_distribution,
     split_data,
 )
+from utils.ml.estimators import OLSReg
 
 
 def init_california_housing() -> Bunch:
