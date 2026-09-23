@@ -12,8 +12,9 @@ from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
 from sklearn.linear_model import SGDRegressor
 
+from utils.ml.types import AlphaCategories, RegLosses, RegPenalties
+
 from .base import Base
-from .types import AlphaCategories, RegLosses, RegPenalties
 
 
 class SGDReg(Base):
