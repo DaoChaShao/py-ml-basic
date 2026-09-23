@@ -28,6 +28,7 @@ from .logistic import LogisticRegClassifier
 from .ols import OLSReg
 from .ridge import RidgeReg
 from .sgd import SGDReg
+from .trees import CARTree
 
 __all__ = [
     # Protocols
@@ -41,4 +42,5 @@ __all__ = [
     "OLSReg",
     "RidgeReg",
     "SGDReg",
+    "CARTree",
 ]
