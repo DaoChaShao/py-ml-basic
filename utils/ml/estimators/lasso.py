@@ -10,32 +10,35 @@ from typing import Any, override
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
+from pydantic import Field, validate_call
 from sklearn.linear_model import Lasso
 
 from .base import Base
 
 
 class LassoReg(Base):
+    """Lasso Regression Estimator Wrapper."""
 
+    @validate_call
     def __init__(
             self,
             *,
-            alpha: float = 1.0,
+            penalty_strength: float = Field(1.0, gt=0, description="Bigger strength, stronger regularisation."),
             is_intercept: bool = True,
-            epochs: int = 1_000,
+            epochs: int = Field(1_000, gt=0, description="Maximum number of iterations for coordinate descent."),
             randomness: int = 27,
     ) -> None:
         """
         Initialise the Lasso Regression estimator.
 
-        :param alpha: Constant that multiplies the L1 term. Defaults to 1.0.
+        :param penalty_strength: Constant that multiplies the L1 term. Defaults to 1.0.
         :param is_intercept: Whether to calculate the intercept for this model.
         :param epochs: Maximum number of iterations for coordinate descent.
         :param randomness: Seed for reproducible random state.
         :return: None
         """
         super().__init__()
-        self._alpha: float = alpha
+        self._strength: float = penalty_strength
         self._is_intercept: bool = is_intercept
         self._epochs: int = epochs
         self._randomness: int = randomness
@@ -50,7 +53,7 @@ class LassoReg(Base):
         :return: None
         """
         self._model = Lasso(
-            alpha=self._alpha,
+            alpha=self._strength,
             fit_intercept=self._is_intercept,
             max_iter=self._epochs,
             random_state=self._randomness,
@@ -66,7 +69,7 @@ class LassoReg(Base):
         :return: None
         """
         if self._model is None:
-            raise RuntimeError("Estimator has not been initialized.")
+            raise RuntimeError("Estimator has not been initialised.")
         self._model.fit(features, labels)
         self._fitted = True
 
@@ -79,19 +82,19 @@ class LassoReg(Base):
         :return: The predicted labels.
         """
         if self._model is None:
-            raise RuntimeError("Estimator has not been initialized.")
+            raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.predict(features)
 
     @property
-    def alpha(self) -> float:
+    def penalty_strength(self) -> float:
         """
         Get the regularisation strength (alpha).
 
         :return: The alpha value.
         """
-        return self._alpha
+        return self._strength
 
     @property
     def coefficient(self) -> Any:
@@ -101,7 +104,7 @@ class LassoReg(Base):
         :return: The regression coefficients.
         """
         if self._model is None:
-            raise RuntimeError("Estimator has not been initialized.")
+            raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.coef_
@@ -113,6 +116,8 @@ class LassoReg(Base):
 
         :return: The regression intercept value or None if disabled.
         """
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         if not self._is_intercept:
@@ -127,7 +132,7 @@ class LassoReg(Base):
         """
         return (
             f"LassoReg("
-            f"alpha={self._alpha}, "
+            f"penalty_strength={self._strength}, "
             f"intercept={self._is_intercept}, "
             f"epochs={self._epochs}, "
             f"randomness={self._randomness}, "
