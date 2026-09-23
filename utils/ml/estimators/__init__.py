@@ -21,6 +21,7 @@ __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
 from .base import Base
+from .enet import ElasticNetReg
 from .knn import KNN
 from .lasso import LassoReg
 from .ols import OLSReg
@@ -32,6 +33,7 @@ __all__ = [
     "Base",
 
     # Estimators
+    "ElasticNetReg",
     "KNN",
     "LassoReg",
     "OLSReg",
