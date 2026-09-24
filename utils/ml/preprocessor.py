@@ -7,9 +7,11 @@
 # @Desc     :
 
 from pathlib import Path
+from pandas import option_context
 from random import getstate, setstate
 from random import seed as rnd_seed
 from time import perf_counter
+from torch import Tensor, tensor, float32
 from typing import Any, Literal, Self
 
 from access_modifiers import protectedmethod
@@ -17,6 +19,7 @@ from numpy import ndarray
 from numpy import random as np_random
 from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, read_csv, read_excel
+from sklearn.impute import SimpleImputer
 from sklearn.metrics import f1_score
 from sklearn.model_selection import (
     GridSearchCV,
@@ -25,9 +28,12 @@ from sklearn.model_selection import (
     train_test_split,
 )
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import (
     LabelEncoder,
     MinMaxScaler,
+    OneHotEncoder,
     PolynomialFeatures,
     RobustScaler,
     StandardScaler,
@@ -43,7 +49,9 @@ from .types import (
     FileCategories,
     GridSearchTunesResponse,
     Missions,
+    OneHotEncoderStrategies,
     RegScoreStrategies,
+    SimpleImputerStrategies,
 )
 
 
@@ -259,16 +267,212 @@ class FileLoader(Access):
 
 
 @timer
-def summary_dataframe(data: DataFrame) -> None:
+def summary_dataframe(data: DataFrame, *, display: bool = True) -> None:
     """
     Print summary statistics of the data
 
     :param data: DataFrame containing the data
+    :param display: Whether to print the summary in console.
     :return: None
     """
-    print(data.describe())
-    print(f"Missing Values: {data.isnull().sum()[data.isnull().sum() > 0]}")
-    print(f"Duplicated Rows: {data.duplicated().sum()}")
+    with option_context(
+            "display.max_columns", None,
+            "display.width", 1_000,
+            "display.max_colwidth", None
+    ):
+        print(data.head())
+        lines()
+        print(f"Data Amount: {len(data)}.")
+        lines()
+        print(data.describe())
+        lines()
+        print(f"Missing Values:\n{data.isnull().sum()[data.isnull().sum() > 0]}")
+        lines()
+        print(f"Duplicated Rows: {data.duplicated().sum()}")
+
+
+class FeaturesTransformer(Access):
+
+    def __init__(
+            self,
+            features: DataFrame,
+            *,
+            impute_num_strategy: str | SimpleImputerStrategies | Literal[
+                "mean", "median", "most_frequent", "constant"
+            ] = SimpleImputerStrategies.MEDIAN,
+            impute_cat_strategy: str | SimpleImputerStrategies | Literal[
+                "mean", "median", "most_frequent", "constant"
+            ] = SimpleImputerStrategies.MOST_FREQUENT,
+            one_hot_strategy: str | OneHotEncoderStrategies | Literal[
+                "ignore", "error", "infrequent_if_exist"
+            ] = OneHotEncoderStrategies.IGNORE,
+            is_tensor: bool = False
+    ) -> None:
+        """
+        Initialise the FeaturesTransformer pipeline for feature scaling, imputation, and encoding.
+
+        :param features: Input DataFrame containing features.
+        :param impute_num_strategy: Imputation strategy for numerical columns.
+        :param impute_cat_strategy: Imputation strategy for categorical columns.
+        :param one_hot_strategy: OneHotEncoder handle_unknown strategy.
+        :param is_tensor: Whether to convert transformed outputs to PyTorch Tensor.
+        :return: None
+        """
+        super().__init__()
+        self._features: DataFrame = features
+        self._imputer_num_strategy: SimpleImputerStrategies = SimpleImputerStrategies(impute_num_strategy)
+        self._imputer_cat_strategy: SimpleImputerStrategies = SimpleImputerStrategies(impute_cat_strategy)
+        self._one_hot_strategy: OneHotEncoderStrategies = OneHotEncoderStrategies(one_hot_strategy)
+        self._is_tensor: bool = is_tensor
+        self._transformer: ColumnTransformer | None = None
+        self._transformed_data: DataFrame | Tensor | None = None
+
+    @protectedmethod
+    def _init_transformer(self) -> ColumnTransformer:
+        """
+        Divide the columns into numerical and categorical types and build ColumnTransformer.
+
+        :return: Initialised ColumnTransformer instance.
+        """
+        # Divide the columns into numerical and categorical types
+        _cols_num: list[str] = self._features.select_dtypes(
+            include=["int32", "int64", "float32", "float64"],
+        ).columns.tolist()
+        _cols_cat: list[str] = self._features.select_dtypes(
+            include=["object", "category"],
+        ).columns.tolist()
+
+        # Set a list of transformers to collect the pipelines
+        _transformers: list[tuple[str, Pipeline, list[str]]] = []
+
+        # Establish a pipe to process numerical features and handle missing values only if they exist
+        if _cols_num:
+            pipe_num = Pipeline(steps=[
+                ("imputer", SimpleImputer(strategy=self._imputer_num_strategy.value)),
+                ("scaler", StandardScaler()),
+            ])
+            _transformers.append(("num", pipe_num, _cols_num))
+
+        # Establish a pipe to process categorical features and handle missing values only if they exist
+        if _cols_cat:
+            pipe_cat = Pipeline(steps=[
+                ("imputer", SimpleImputer(strategy=self._imputer_cat_strategy.value)),
+                ("encoder", OneHotEncoder(handle_unknown=self._one_hot_strategy.value))
+            ])
+            _transformers.append(("cat", pipe_cat, _cols_cat))
+        # Establish a column transformer to process numerical and categorical features
+        return ColumnTransformer(transformers=_transformers)
+
+    def __enter__(self) -> Self:
+        self._transformer: ColumnTransformer = self._init_transformer()
+        self._transformer.fit(self._features)
+        return self
+
+    def transform(self, features: DataFrame | None = None, *, display: bool = False) -> DataFrame | Tensor:
+        if self._transformer is None:
+            raise RuntimeError("Transformer has not been fitted. Use within `with FeaturesTransformer(...)` context.")
+
+        _target_features = self._features if features is None else features
+        self._transformed_data = self._transformer.transform(_target_features)
+
+        # If the processed data is a sparse matrix, convert it to a dense array
+        if hasattr(self._transformed_data, "toarray"):
+            self._transformed_data: ndarray = self._transformed_data.toarray()
+
+        # Return DataFrame or Tensor
+        if not self._is_tensor:
+            # Rebuild the DataFrame with processed data and proper column names
+            self._transformed_data: DataFrame = DataFrame(
+                data=self._transformed_data, columns=self._transformer.get_feature_names_out()
+            )
+        else:
+            # Build the torch tensor with processed data and proper column names
+            # - tensor dtype is not quite suitable for PCA
+            self._transformed_data: Tensor = tensor(self._transformed_data, dtype=float32)
+
+        if display:
+            print(
+                f"Transformed features type is {type(self._transformed_data)}, "
+                f"and its shape: {self._transformed_data.shape}"
+            )
+        return self._transformed_data
+
+    def __exit__(self, *args) -> None:
+        pass
+
+    def __repr__(self):
+        return (
+            f"FeaturesTransformer("
+            f"features={self._features!r}, "
+            f"impute_num_strategy={self._imputer_num_strategy!r}, "
+            f"impute_cat_strategy={self._imputer_cat_strategy!r}, "
+            f"one_hot_strategy={self._one_hot_strategy!r}, "
+            f"is_tensor={self._is_tensor!r}, "
+            f"transformer={self._transformer!r}, "
+            f"transformed_data={self._transformed_data!r})"
+        )
+
+
+@timer
+def create_data_transformer(data: DataFrame) -> ColumnTransformer:
+    """ Preprocess the data by handling missing values, scaling numerical features, and encoding categorical features.
+    :param data: the DataFrame containing the selected features for training
+    :return: the fitted ColumnTransformer
+    """
+    # Divide the columns into numerical and categorical types
+    cols_num: list[str] = data.select_dtypes(include=["int32", "int64", "float32", "float64"]).columns.tolist()
+    cols_cat: list[str] = data.select_dtypes(include=["object", "category"]).columns.tolist()
+
+    # Set a list of transformers to collect the pipelines
+    transformers: list[tuple[str, Pipeline, list[str]]] = []
+
+    # Establish a pipe to process numerical features and handle missing values only if they exist
+    if cols_num:
+        pipe_num = Pipeline(steps=[
+            ("imputer", SimpleImputer(strategy="median")),
+            ("scaler", StandardScaler()),
+        ])
+        transformers.append(("num", pipe_num, cols_num))
+
+    # Establish a pipe to process categorical features and handle missing values only if they exist
+    if cols_cat:
+        pipe_cat = Pipeline(steps=[
+            ("imputer", SimpleImputer(strategy="most_frequent")),
+            ("encoder", OneHotEncoder(handle_unknown="ignore"))
+        ])
+        transformers.append(("cat", pipe_cat, cols_cat))
+
+    # Establish a column transformer to process numerical and categorical features
+    transformer: ColumnTransformer = ColumnTransformer(transformers=transformers)
+    # Fit and transform the data
+    transformer.fit(data)
+
+    print(f"Preprocessed data type is {type(transformer)}")
+
+    return transformer
+
+
+@timer
+def transform_data(data: DataFrame, preprocessor: ColumnTransformer, is_tensor: bool = False) -> DataFrame | Tensor:
+    """ Transform the data using the provided preprocessor"""
+    out = preprocessor.transform(data)
+
+    # If the processed data is a sparse matrix, convert it to a dense array
+    if hasattr(out, "toarray"):
+        out: ndarray = out.toarray()
+
+    # Return DataFrame or Tensor
+    if not is_tensor:
+        # Rebuild the DataFrame with processed data and proper column names
+        output: DataFrame = DataFrame(data=out, columns=preprocessor.get_feature_names_out())
+    else:
+        # Build the torch tensor with processed data and proper column names
+        # - tensor dtype is not quite suitable for PCA
+        output: Tensor = tensor(out, dtype=float32)
+
+    print(f"Preprocessed data type is {type(output)}, and its shape: {output.shape}")
+
+    return output
 
 
 @timer
