@@ -5,6 +5,11 @@
 
 ### Features
 
+- **deps:** add CUDA toolkit and related packages to project dependencies ([2dfa43d](https://github.com/DaoChaShao/py-ml-basic/commit/2dfa43df2347debab54b33b8d432469090ed3029))
+- **utils:** add new imputer and encoder strategy enums ([c10e3ef](https://github.com/DaoChaShao/py-ml-basic/commit/c10e3ef8ce939262ecf860e8d45caf1373165701))
+- **ml:** add comprehensive data preprocessing and transformation utilities ([b108f90](https://github.com/DaoChaShao/py-ml-basic/commit/b108f90ec2fb07d99de2576ebb1309e7ca655051))
+- **utils:** add new encoding and imputation strategies to ML utilities ([524e698](https://github.com/DaoChaShao/py-ml-basic/commit/524e698eb233ab139738f3959977fe820633dbfd))
+- **ml:** add machine learning algorithms and utilities ([6b09b10](https://github.com/DaoChaShao/py-ml-basic/commit/6b09b10612206a0d859ddd03d5396bc12eda4595))
 - **utils:** add Titanic dataset feature and label enums ([ba5a2e0](https://github.com/DaoChaShao/py-ml-basic/commit/ba5a2e072e72bf82588feedeef0bded0281472c3))
 - **ml:** add CARTree implementation for decision tree algorithms ([496905f](https://github.com/DaoChaShao/py-ml-basic/commit/496905fd6caa7208dc20fe6df2c74e22ade0fdd2))
 - **utils:** add dataframe summary function with timer decorator ([5917cd5](https://github.com/DaoChaShao/py-ml-basic/commit/5917cd5fa4e2d2b5d13e4c78f412062fe4a7ec2b))
@@ -95,6 +100,7 @@
 
 ### Chore
 
+- **deps:** add torch dependency to pyproject.toml ([c867f27](https://github.com/DaoChaShao/py-ml-basic/commit/c867f27a7e328684dd1e9481e9473726b008cd27))
 - **files:** rename 05_logistic_reg_01.py to 05_logistic_reg.py ([98bebf0](https://github.com/DaoChaShao/py-ml-basic/commit/98bebf0a1f1b0dea47e5d3e46e5cdcbe6387e7b7))
 - **ml:** add gitignore for ml estimators module ([aa12304](https://github.com/DaoChaShao/py-ml-basic/commit/aa123049c2abb431ca60c0add11badedf9da0b16))
 - **docs:** update file descriptions and reorganize imports in ML modules ([1002a1e](https://github.com/DaoChaShao/py-ml-basic/commit/1002a1e04ccb70ce3219ab5b4b581e75e6055390))
@@ -129,6 +135,7 @@
 
 ### Code Refactoring
 
+- **tree:** remove commented out debug prints ([12f3759](https://github.com/DaoChaShao/py-ml-basic/commit/12f3759672779a1d806519c41a101240361c786a))
 - **ml:** remove mission property from KNN estimator ([10cde76](https://github.com/DaoChaShao/py-ml-basic/commit/10cde763f4bae3162144702ff60199e24b458582))
 - **ml:** rename polynomial degree tuning function and add classification support ([51bb39a](https://github.com/DaoChaShao/py-ml-basic/commit/51bb39a7585017ef7977b4be4d392528dd3a0fc9))
 - **ml:** rename regression diagnosis function and add classification diagnosis ([e23cf39](https://github.com/DaoChaShao/py-ml-basic/commit/e23cf3931b02a6a322be23627aae6120cb981f27))
