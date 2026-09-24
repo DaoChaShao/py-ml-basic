@@ -29,8 +29,6 @@ def main() -> None:
     titanic: Bunch = init_titanic()
     features = titanic.data
     labels = titanic.target
-    # print(features.head())
-    # print(labels.head())
     print(type(features), type(labels))
 
     summary_dataframe(features)
