@@ -293,3 +293,20 @@ class TreeRegCriteria(StrEnum):
 class TreeSplitters(StrEnum):
     BEST = "best"
     RANDOM = "random"
+
+
+@unique
+class SimpleImputerStrategies(StrEnum):
+    """ Standard strategies for sklearn.impute.SimpleImputer. """
+    MEAN = "mean"
+    MEDIAN = "median"
+    MOST_FREQUENT = "most_frequent"
+    CONSTANT = "constant"
+
+
+@unique
+class OneHotEncoderStrategies(StrEnum):
+    """ Strategies for handling unknown categories during transform in OneHotEncoder. """
+    IGNORE = "ignore"
+    ERROR = "error"
+    INFREQUENT_IF_EXIST = "infrequent_if_exist"
