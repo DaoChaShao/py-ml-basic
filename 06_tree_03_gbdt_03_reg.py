@@ -3,7 +3,7 @@
 # @Time     :   2026/9/25 20:19
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   06_tree_03_gbdt_02_reg.py
+# @File     :   06_tree_03_gbdt_03_reg.py
 # @Desc     :
 
 from pprint import pprint
