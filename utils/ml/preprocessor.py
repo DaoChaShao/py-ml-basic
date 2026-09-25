@@ -46,12 +46,14 @@ from ..helper import Access
 from ..highlighter import lines, stars
 from .types import (
     ClsScoreStrategies,
+    FeaturesScalerCategories,
     FileCategories,
     GridSearchTunesResponse,
     Missions,
     OneHotEncoderStrategies,
     RegScoreStrategies,
     SimpleImputerStrategies,
+    TreeRegCriteria,
 )
 
 
@@ -280,15 +282,91 @@ def summary_dataframe(data: DataFrame, *, display: bool = True) -> None:
             "display.width", 1_000,
             "display.max_colwidth", None
     ):
-        print(data.head())
-        lines()
-        print(f"Data Amount: {len(data)}.")
-        lines()
-        print(data.describe())
-        lines()
-        print(f"Missing Values:\n{data.isnull().sum()[data.isnull().sum() > 0]}")
-        lines()
-        print(f"Duplicated Rows: {data.duplicated().sum()}")
+        if display:
+            print(data.head())
+            lines()
+            print(f"Data Amount: {len(data)}.")
+            lines()
+            print(data.describe())
+            lines()
+            print(f"Missing Values:\n{data.isnull().sum()[data.isnull().sum() > 0]}")
+            lines()
+            print(f"Duplicated Rows: {data.duplicated().sum()}")
+
+
+@timer
+def create_features_transformer(features: DataFrame, *, display: bool = False) -> ColumnTransformer:
+    """
+    Preprocess the data by handling missing values, scaling numerical features, and encoding categorical features.
+
+    :param features: the DataFrame containing the selected features for training
+    :param display: whether to display the preprocessed data type
+    :return: the fitted ColumnTransformer
+    """
+    # Divide the columns into numerical and categorical types
+    cols_num: list[str] = features.select_dtypes(include=["int32", "int64", "float32", "float64"]).columns.tolist()
+    cols_cat: list[str] = features.select_dtypes(include=["object", "category"]).columns.tolist()
+
+    # Set a list of transformers to collect the pipelines
+    transformers: list[tuple[str, Pipeline, list[str]]] = []
+
+    # Establish a pipe to process numerical features and handle missing values only if they exist
+    if cols_num:
+        pipe_num = Pipeline(steps=[
+            ("imputer", SimpleImputer(strategy="median")),
+            ("scaler", StandardScaler()),
+        ])
+        transformers.append(("num", pipe_num, cols_num))
+
+    # Establish a pipe to process categorical features and handle missing values only if they exist
+    if cols_cat:
+        pipe_cat = Pipeline(steps=[
+            ("imputer", SimpleImputer(strategy="most_frequent")),
+            ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False))
+        ])
+        transformers.append(("cat", pipe_cat, cols_cat))
+
+    # Establish a column transformer to process numerical and categorical features
+    transformer: ColumnTransformer = ColumnTransformer(transformers=transformers)
+    # Fit and transform the data
+    transformer.fit(features)
+
+    if display:
+        print(f"Preprocessed data type is {type(transformer)}")
+    return transformer
+
+
+@timer
+def transform_features(
+        features: DataFrame,
+        preprocessor: ColumnTransformer,
+        *,
+        is_tensor: bool = False,
+        display: bool = False
+) -> DataFrame | Tensor:
+    """
+    Transform the features using the provided preprocessor
+
+    :param features: the DataFrame containing the selected features for transformation
+    :param preprocessor: the fitted ColumnTransformer
+    :param is_tensor: whether to convert the transformed output to PyTorch Tensor
+    :param display: whether to display the transformed data type and shape
+    :return: the transformed features as DataFrame or Tensor
+    """
+    out = preprocessor.transform(features)
+
+    # Return DataFrame or Tensor
+    if not is_tensor:
+        # Rebuild the DataFrame with processed data and proper column names
+        output: DataFrame = DataFrame(data=out, columns=preprocessor.get_feature_names_out())
+    else:
+        # Build the torch tensor with processed data and proper column names
+        # - tensor dtype is not quite suitable for PCA
+        output: Tensor = tensor(out, dtype=float32)
+
+    if display:
+        print(f"Preprocessed data type is {type(output)}, and its shape: {output.shape}")
+    return output
 
 
 class FeaturesTransformer(Access):
@@ -300,6 +378,9 @@ class FeaturesTransformer(Access):
             impute_num_strategy: str | SimpleImputerStrategies | Literal[
                 "mean", "median", "most_frequent", "constant"
             ] = SimpleImputerStrategies.MEDIAN,
+            features_scaler: str | FeaturesScalerCategories | Literal[
+                "robustification", "normalisation", "standardisation",
+            ] = FeaturesScalerCategories.ROBUSTIFICATION,
             impute_cat_strategy: str | SimpleImputerStrategies | Literal[
                 "mean", "median", "most_frequent", "constant"
             ] = SimpleImputerStrategies.MOST_FREQUENT,
@@ -313,6 +394,7 @@ class FeaturesTransformer(Access):
 
         :param features: Input DataFrame containing features.
         :param impute_num_strategy: Imputation strategy for numerical columns.
+        :param features_scaler: Scaling strategy for numerical columns.
         :param impute_cat_strategy: Imputation strategy for categorical columns.
         :param one_hot_strategy: OneHotEncoder handle_unknown strategy.
         :param is_tensor: Whether to convert transformed outputs to PyTorch Tensor.
@@ -321,11 +403,24 @@ class FeaturesTransformer(Access):
         super().__init__()
         self._features: DataFrame = features
         self._imputer_num_strategy: SimpleImputerStrategies = SimpleImputerStrategies(impute_num_strategy)
+        self._features_scaler: FeaturesScalerCategories = FeaturesScalerCategories(features_scaler)
         self._imputer_cat_strategy: SimpleImputerStrategies = SimpleImputerStrategies(impute_cat_strategy)
         self._one_hot_strategy: OneHotEncoderStrategies = OneHotEncoderStrategies(one_hot_strategy)
         self._is_tensor: bool = is_tensor
         self._transformer: ColumnTransformer | None = None
         self._transformed_data: DataFrame | Tensor | None = None
+
+    @protectedmethod
+    def _init_scaler(self) -> Any:
+        match self._features_scaler:
+            case FeaturesScalerCategories.ROBUSTIFICATION:
+                return RobustScaler()
+            case FeaturesScalerCategories.NORMALISATION:
+                return MinMaxScaler()
+            case FeaturesScalerCategories.STANDARDISATION:
+                return StandardScaler()
+            case _:
+                raise ValueError(f"Invalid scaler: {self._features_scaler}")
 
     @protectedmethod
     def _init_transformer(self) -> ColumnTransformer:
@@ -349,7 +444,7 @@ class FeaturesTransformer(Access):
         if _cols_num:
             pipe_num = Pipeline(steps=[
                 ("imputer", SimpleImputer(strategy=self._imputer_num_strategy.value)),
-                ("scaler", StandardScaler()),
+                ("scaler", self._init_scaler()),
             ])
             _transformers.append(("num", pipe_num, _cols_num))
 
@@ -357,7 +452,7 @@ class FeaturesTransformer(Access):
         if _cols_cat:
             pipe_cat = Pipeline(steps=[
                 ("imputer", SimpleImputer(strategy=self._imputer_cat_strategy.value)),
-                ("encoder", OneHotEncoder(handle_unknown=self._one_hot_strategy.value))
+                ("encoder", OneHotEncoder(handle_unknown=self._one_hot_strategy.value, sparse_output=False))
             ])
             _transformers.append(("cat", pipe_cat, _cols_cat))
         # Establish a column transformer to process numerical and categorical features
@@ -374,10 +469,6 @@ class FeaturesTransformer(Access):
 
         _target_features = self._features if features is None else features
         self._transformed_data = self._transformer.transform(_target_features)
-
-        # If the processed data is a sparse matrix, convert it to a dense array
-        if hasattr(self._transformed_data, "toarray"):
-            self._transformed_data: ndarray = self._transformed_data.toarray()
 
         # Return DataFrame or Tensor
         if not self._is_tensor:
@@ -405,74 +496,13 @@ class FeaturesTransformer(Access):
             f"FeaturesTransformer("
             f"features={self._features!r}, "
             f"impute_num_strategy={self._imputer_num_strategy!r}, "
+            f"features_scaler={self._features_scaler!r}, "
             f"impute_cat_strategy={self._imputer_cat_strategy!r}, "
             f"one_hot_strategy={self._one_hot_strategy!r}, "
             f"is_tensor={self._is_tensor!r}, "
             f"transformer={self._transformer!r}, "
             f"transformed_data={self._transformed_data!r})"
         )
-
-
-@timer
-def create_data_transformer(data: DataFrame) -> ColumnTransformer:
-    """ Preprocess the data by handling missing values, scaling numerical features, and encoding categorical features.
-    :param data: the DataFrame containing the selected features for training
-    :return: the fitted ColumnTransformer
-    """
-    # Divide the columns into numerical and categorical types
-    cols_num: list[str] = data.select_dtypes(include=["int32", "int64", "float32", "float64"]).columns.tolist()
-    cols_cat: list[str] = data.select_dtypes(include=["object", "category"]).columns.tolist()
-
-    # Set a list of transformers to collect the pipelines
-    transformers: list[tuple[str, Pipeline, list[str]]] = []
-
-    # Establish a pipe to process numerical features and handle missing values only if they exist
-    if cols_num:
-        pipe_num = Pipeline(steps=[
-            ("imputer", SimpleImputer(strategy="median")),
-            ("scaler", StandardScaler()),
-        ])
-        transformers.append(("num", pipe_num, cols_num))
-
-    # Establish a pipe to process categorical features and handle missing values only if they exist
-    if cols_cat:
-        pipe_cat = Pipeline(steps=[
-            ("imputer", SimpleImputer(strategy="most_frequent")),
-            ("encoder", OneHotEncoder(handle_unknown="ignore"))
-        ])
-        transformers.append(("cat", pipe_cat, cols_cat))
-
-    # Establish a column transformer to process numerical and categorical features
-    transformer: ColumnTransformer = ColumnTransformer(transformers=transformers)
-    # Fit and transform the data
-    transformer.fit(data)
-
-    print(f"Preprocessed data type is {type(transformer)}")
-
-    return transformer
-
-
-@timer
-def transform_data(data: DataFrame, preprocessor: ColumnTransformer, is_tensor: bool = False) -> DataFrame | Tensor:
-    """ Transform the data using the provided preprocessor"""
-    out = preprocessor.transform(data)
-
-    # If the processed data is a sparse matrix, convert it to a dense array
-    if hasattr(out, "toarray"):
-        out: ndarray = out.toarray()
-
-    # Return DataFrame or Tensor
-    if not is_tensor:
-        # Rebuild the DataFrame with processed data and proper column names
-        output: DataFrame = DataFrame(data=out, columns=preprocessor.get_feature_names_out())
-    else:
-        # Build the torch tensor with processed data and proper column names
-        # - tensor dtype is not quite suitable for PCA
-        output: Tensor = tensor(out, dtype=float32)
-
-    print(f"Preprocessed data type is {type(output)}, and its shape: {output.shape}")
-
-    return output
 
 
 @timer
@@ -1147,6 +1177,191 @@ def tune_optimal_cls_degree(
         lines()
         print(f"Best Polynomial Degree: {_best_degree}, Best F1-Score: {_best_f1:.4f}")
     return _best_degree, _best_f1
+
+
+@timer
+def tune_optimal_cart_tree(
+        tree: Any,
+        *,
+        train_features: DataFrame, train_labels: Series,
+        valid_features: DataFrame, valid_labels: Series,
+        criterion: str | TreeRegCriteria | Literal[
+            "squared_error", "friedman_mse", "absolute_error", "poisson"
+        ] = TreeRegCriteria.SQUARED_ERROR,
+        max_depths: list[int] | None = None,
+        min_samples_splits: list[int] | None = None,
+        min_samples_leafs: list[int] | None = None,
+        display: bool = False
+) -> tuple[int, int, int, float]:
+    """
+    Search for the optimal hyperparameters for CART regression.
+
+    :param tree: An instance of the CART regression wrapper.
+    :param train_features: Features for training.
+    :param train_labels: Labels for training.
+    :param valid_features: Features for validation.
+    :param valid_labels: Labels for validation.
+    :param criterion: The criterion used for splitting in the regression tree.
+    :param max_depths: List of maximum tree depths to iterate over. Defaults to [2, 3, 4, 5].
+    :param min_samples_splits: List of minimum samples per split to iterate over. Defaults to [2, 5, 10].
+    :param min_samples_leafs: List of minimum samples per leaf to iterate over. Defaults to [5, 10, 15].
+    :param display: Whether to print metrics for each combination.
+    :return: A tuple of (best_max_depth, best_min_samples_leaf, best_rmse).
+    """
+    _max_depths: list[int] = [2, 3, 4, 5] if max_depths is None else max_depths
+    _min_samples_leafs: list[int] = [5, 10, 15] if min_samples_leafs is None else min_samples_leafs
+    _min_samples_splits: list[int] = ([2, 5, 10] if min_samples_splits is None else min_samples_splits)
+
+    _best_rmse: float = float("inf")
+    _best_depth: int = _max_depths[0]
+    _best_split: int = _min_samples_splits[0]
+    _best_leaf: int = _min_samples_leafs[0]
+
+    for max_depth in _max_depths:
+        for min_samples_leaf in _min_samples_leafs:
+            for min_samples_split in _min_samples_splits:
+                estimator = tree(
+                    Missions.REG,
+                    TreeRegCriteria(criterion),
+                    max_depth=max_depth,
+                    min_samples_split=min_samples_split,
+                    min_samples_leaf=min_samples_leaf
+                )
+
+                estimator.train(train_features, train_labels)
+                _predictions = estimator.predict(valid_features)
+                _metrics = estimator.eval_reg(valid_labels, _predictions, display=False)
+
+                current_rmse = _metrics.get("rmse", float("inf"))
+
+                if display:
+                    print(
+                        f"max_depth={max_depth:02d}, "
+                        f"min_samples_leaf={min_samples_leaf:02d}, "
+                        f"min_samples_split={min_samples_split:02d}, "
+                        f"RMSE={current_rmse:07.4f}"
+
+                    )
+
+                if current_rmse < _best_rmse:
+                    _best_rmse = current_rmse
+                    _best_depth = max_depth
+                    _best_leaf = min_samples_leaf
+                    _best_split = min_samples_split
+
+    if display:
+        lines()
+        print(
+            f"Best max_depth={_best_depth:02d}, "
+            f"Best min_samples_leaf={_best_leaf:02d}, "
+            f"Best min_samples_split={_best_split:02d}, "
+            f"Best RMSE={_best_rmse:07.4f}"
+
+        )
+    return _best_depth, _best_leaf, _best_split, _best_rmse,
+
+
+@timer
+def tune_optimal_gbd_tree(
+        tree: Any,
+        *,
+        train_features: DataFrame,
+        train_labels: Series,
+        valid_features: DataFrame,
+        valid_labels: Series,
+        criterion: str | TreeRegCriteria | Literal[
+            "squared_error", "friedman_mse", "absolute_error", "poisson"
+        ] = TreeRegCriteria.SQUARED_ERROR,
+        learning_rates: list[float] | None = None,
+        n_estimators_list: list[int] | None = None,
+        max_depths: list[int] | None = None,
+        min_samples_splits: list[int] | None = None,
+        min_samples_leafs: list[int] | None = None,
+        display: bool = False
+) -> tuple[float, int, int, int, int, float]:
+    """
+    Search for the optimal hyperparameters for GBDT regression.
+
+    :param tree: The GBDT regression wrapper.
+    :param train_features: Features for training.
+    :param train_labels: Labels for training.
+    :param valid_features: Features for validation.
+    :param valid_labels: Labels for validation.
+    :param criterion: The criterion used for splitting in the regression tree.
+    :param learning_rates: List of learning rates to iterate over. Defaults to [0.01, 0.05, 0.1].
+    :param n_estimators_list: List of boosting stages to iterate over. Defaults to [100, 200, 300].
+    :param max_depths: List of maximum tree depths to iterate over. Defaults to [2, 3, 4, 5].
+    :param min_samples_splits: List of minimum samples per split to iterate over. Defaults to [2, 5, 10].
+    :param min_samples_leafs: List of minimum samples per leaf to iterate over. Defaults to [1, 2, 5, 10].
+    :param display: Whether to print metrics for each combination.
+    :return: A tuple of (learning_rate, n_estimators, max_depth, min_samples_split, min_samples_leaf, rmse).
+    """
+    _learning_rates: list[float] = [0.01, 0.05, 0.1] if learning_rates is None else learning_rates
+    _n_estimators_list: list[int] = [100, 200, 300] if n_estimators_list is None else n_estimators_list
+    _max_depths: list[int] = [2, 3, 4, 5] if max_depths is None else max_depths
+    _min_samples_splits: list[int] = [2, 5, 10] if min_samples_splits is None else min_samples_splits
+    _min_samples_leafs: list[int] = [1, 2, 5, 10] if min_samples_leafs is None else min_samples_leafs
+
+    _best_rmse: float = float("inf")
+    _best_learning_rate: float = _learning_rates[0]
+    _best_n_estimators: int = _n_estimators_list[0]
+    _best_depth: int = _max_depths[0]
+    _best_split: int = _min_samples_splits[0]
+    _best_leaf: int = _min_samples_leafs[0]
+
+    for learning_rate in _learning_rates:
+        for n_estimators in _n_estimators_list:
+            for max_depth in _max_depths:
+                for min_samples_leaf in _min_samples_leafs:
+                    for min_samples_split in _min_samples_splits:
+
+                        estimator = tree(
+                            Missions.REG,
+                            TreeRegCriteria(criterion),
+                            learning_rate=learning_rate,
+                            n_estimators=n_estimators,
+                            max_depth=max_depth,
+                            min_samples_split=min_samples_split,
+                            min_samples_leaf=min_samples_leaf
+                        )
+
+                        estimator.train(train_features, train_labels)
+
+                        _predictions = estimator.predict(valid_features)
+                        _metrics = estimator.eval_reg(valid_labels, _predictions, display=False)
+
+                        current_rmse = _metrics.get("rmse", float("inf"))
+
+                        if display:
+                            print(
+                                f"learning_rate={learning_rate:.02f}, "
+                                f"n_estimators={n_estimators:03d}, "
+                                f"max_depth={max_depth:02d}, "
+                                f"min_samples_leaf={min_samples_leaf:02d}, "
+                                f"min_samples_split={min_samples_split:02d}, "
+                                f"RMSE={current_rmse:07.4f}"
+                            )
+
+                        if current_rmse < _best_rmse:
+                            _best_rmse = current_rmse
+                            _best_learning_rate = learning_rate
+                            _best_n_estimators = n_estimators
+                            _best_depth = max_depth
+                            _best_split = min_samples_split
+                            _best_leaf = min_samples_leaf
+
+    if display:
+        lines()
+        print(
+            f"Best learning_rate={_best_learning_rate:.02f}, "
+            f"Best n_estimators={_best_n_estimators:03d}, "
+            f"Best max_depth={_best_depth:02d}, "
+            f"Best min_samples_leaf={_best_leaf:02d}, "
+            f"Best min_samples_split={_best_split:02d}, "
+            f"Best RMSE={_best_rmse:07.4f}"
+        )
+
+    return _best_learning_rate, _best_n_estimators, _best_depth, _best_split, _best_leaf, _best_rmse
 
 
 @timer
