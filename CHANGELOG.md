@@ -5,6 +5,7 @@
 
 ### Features
 
+- **ml:** add AdaBoost implementation for classification and regression ([468881c](https://github.com/DaoChaShao/py-ml-basic/commit/468881c53a074d98d4aea57bb018b6ae07dbe4b7))
 - **ml:** add AdaBoost regression loss types to ML types module ([33a1746](https://github.com/DaoChaShao/py-ml-basic/commit/33a17463ba174b3505759cdf672e0419c9804886))
 - **ml:** add AdaBoost classifier and regressor wrapper implementation ([2656b10](https://github.com/DaoChaShao/py-ml-basic/commit/2656b10dea9385b3a54b50f1c9ce42ebaca49438))
 - **utils:** add AdaBoost regression loss type to ML utilities ([67c2554](https://github.com/DaoChaShao/py-ml-basic/commit/67c2554c4bf8214b70be398718142f425cfd04f9))
@@ -120,6 +121,7 @@
 
 ### Bug Fixes
 
+- **ml:** add random state parameter to AdaBoost decision trees ([700d75c](https://github.com/DaoChaShao/py-ml-basic/commit/700d75cd7dcaf1e29a1d1b0a8f08db23485c29c1))
 - **decorator:** correct authorization logic in decorator functions ([9fef134](https://github.com/DaoChaShao/py-ml-basic/commit/9fef134738c9a8a4803cc93bf6661e9329eaa243))
 - **ml:** correct string formatting in SGD estimator repr method ([59ee720](https://github.com/DaoChaShao/py-ml-basic/commit/59ee72062188038ca85b2dd5eabce3b0fcb5cc63))
 - **ml:** correct string formatting in KNN estimator repr method ([80e46c5](https://github.com/DaoChaShao/py-ml-basic/commit/80e46c550977169b3d873d25ec7b828eb2398dda))
