@@ -5,6 +5,11 @@
 
 ### Features
 
+- **ml:** add GBDT classifier regressor wrapper ([9415c88](https://github.com/DaoChaShao/py-ml-basic/commit/9415c88370cd5a220464e1905105e6c25a985291))
+- **ml:** add random forest classifier regressor wrapper ([a37778f](https://github.com/DaoChaShao/py-ml-basic/commit/a37778fdb8ec2a16b20bf9af4a13d50db0b18e03))
+- **ml:** add boosting estimators module with GBDT implementation ([0731277](https://github.com/DaoChaShao/py-ml-basic/commit/0731277c4edcc50f73c55839c80a6b7f7c166ac4))
+- **ml:** add bagging estimators module with Random Forest support ([eb422a4](https://github.com/DaoChaShao/py-ml-basic/commit/eb422a4b332396e9c8064860933e97147417b805))
+- **ml:** add comprehensive machine learning implementations and utilities ([6b9096d](https://github.com/DaoChaShao/py-ml-basic/commit/6b9096d8f71e867e9d991ce34d71510fb632609a))
 - **ml:** add enum classes for ML model configuration types ([b352195](https://github.com/DaoChaShao/py-ml-basic/commit/b352195cad03f77e3829e4a71e54251708c381e7))
 - **ml:** add random forest and gradient boosting tree implementations ([883c5b1](https://github.com/DaoChaShao/py-ml-basic/commit/883c5b17d66dc3df949890764c927fe106933610))
 - **ml:** enhance preprocessing pipeline with configurable scalers and tree tuning ([ce83a23](https://github.com/DaoChaShao/py-ml-basic/commit/ce83a238d7b4c2396878d13abd159453e4bbefc9))
@@ -151,6 +156,14 @@
 
 ### Code Refactoring
 
+- **utils/ml:** reorganize imports in preprocessor module ([6ae1f25](https://github.com/DaoChaShao/py-ml-basic/commit/6ae1f257c683a1a743ebfdc053b881d9a4d665ed))
+- **utils/ml/estimators:** rename trees module to cart and remove random forest and gbdt classes ([bd99737](https://github.com/DaoChaShao/py-ml-basic/commit/bd9973774971642cdb6383618a2a686dd5c6a779))
+- **utils/ml:** reorder imports and remove redundant newline ([eeb2efa](https://github.com/DaoChaShao/py-ml-basic/commit/eeb2efaa0eea6e0674764c3a9f32f7a7f21f5e21))
+- **ml:** reorganize estimator imports and module structure ([ee68ae6](https://github.com/DaoChaShao/py-ml-basic/commit/ee68ae655dd62d8d5f0f2aee9463cc414893cdf5))
+- **tree:** clean up imports and remove unused modules ([7c2190a](https://github.com/DaoChaShao/py-ml-basic/commit/7c2190aa6c9d0d932d69aa10b6d7e1e6474a6dbb))
+- **tree:** reorder imports and update module structure ([7246a84](https://github.com/DaoChaShao/py-ml-basic/commit/7246a84111633f7c03cff0d5da4a21a7f3972d39))
+- **tree:** clean up imports and update file description ([07294bc](https://github.com/DaoChaShao/py-ml-basic/commit/07294bce1677f0c010288e5daee8b3f804cf0744))
+- **tree:** clean up imports and comments in cart regression module ([86d9f36](https://github.com/DaoChaShao/py-ml-basic/commit/86d9f365c877fc3c7fd7513f9f53f57d790da3fe))
 - **utils/ml/estimators:** replace CARTree with comprehensive tree ensemble implementations ([0660ff1](https://github.com/DaoChaShao/py-ml-basic/commit/0660ff1938e8d897b82ec7e85b7b9b498aed2805))
 - **diabetes-reg:** update regression evaluation and diagnosis ([1d9040f](https://github.com/DaoChaShao/py-ml-basic/commit/1d9040f5587957ececce8363abdd6a01a3fd6619))
 - **tree:** remove commented out debug prints ([12f3759](https://github.com/DaoChaShao/py-ml-basic/commit/12f3759672779a1d806519c41a101240361c786a))
