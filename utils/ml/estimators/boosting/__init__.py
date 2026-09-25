@@ -19,9 +19,10 @@ __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
 from .adaboost import AdaBoost
-from .gbdt import GBDTree
+from .gbdt import HyperGBDTree, GBDTree
 
 __all__ = [
     "AdaBoost",
+    "HyperGBDTree",
     "GBDTree",
 ]
