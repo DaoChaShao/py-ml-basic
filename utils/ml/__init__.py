@@ -51,6 +51,7 @@ from .preprocessor import (
     tune_optimal_reg_degree,
 )
 from .types import (
+    AdaBoostRegLoss,
     AlphaCategories,
     AveStrategies,
     CaliforniaFeatures,
@@ -111,6 +112,7 @@ __all__ = [
     "tune_optimal_gbd_tree",
 
     # Preprocessing & Utilities
+    "AdaBoostRegLoss",
     "AlphaCategories",
     "AveStrategies",
     "CaliforniaFeatures",
