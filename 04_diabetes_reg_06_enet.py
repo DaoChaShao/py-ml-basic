@@ -81,6 +81,7 @@ def main() -> None:
         valid_predictions = enet.predict(poly_valid_features)
         valid_metrics = enet.eval_reg(valid_labels, valid_predictions, display=True)
         valid_rmse: float = valid_metrics["rmse"]
+        valid_r2: float = valid_metrics["r2"]
         """
         ****************************************************************
         Regression Evaluation Metrics - Linear Regression
@@ -128,7 +129,7 @@ def main() -> None:
         MAPE      : 37.2828%
         ****************************************************************
         """
-        diagnose_reg_fit(train_rmse, valid_rmse, train_labels_std=float(train_labels.std()), display=True)
+        diagnose_reg_fit(train_rmse, valid_rmse, valid_r2, float(train_labels.std()), display=True)
         """
         ****************************************************************
         The function named 'diagnose_fit' is starting:
@@ -150,14 +151,14 @@ def main() -> None:
         )
         if status:
             print(
-                f"{green('Correct')}! "
+                f"{green('Acceptable')}! "
                 f"Prediction: {pred_label}, "
                 f"Label: {prove_labels.iloc[row]}."
             )
             print()
         else:
             print(
-                f"{red('Incorrect')}! "
+                f"{red('Unacceptable')}! "
                 f"Prediction: {pred_label}, "
                 f"Label: {prove_labels.iloc[row]}."
             )
