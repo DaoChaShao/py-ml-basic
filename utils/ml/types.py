@@ -341,3 +341,10 @@ class ForestFeaturesStrategies(StrEnum):
     """ Supported strategies for max_features in RandomForest. """
     SQRT = "sqrt"
     LOG2 = "log2"
+
+
+@unique
+class AdaBoostRegLoss(StrEnum):
+    LINEAR = "linear"
+    SQUARE = "square"
+    EXPONENTIAL = "exponential"
