@@ -1,11 +1,14 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-25)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-26)
 
 ### Features
 
-- **ml:** add AdaBoost implementation for classification and regression ([468881c](https://github.com/DaoChaShao/py-ml-basic/commit/468881c53a074d98d4aea57bb018b6ae07dbe4b7))
+- **ml:** add scikit-learn compatible GBDT estimator wrapper ([2f0da24](https://github.com/DaoChaShao/py-ml-basic/commit/2f0da242f1129654ca0eb21f02135dfd4b39327c))
+- **ml:** add HyperGBDTree estimator to boosting module ([1ebd23c](https://github.com/DaoChaShao/py-ml-basic/commit/1ebd23c79cc32934cf79c7d30e9540a9fff11e46))
+- **ml:** add GBDT classification parameters tuning script ([aace3b3](https://github.com/DaoChaShao/py-ml-basic/commit/aace3b36d478442c5483988643ebfdd571a786b6))
+- **ml:** add AdaBoost implementation for classification and regression ([975ec84](https://github.com/DaoChaShao/py-ml-basic/commit/975ec8459cff4beae0d211c028f3ea2908c3959c))
 - **ml:** add AdaBoost regression loss types to ML types module ([33a1746](https://github.com/DaoChaShao/py-ml-basic/commit/33a17463ba174b3505759cdf672e0419c9804886))
 - **ml:** add AdaBoost classifier and regressor wrapper implementation ([2656b10](https://github.com/DaoChaShao/py-ml-basic/commit/2656b10dea9385b3a54b50f1c9ce42ebaca49438))
 - **utils:** add AdaBoost regression loss type to ML utilities ([67c2554](https://github.com/DaoChaShao/py-ml-basic/commit/67c2554c4bf8214b70be398718142f425cfd04f9))
@@ -129,6 +132,8 @@
 
 ### Chore
 
+- **comment:** update file description comment ([69e467f](https://github.com/DaoChaShao/py-ml-basic/commit/69e467f67a8d3006d57f1a937eec281ac40d71ef))
+- **files:** rename gbdt regression file from 02 to 03 ([01d6e80](https://github.com/DaoChaShao/py-ml-basic/commit/01d6e80ed768a9d5d58813fb0c7fb71ce0f8a44e))
 - **diabetes-reg:** update prediction result display messages ([1f1acea](https://github.com/DaoChaShao/py-ml-basic/commit/1f1acea93ed53fbe5b8920bcc3fe9fc1867c3ca2))
 - **ui:** update prediction result display messages ([e4a5836](https://github.com/DaoChaShao/py-ml-basic/commit/e4a583680d29d01ed7c42e833ad43fc1ea61c137))
 - **deps:** add torch dependency to pyproject.toml ([c867f27](https://github.com/DaoChaShao/py-ml-basic/commit/c867f27a7e328684dd1e9481e9473726b008cd27))
@@ -154,6 +159,7 @@
 
 ### Docs
 
+- **ml:** add documentation for AdaBoost regressor loss functions ([f554791](https://github.com/DaoChaShao/py-ml-basic/commit/f5547911e56e2594e4384761e140a6cedae0e5cf))
 - **ml:** add documentation and improve type definitions ([8718f57](https://github.com/DaoChaShao/py-ml-basic/commit/8718f57195af20ea3db8afd76d94085cf896a34d))
 - **california_housing:** update docstring spelling from initialize to initialise ([35e8b82](https://github.com/DaoChaShao/py-ml-basic/commit/35e8b82ff0fb1ff65fc42d8ea393cea23e376ca6))
 - **changelog:** update changelog with ML preprocessing features and recent changes ([beb58d5](https://github.com/DaoChaShao/py-ml-basic/commit/beb58d5692765875d589c1ed20713a829ec89928))
@@ -166,6 +172,7 @@
 
 ### Code Refactoring
 
+- **utils/ml/estimators/boosting:** reorder imports in __init__.py ([9f9c9cc](https://github.com/DaoChaShao/py-ml-basic/commit/9f9c9cc6d00439bd39306368b5f90a82154966f8))
 - **utils/ml:** reorganize imports in preprocessor module ([6ae1f25](https://github.com/DaoChaShao/py-ml-basic/commit/6ae1f257c683a1a743ebfdc053b881d9a4d665ed))
 - **utils/ml/estimators:** rename trees module to cart and remove random forest and gbdt classes ([bd99737](https://github.com/DaoChaShao/py-ml-basic/commit/bd9973774971642cdb6383618a2a686dd5c6a779))
 - **utils/ml:** reorder imports and remove redundant newline ([eeb2efa](https://github.com/DaoChaShao/py-ml-basic/commit/eeb2efaa0eea6e0674764c3a9f32f7a7f21f5e21))
