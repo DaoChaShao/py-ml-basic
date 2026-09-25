@@ -61,9 +61,9 @@ class AdaBoost(Base):
         :return: None
         """
         _base_estimator = (
-            DecisionTreeClassifier(max_depth=self._max_depth)
+            DecisionTreeClassifier(max_depth=self._max_depth, random_state=self._randomness)
             if self._mission is Missions.CLS
-            else DecisionTreeRegressor(max_depth=self._max_depth)
+            else DecisionTreeRegressor(max_depth=self._max_depth, random_state=self._randomness)
         )
 
         match self._mission:
