@@ -4,24 +4,24 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   06_tree_02_rf_01_cls.py
-# @Desc     :   
+# @Desc     :
 
 from random import randint
 
 from sklearn.datasets import fetch_openml
 from sklearn.utils import Bunch
 
-from utils import red, green
+from utils import green, red
 from utils.ml import (
-    diagnose_cls_fit,
-    expand_polynomial_features,
     FeaturesTransformer,
-    get_cls_labels_distribution,
     Missions,
-    split_data,
-    summary_dataframe,
     TitanicFeatures,
     TreeClsCriteria,
+    diagnose_cls_fit,
+    expand_polynomial_features,
+    get_cls_labels_distribution,
+    split_data,
+    summary_dataframe,
     tune_optimal_cls_degree,
 )
 from utils.ml.estimators import RandomForest
