@@ -1,10 +1,24 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-24)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-25)
 
 ### Features
 
+- **ml:** add enum classes for ML model configuration types ([b352195](https://github.com/DaoChaShao/py-ml-basic/commit/b352195cad03f77e3829e4a71e54251708c381e7))
+- **ml:** add random forest and gradient boosting tree implementations ([883c5b1](https://github.com/DaoChaShao/py-ml-basic/commit/883c5b17d66dc3df949890764c927fe106933610))
+- **ml:** enhance preprocessing pipeline with configurable scalers and tree tuning ([ce83a23](https://github.com/DaoChaShao/py-ml-basic/commit/ce83a238d7b4c2396878d13abd159453e4bbefc9))
+- **ml:** enhance regression model diagnosis with R² validation metric ([6835132](https://github.com/DaoChaShao/py-ml-basic/commit/68351320d4f879b0662ef05a37951e274d16e499))
+- **utils/ml:** add new ML utility functions and transformer classes ([0336cd6](https://github.com/DaoChaShao/py-ml-basic/commit/0336cd6ce55c7c2c4b1998ce8447de7a03bfd50d))
+- **ml:** add GBDT regression implementation with diabetes dataset ([7a224da](https://github.com/DaoChaShao/py-ml-basic/commit/7a224da65f4eff91f316cad408efe1d983f60f6d))
+- **ml:** add GBDT classification implementation with Titanic dataset ([0a0e7d7](https://github.com/DaoChaShao/py-ml-basic/commit/0a0e7d7bef293ab873b3d9c80b20ec76729c0639))
+- **ml:** add random forest regression implementation with diabetes dataset ([88f7d3c](https://github.com/DaoChaShao/py-ml-basic/commit/88f7d3cb9dbd10545027dd551174dbac34aafac4))
+- **ml:** add random forest classification implementation for Titanic dataset ([9726234](https://github.com/DaoChaShao/py-ml-basic/commit/972623416200f99415a4018b799928cc44ed2d9b))
+- **ml:** add decision tree regression implementation with hyperparameter tuning ([8a48b8b](https://github.com/DaoChaShao/py-ml-basic/commit/8a48b8bd2b782350c6920e8745cd0ed7dee128c2))
+- **ml:** add decision tree classification implementation for Titanic dataset ([cb1cc34](https://github.com/DaoChaShao/py-ml-basic/commit/cb1cc34b63919ceaaad4934aa62081cc4783733d))
+- **model:** enhance diabetes regression evaluation with R2 metric ([58ceb67](https://github.com/DaoChaShao/py-ml-basic/commit/58ceb6757817d3f94aafa52b9d4cfb41a3c3e0b4))
+- **model:** enhance diabetes regression diagnosis with R2 metric and improved feedback ([2fc6e75](https://github.com/DaoChaShao/py-ml-basic/commit/2fc6e75f8600d499e0cc38096b98551e6a2efdd5))
+- **ml:** add comprehensive machine learning utilities and dependencies ([dfb24d1](https://github.com/DaoChaShao/py-ml-basic/commit/dfb24d1d20deba975bc75fee242352c415f1ae3f))
 - **deps:** add CUDA toolkit and related packages to project dependencies ([2dfa43d](https://github.com/DaoChaShao/py-ml-basic/commit/2dfa43df2347debab54b33b8d432469090ed3029))
 - **utils:** add new imputer and encoder strategy enums ([c10e3ef](https://github.com/DaoChaShao/py-ml-basic/commit/c10e3ef8ce939262ecf860e8d45caf1373165701))
 - **ml:** add comprehensive data preprocessing and transformation utilities ([b108f90](https://github.com/DaoChaShao/py-ml-basic/commit/b108f90ec2fb07d99de2576ebb1309e7ca655051))
@@ -100,6 +114,8 @@
 
 ### Chore
 
+- **diabetes-reg:** update prediction result display messages ([1f1acea](https://github.com/DaoChaShao/py-ml-basic/commit/1f1acea93ed53fbe5b8920bcc3fe9fc1867c3ca2))
+- **ui:** update prediction result display messages ([e4a5836](https://github.com/DaoChaShao/py-ml-basic/commit/e4a583680d29d01ed7c42e833ad43fc1ea61c137))
 - **deps:** add torch dependency to pyproject.toml ([c867f27](https://github.com/DaoChaShao/py-ml-basic/commit/c867f27a7e328684dd1e9481e9473726b008cd27))
 - **files:** rename 05_logistic_reg_01.py to 05_logistic_reg.py ([98bebf0](https://github.com/DaoChaShao/py-ml-basic/commit/98bebf0a1f1b0dea47e5d3e46e5cdcbe6387e7b7))
 - **ml:** add gitignore for ml estimators module ([aa12304](https://github.com/DaoChaShao/py-ml-basic/commit/aa123049c2abb431ca60c0add11badedf9da0b16))
@@ -135,6 +151,8 @@
 
 ### Code Refactoring
 
+- **utils/ml/estimators:** replace CARTree with comprehensive tree ensemble implementations ([0660ff1](https://github.com/DaoChaShao/py-ml-basic/commit/0660ff1938e8d897b82ec7e85b7b9b498aed2805))
+- **diabetes-reg:** update regression evaluation and diagnosis ([1d9040f](https://github.com/DaoChaShao/py-ml-basic/commit/1d9040f5587957ececce8363abdd6a01a3fd6619))
 - **tree:** remove commented out debug prints ([12f3759](https://github.com/DaoChaShao/py-ml-basic/commit/12f3759672779a1d806519c41a101240361c786a))
 - **ml:** remove mission property from KNN estimator ([10cde76](https://github.com/DaoChaShao/py-ml-basic/commit/10cde763f4bae3162144702ff60199e24b458582))
 - **ml:** rename polynomial degree tuning function and add classification support ([51bb39a](https://github.com/DaoChaShao/py-ml-basic/commit/51bb39a7585017ef7977b4be4d392528dd3a0fc9))
