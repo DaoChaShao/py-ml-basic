@@ -28,19 +28,22 @@ from .logistic import LogisticRegClassifier
 from .ols import OLSReg
 from .ridge import RidgeReg
 from .sgd import SGDReg
-from .trees import CARTree
+from .trees import DecisionTree, RandomForest, GBDTree
 
 __all__ = [
     # Protocols
     "Base",
 
     # Estimators
+    "DecisionTree",
     "ElasticNetReg",
+    "GBDTree",
     "KNN",
     "LassoReg",
     "LogisticRegClassifier",
     "OLSReg",
+    "RandomForest",
     "RidgeReg",
     "SGDReg",
-    "CARTree",
+
 ]
