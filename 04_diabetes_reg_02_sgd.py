@@ -109,14 +109,14 @@ def main() -> None:
         )
         if status:
             print(
-                f"{green('Correct')}! "
+                f"{green('Acceptable')}! "
                 f"Prediction: {pred_label}, "
                 f"Label: {prove_labels.iloc[row]}."
             )
             print()
         else:
             print(
-                f"{red('Incorrect')}! "
+                f"{red('Unacceptable')}! "
                 f"Prediction: {pred_label}, "
                 f"Label: {prove_labels.iloc[row]}."
             )
