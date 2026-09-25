@@ -5,6 +5,14 @@
 
 ### Features
 
+- **ml:** add AdaBoost regression loss types to ML types module ([33a1746](https://github.com/DaoChaShao/py-ml-basic/commit/33a17463ba174b3505759cdf672e0419c9804886))
+- **ml:** add AdaBoost classifier and regressor wrapper implementation ([2656b10](https://github.com/DaoChaShao/py-ml-basic/commit/2656b10dea9385b3a54b50f1c9ce42ebaca49438))
+- **utils:** add AdaBoost regression loss type to ML utilities ([67c2554](https://github.com/DaoChaShao/py-ml-basic/commit/67c2554c4bf8214b70be398718142f425cfd04f9))
+- **ml:** add AdaBoost estimator to ml estimators module ([423e954](https://github.com/DaoChaShao/py-ml-basic/commit/423e954b677086dd822b730df83178e9336c24e4))
+- **ml:** add AdaBoost estimator to boosting module ([f53c82d](https://github.com/DaoChaShao/py-ml-basic/commit/f53c82dfdcccabd60c520ffba4851606d65cdc94))
+- **ml:** add AdaBoost classification implementation for Iris dataset ([4465019](https://github.com/DaoChaShao/py-ml-basic/commit/4465019e97b9e688f8615af735d344dd3fce3b0f))
+- **ml:** add AdaBoost classification implementation for Titanic dataset ([c52e252](https://github.com/DaoChaShao/py-ml-basic/commit/c52e2521c67cc4d0d92e7a10d482cd21e282f8fb))
+- **ml:** add comprehensive machine learning ensemble implementations ([582dd70](https://github.com/DaoChaShao/py-ml-basic/commit/582dd70d4a693c0cc027db01d23f27ea24f0790c))
 - **ml:** add GBDT classifier regressor wrapper ([9415c88](https://github.com/DaoChaShao/py-ml-basic/commit/9415c88370cd5a220464e1905105e6c25a985291))
 - **ml:** add random forest classifier regressor wrapper ([a37778f](https://github.com/DaoChaShao/py-ml-basic/commit/a37778fdb8ec2a16b20bf9af4a13d50db0b18e03))
 - **ml:** add boosting estimators module with GBDT implementation ([0731277](https://github.com/DaoChaShao/py-ml-basic/commit/0731277c4edcc50f73c55839c80a6b7f7c166ac4))
