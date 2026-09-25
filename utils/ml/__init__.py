@@ -24,7 +24,6 @@ from .postprocessor import (
     diagnose_reg_fit,
 )
 from .preprocessor import (
-    create_features_transformer,
     FeaturesNormaliser,
     FeaturesRobustScaler,
     FeaturesStandardiser,
@@ -34,6 +33,7 @@ from .preprocessor import (
     NumpySeed,
     calc_labels_weight,
     chebyshev_distance,
+    create_features_transformer,
     encode_labels,
     euclidean_distance,
     expand_polynomial_features,
@@ -49,7 +49,6 @@ from .preprocessor import (
     tune_optimal_cls_degree,
     tune_optimal_gbd_tree,
     tune_optimal_reg_degree,
-
 )
 from .types import (
     AlphaCategories,
@@ -76,7 +75,6 @@ from .types import (
     TreeClsLoss,
     TreeRegCriteria,
     TreeRegLoss,
-
     TreeSplitters,
 )
 
