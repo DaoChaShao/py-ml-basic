@@ -310,3 +310,34 @@ class OneHotEncoderStrategies(StrEnum):
     IGNORE = "ignore"
     ERROR = "error"
     INFREQUENT_IF_EXIST = "infrequent_if_exist"
+
+
+@unique
+class FeaturesScalerCategories(StrEnum):
+    """ Supported scaling strategies for feature scaling. """
+    NORMALISATION = "normalisation"
+    STANDARDISATION = "standardisation"
+    ROBUSTIFICATION = "robustification"
+
+
+@unique
+class TreeClsLoss(StrEnum):
+    """ Classification loss functions for ensemble tree models (Random Forest / GBDT). """
+    LOG_LOSS = "log_loss"
+    EXPONENTIAL = "exponential"
+
+
+@unique
+class TreeRegLoss(StrEnum):
+    """ Regression loss functions for ensemble tree models (Random Forest / GBDT). """
+    SQUARED_ERROR = "squared_error"
+    ABSOLUTE_ERROR = "absolute_error"
+    HUBER = "huber"
+    QUANTILE = "quantile"
+
+
+@unique
+class ForestFeaturesStrategies(StrEnum):
+    """ Supported strategies for max_features in RandomForest. """
+    SQRT = "sqrt"
+    LOG2 = "log2"
