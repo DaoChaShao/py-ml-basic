@@ -24,9 +24,11 @@ from .postprocessor import (
     diagnose_reg_fit,
 )
 from .preprocessor import (
+    create_features_transformer,
     FeaturesNormaliser,
     FeaturesRobustScaler,
     FeaturesStandardiser,
+    FeaturesTransformer,
     FileCategories,
     FileLoader,
     NumpySeed,
@@ -42,14 +44,20 @@ from .preprocessor import (
     minkowski_distance,
     split_data,
     summary_dataframe,
+    transform_features,
+    tune_optimal_cart_tree,
     tune_optimal_cls_degree,
+    tune_optimal_gbd_tree,
     tune_optimal_reg_degree,
+
 )
 from .types import (
     AlphaCategories,
     AveStrategies,
     CaliforniaFeatures,
     ClsScoreStrategies,
+    FeaturesScalerCategories,
+    ForestFeaturesStrategies,
     GridSearchTunesResponse,
     IrisFeatures,
     IrisLabels,
@@ -65,7 +73,10 @@ from .types import (
     TitanicFeatures,
     TitanicLabels,
     TreeClsCriteria,
+    TreeClsLoss,
     TreeRegCriteria,
+    TreeRegLoss,
+
     TreeSplitters,
 )
 
@@ -75,9 +86,11 @@ __all__ = [
     "diagnose_reg_fit",
 
     # Preprocessing & Utilities
+    "create_features_transformer",
     "FeaturesNormaliser",
     "FeaturesRobustScaler",
     "FeaturesStandardiser",
+    "FeaturesTransformer",
     "FileCategories",
     "FileLoader",
     "NumpySeed",
@@ -93,14 +106,19 @@ __all__ = [
     "minkowski_distance",
     "split_data",
     "summary_dataframe",
+    "transform_features",
     "tune_optimal_cls_degree",
+    "tune_optimal_cart_tree",
     "tune_optimal_reg_degree",
+    "tune_optimal_gbd_tree",
 
     # Preprocessing & Utilities
     "AlphaCategories",
     "AveStrategies",
     "CaliforniaFeatures",
     "ClsScoreStrategies",
+    "FeaturesScalerCategories",
+    "ForestFeaturesStrategies",
     "GridSearchTunesResponse",
     "IrisFeatures",
     "IrisLabels",
@@ -116,6 +134,8 @@ __all__ = [
     "TitanicFeatures",
     "TitanicLabels",
     "TreeClsCriteria",
+    "TreeClsLoss",
     "TreeRegCriteria",
+    "TreeRegLoss",
     "TreeSplitters",
 ]
