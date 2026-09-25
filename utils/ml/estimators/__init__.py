@@ -22,7 +22,7 @@ __version__ = "0.1.0"
 
 from .bagging import RandomForest
 from .base import Base
-from .boosting import GBDTree
+from .boosting import AdaBoost, GBDTree
 from .cart import DecisionTree
 from .enet import ElasticNetReg
 from .knn import KNN
@@ -37,6 +37,7 @@ __all__ = [
     "Base",
 
     # Estimators
+    "AdaBoost",
     "DecisionTree",
     "ElasticNetReg",
     "GBDTree",
