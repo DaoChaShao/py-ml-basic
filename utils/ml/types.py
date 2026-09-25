@@ -345,6 +345,7 @@ class ForestFeaturesStrategies(StrEnum):
 
 @unique
 class AdaBoostRegLoss(StrEnum):
+    """ Loss functions for AdaBoostRegressor. """
     LINEAR = "linear"
     SQUARE = "square"
     EXPONENTIAL = "exponential"
