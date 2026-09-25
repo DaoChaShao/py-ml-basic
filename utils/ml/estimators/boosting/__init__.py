@@ -18,8 +18,10 @@ the Boosting strategy, including Gradient Boosting estimators and so on.
 __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
+from .adaboost import AdaBoost
 from .gbdt import GBDTree
 
 __all__ = [
+    "AdaBoost",
     "GBDTree",
 ]
