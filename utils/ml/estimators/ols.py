@@ -6,7 +6,7 @@
 # @File     :   ols.py
 # @Desc     :   Ordinary Least Squares
 
-from typing import Any, override, Self
+from typing import Any, Self, override
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
