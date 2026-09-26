@@ -1104,7 +1104,7 @@ def tune_optimal_reg_degree(
             columns=_poly.get_feature_names_out(valid_features.columns)
         )
 
-        reg_estimators.train(_train_poly, train_labels)
+        reg_estimators.fit(_train_poly, train_labels)
         _predictions = reg_estimators.predict(_valid_poly)
 
         if display:
@@ -1159,7 +1159,7 @@ def tune_optimal_cls_degree(
             columns=_poly.get_feature_names_out(valid_features.columns)
         )
 
-        classifier.train(_train_poly, train_labels)
+        classifier.fit(_train_poly, train_labels)
         _predictions = classifier.predict(_valid_poly)
 
         # F1-Score: higher, better
@@ -1227,7 +1227,7 @@ def tune_optimal_cart_tree(
                     min_samples_leaf=min_samples_leaf
                 )
 
-                estimator.train(train_features, train_labels)
+                estimator.fit(train_features, train_labels)
                 _predictions = estimator.predict(valid_features)
                 _metrics = estimator.eval_reg(valid_labels, _predictions, display=False)
 
@@ -1324,7 +1324,7 @@ def tune_optimal_gbd_tree(
                             min_samples_leaf=min_samples_leaf
                         )
 
-                        estimator.train(train_features, train_labels)
+                        estimator.fit(train_features, train_labels)
 
                         _predictions = estimator.predict(valid_features)
                         _metrics = estimator.eval_reg(valid_labels, _predictions, display=False)
