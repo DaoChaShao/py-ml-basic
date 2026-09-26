@@ -80,7 +80,7 @@ def main() -> None:
         """
 
         knn = KNN(Missions.CLS, n_neighbours=3, metric=KNNMetrics.EUCLIDEAN, p=1.0)
-        knn.train(train_features, train_labels)
+        knn.fit(train_features, train_labels)
         predictions = knn.predict(valid_features)
         # print(f"Predictions: {predictions}", end="\n\n")
         knn.eval_cls(valid_labels, predictions, display=True)
