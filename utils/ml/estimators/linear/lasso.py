@@ -14,7 +14,7 @@ from pydantic import Field, validate_call
 from sklearn.base import BaseEstimator
 from sklearn.linear_model import Lasso
 
-from .base import Base
+from utils.ml.estimators.base import Base
 
 
 class LassoRegressor(Base):
