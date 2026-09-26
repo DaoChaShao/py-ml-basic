@@ -6,7 +6,7 @@
 # @File     :   sgd.py
 # @Desc     :   Stochastic Gradient Descent Regression Estimator Wrapper.
 
-from typing import Any, Literal, override, Self
+from typing import Any, Literal, Self, override
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
