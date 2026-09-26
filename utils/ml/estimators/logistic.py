@@ -6,7 +6,7 @@
 # @File     :   logistic.py
 # @Desc     :
 
-from typing import Any, Literal, override, Self
+from typing import Any, Literal, Self, override
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
