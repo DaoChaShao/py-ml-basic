@@ -13,7 +13,7 @@ from pandas import DataFrame, Series
 from sklearn.base import BaseEstimator
 from sklearn.linear_model import LinearRegression
 
-from .base import Base
+from utils.ml.estimators.base import Base
 
 
 class OLSRegressor(Base):
