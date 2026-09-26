@@ -20,34 +20,57 @@ Descent (SGD), Ridge (L2), and Lasso (L1) estimators.
 __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
-from .bagging import RandomForest
+from .bagging import RandomForest, HyperRandomForest
 from .base import Base
-from .boosting import AdaBoost, GBDTree, HyperGBDTree
-from .cart import DecisionTree
-from .enet import ElasticNetReg
-from .knn import KNN
-from .lasso import LassoReg
-from .logistic import LogisticRegClassifier
-from .ols import OLSReg
-from .ridge import RidgeReg
-from .sgd import SGDReg
+from .boosting import (
+    AdaBoost,
+    GBDTree,
+    HyperAdaBoost,
+    HyperGBDTree,
+    HyperXGBooster,
+)
+from .cart import DecisionTree, HyperDecisionTree
+from .enet import ElasticNetRegressor, HyperElasticNetRegressor
+from .knn import KNN, HyperKNN
+from .lasso import LassoRegressor, HyperLassoRegressor
+from .logistic import LogisticRegClassifier, HyperLogisticRegClassifier
+from .ols import OLSRegressor, HyperOLSRegressor
+from .ridge import RidgeRegressor, HyperRidgeRegressor
+from .sgd import SGDRegressor, HyperSGDRegressor
 
 __all__ = [
     # Protocols
     "Base",
 
     # Estimators
-    "AdaBoost",
     "DecisionTree",
-    "ElasticNetReg",
-    "GBDTree",
-    "HyperGBDTree",
+    "ElasticNetRegressor",
     "KNN",
-    "LassoReg",
+    "LassoRegressor",
     "LogisticRegClassifier",
-    "OLSReg",
-    "RandomForest",
-    "RidgeReg",
-    "SGDReg",
+    "OLSRegressor",
+    "RidgeRegressor",
+    "SGDRegressor",
+    # Hyper-Parameters Estimators
+    "HyperDecisionTree",
+    "HyperElasticNetRegressor",
+    "HyperKNN",
+    "HyperLassoRegressor",
+    "HyperLogisticRegClassifier",
+    "HyperOLSRegressor",
+    "HyperRidgeRegressor",
+    "HyperSGDRegressor",
 
+    # Boosting Estimators
+    "AdaBoost",
+    "GBDTree",
+    # Hyper-Parameters Tuning for Boosting Estimators
+    "HyperAdaBoost",
+    "HyperGBDTree",
+    "HyperXGBooster",
+
+    # Bagging Estimators
+    "RandomForest",
+    # Hyper-Parameters Tuning for Bagging Estimators
+    "HyperRandomForest",
 ]
