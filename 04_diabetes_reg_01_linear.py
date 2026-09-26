@@ -22,7 +22,7 @@ from utils.ml import (
     split_data,
     tune_optimal_reg_degree,
 )
-from utils.ml.estimators import OLSReg
+from utils.ml.estimators import OLSRegressor
 
 
 def init_diabetes() -> Bunch:
@@ -55,7 +55,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        linear = OLSReg()
+        linear = OLSRegressor()
         degrees: list[int] = [1, 2, 3]
         best_degree, best_rmse = tune_optimal_reg_degree(
             linear,
@@ -71,7 +71,7 @@ def main() -> None:
             prove_features=prove_features
         )
 
-        linear.train(poly_train_features, train_labels)
+        linear.fit(poly_train_features, train_labels)
         predictions = linear.predict(poly_valid_features)
         metrics = linear.eval_reg(valid_labels, predictions, display=True)
         """
