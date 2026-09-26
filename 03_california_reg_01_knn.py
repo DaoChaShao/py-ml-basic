@@ -79,7 +79,7 @@ def main() -> None:
         """
 
         knn = KNN(Missions.REG, n_neighbours=9, metric=KNNMetrics.MINKOWSKI, p=1.0)
-        knn.train(train_features, train_labels)
+        knn.fit(train_features, train_labels)
         predictions = knn.predict(valid_features)
         # print(f"Predictions: {predictions}", end="\n\n")
         knn.eval_reg(valid_labels, predictions, display=True)
