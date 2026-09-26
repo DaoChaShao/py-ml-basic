@@ -23,7 +23,7 @@ from utils.ml import (
     split_data,
     tune_optimal_reg_degree,
 )
-from utils.ml.estimators import RidgeReg
+from utils.ml.estimators import RidgeRegressor
 
 
 def init_diabetes() -> Bunch:
@@ -56,7 +56,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        ridge = RidgeReg()
+        ridge = RidgeRegressor()
         degrees: list[int] = [1, 2, 3]
         best_degree, best_rmse = tune_optimal_reg_degree(
             ridge,
@@ -72,7 +72,7 @@ def main() -> None:
             prove_features=prove_features
         )
 
-        ridge.train(poly_train_features, train_labels)
+        ridge.fit(poly_train_features, train_labels)
 
         train_predictions = ridge.predict(poly_train_features)
         train_metrics = ridge.eval_reg(train_labels, train_predictions, display=False)
