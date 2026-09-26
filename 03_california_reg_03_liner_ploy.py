@@ -22,7 +22,7 @@ from utils.ml import (
     split_data,
     tune_optimal_reg_degree,
 )
-from utils.ml.estimators import OLSReg
+from utils.ml.estimators import OLSRegressor
 
 
 def init_california_housing() -> Bunch:
@@ -76,7 +76,7 @@ def main() -> None:
         Best Polynomial Degree: 2, Best RMSE: 0.7003
         """
 
-        linear = OLSReg()
+        linear = OLSRegressor()
         degrees: list[int] = [1, 2, 3]
         best_degree, _ = tune_optimal_reg_degree(
             linear,
@@ -92,7 +92,7 @@ def main() -> None:
             prove_features=prove_features
         )
 
-        linear.train(poly_train_features, train_labels)
+        linear.fit(poly_train_features, train_labels)
         predictions = linear.predict(poly_valid_features)
         linear.eval_reg(valid_labels, predictions, display=True)
 
