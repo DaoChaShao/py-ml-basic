@@ -100,7 +100,7 @@ def main() -> None:
         min_samples_split=best_split,
         min_samples_leaf=best_leaf
     )
-    tree.train(train_features, train_labels)
+    tree.fit(train_features, train_labels)
 
     train_predictions = tree.predict(train_features)
     train_metrics = tree.eval_reg(train_labels, train_predictions, display=False)
