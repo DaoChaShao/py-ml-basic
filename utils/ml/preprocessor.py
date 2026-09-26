@@ -19,7 +19,15 @@ from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, option_context, read_csv, read_excel
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import f1_score
+from sklearn.metrics import (
+    accuracy_score,
+    adjusted_rand_score,
+    calinski_harabasz_score,
+    confusion_matrix,
+    f1_score,
+    normalized_mutual_info_score,
+    silhouette_score
+)
 from sklearn.model_selection import (
     GridSearchCV,
     KFold,
@@ -27,6 +35,7 @@ from sklearn.model_selection import (
     train_test_split,
 )
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
+from scipy.optimize import linear_sum_assignment
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import (
     LabelEncoder,
@@ -1408,6 +1417,89 @@ def expand_polynomial_features(
         print(f"Valid: Original {valid_features.shape} -> Poly {poly_valid.shape}")
         print(f"Prove: Original {prove_features.shape} -> Poly {poly_prove.shape}")
     return poly_train, poly_valid, poly_prove
+
+
+@timer
+def evaluate_kmeans_with_silhouette(
+        features: DataFrame, predictions: Any,
+        data_type: str | Literal["train", "valid", "prove"],
+        *,
+        display: bool = False,
+) -> float:
+    """
+    Evaluate KMeans clustering performance on train, valid, and prove datasets.
+
+    :param features: Feature DataFrame for training.
+    :param predictions: Predictions from the KMeans model.
+    :param data_type: The type of data being evaluated ("train", "valid", or "prove").
+    :param display: Whether to print the evaluation metrics.
+    :return: The silhouette score (Bigger is better).
+    """
+    _score: float = silhouette_score(features, predictions)
+
+    if display:
+        print(f"{data_type.capitalize()} Silhouette Score: {_score:.4f}.")
+    return _score
+
+
+@timer
+def evaluate_kmeans_with_ch(
+        features: DataFrame, predictions: Any,
+        data_type: str | Literal["train", "valid", "prove"],
+        *,
+        display: bool = False,
+) -> float:
+    """
+    Evaluate KMeans clustering performance on train, valid, and prove datasets.
+
+    :param features: Feature DataFrame for training.
+    :param predictions: Predictions from the KMeans model.
+    :param data_type: The type of data being evaluated ("train", "valid", or "prove").
+    :param display: Whether to print the evaluation metrics.
+    :return: The silhouette score (Bigger is better).
+    """
+    _score: float = calinski_harabasz_score(features, predictions)
+
+    if display:
+        print(f"{data_type.capitalize()} Calinski-Harabasz Score: {_score:.4f}.")
+    return _score
+
+
+@timer
+def evaluate_kmeans_classification(
+        true_labels: Series, pred_labels: Any,
+        data_type: str | Literal["train", "valid", "prove"],
+        *,
+        display: bool = False
+) -> tuple[float, float, float]:
+    """
+    Evaluate KMeans clustering against true labels.
+
+    :param true_labels: True labels.
+    :param pred_labels: Predictions.
+    :param data_type: The type of data being evaluated ("train", "valid", or "prove").
+    :param display: Whether to print the evaluation metrics.
+    :return: A tuple of (ARI, NMI, Accuracy).
+    """
+    _ari = adjusted_rand_score(true_labels, pred_labels)
+    _nmi = normalized_mutual_info_score(true_labels, pred_labels)
+    # Build contingency matrix
+    _contingency = confusion_matrix(true_labels, pred_labels)
+    # Find the best cluster-to-class assignment
+    _row_ind, _col_ind = linear_sum_assignment(-_contingency)
+
+    _mapping = {
+        cluster: true_class
+        for true_class, cluster in zip(_row_ind, _col_ind, strict=True)
+    }
+    _mapped_predictions = [_mapping.get(cluster, -1) for cluster in pred_labels]
+    _accuracy = accuracy_score(true_labels, _mapped_predictions)
+
+    if display:
+        print(f"{data_type.capitalize()} ARI      : {_ari:.4f}")
+        print(f"{data_type.capitalize()} NMI      : {_nmi:.4f}")
+        print(f"{data_type.capitalize()} Accuracy : {_accuracy:.4f}")
+    return _ari, _nmi, _accuracy
 
 
 @timer
