@@ -25,7 +25,7 @@ from utils.ml import (
     split_data,
     tune_optimal_reg_degree,
 )
-from utils.ml.estimators import SGDReg
+from utils.ml.estimators import SGDRegressor
 
 
 def init_diabetes() -> Bunch:
@@ -58,7 +58,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        sgd = SGDReg(loss=RegLosses.SQUARED_ERROR, penalty=RegPenalties.L2, lr_category=AlphaCategories.INVSCALING)
+        sgd = SGDRegressor(loss=RegLosses.SQUARED_ERROR, penalty=RegPenalties.L2, lr_category=AlphaCategories.INVSCALING)
         degrees: list[int] = [1, 2, 3]
         best_degree, best_rmse = tune_optimal_reg_degree(
             sgd,
@@ -74,7 +74,7 @@ def main() -> None:
             prove_features=prove_features
         )
 
-        sgd.train(poly_train_features, train_labels)
+        sgd.fit(poly_train_features, train_labels)
         predictions = sgd.predict(poly_valid_features)
         metrics = sgd.eval_reg(valid_labels, predictions, display=True)
         """
