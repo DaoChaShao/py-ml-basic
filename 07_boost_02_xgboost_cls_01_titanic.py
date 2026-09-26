@@ -4,11 +4,11 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   07_boost_02_xgboost_cls_01_titanic.py
-# @Desc     :   
+# @Desc     :
 
-from pandas import DataFrame, Series
 from random import randint
 
+from pandas import DataFrame, Series
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 from sklearn.utils import Bunch
@@ -18,11 +18,11 @@ from utils.ml import (
     FeaturesTransformer,
     Missions,
     TitanicFeatures,
+    XGBClsObjectives,
     diagnose_cls_fit,
     get_cls_labels_distribution,
     split_data,
     summary_dataframe,
-    XGBClsObjectives,
 )
 from utils.ml.estimators import HyperXGBooster
 
