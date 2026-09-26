@@ -349,3 +349,23 @@ class AdaBoostRegLoss(StrEnum):
     LINEAR = "linear"
     SQUARE = "square"
     EXPONENTIAL = "exponential"
+
+
+@unique
+class XGBClsObjectives(StrEnum):
+    """ XGBoost classification objectives. """
+    BINARY_LOGISTIC = "binary:logistic"
+    BINARY_LOGITRAW = "binary:logitraw"
+    MULTI_SOFTMAX = "multi:softmax"
+    MULTI_SOFTPROB = "multi:softprob"
+
+
+@unique
+class XGBRegObjectives(StrEnum):
+    """ XGBoost regression objectives. """
+    SQUAREDEROR = "reg:squarederror"
+    SQUAREDLOGERROR = "reg:squaredlogerror"
+    ABSERROR = "reg:absoluteerror"
+    PSEUDOHUBERERROR = "reg:pseudohubererror"
+    QUANTILEERROR = "reg:quantileerror"
+    HUBER = "reg:huber"
