@@ -47,7 +47,7 @@ class Base(ABC, Access):
         self._fitted: bool = False
 
     @abstractmethod
-    def train(self, features: DataFrame, labels: Series) -> None:
+    def fit(self, features: DataFrame, labels: Series) -> None:
         """
         Train the model.
 
