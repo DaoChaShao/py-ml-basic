@@ -3,7 +3,7 @@
 # @Time     :   2026/9/25 21:36
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   gbdt.py
+# @File     :   gbdtree.py
 # @Desc     :
 
 from typing import Any, Literal, Self, override
@@ -71,8 +71,6 @@ class GBDTree(Base):
         )
         self._randomness: int = randomness
 
-        self._init_model()
-
     @protectedmethod
     def _init_model(self) -> None:
         """
@@ -98,18 +96,22 @@ class GBDTree(Base):
         )
 
     @override
-    def train(self, features: DataFrame, labels: Series) -> None:
+    def fit(self, features: DataFrame, labels: Series) -> Self:
         """
         Train the gradient boosting estimator.
 
         :param features: The features of the training data.
         :param labels: The labels of the training data.
-        :return: None
+        :return: The estimator
         """
+        self._init_model()
+
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
+
         self._model.fit(features, labels)
         self._fitted = True
+        return self
 
     @override
     def predict(self, features: DataFrame) -> Any:
@@ -218,6 +220,7 @@ class HyperGBDTree(Base, BaseEstimator):
         )
         self.randomness: int = randomness
 
+    @protectedmethod
     def _init_model(self) -> None:
         """
         Initialise the underlying sklearn GBDT model.
@@ -241,6 +244,7 @@ class HyperGBDTree(Base, BaseEstimator):
             random_state=self.randomness,
         )
 
+    @override
     def get_params(self, deep: bool = True) -> dict[str, Any]:
         """
         This method allows sklearn utilities such as GridSearchCV to inspect and clone the estimator.
@@ -260,6 +264,7 @@ class HyperGBDTree(Base, BaseEstimator):
             "randomness": self.randomness,
         }
 
+    @override
     def set_params(self, **params: Any) -> Self:
         """
         This method is required by sklearn's hyperparameter search utilities.
@@ -283,6 +288,7 @@ class HyperGBDTree(Base, BaseEstimator):
         self._fitted = False
         return self
 
+    @override
     def fit(self, features: DataFrame, labels: Series) -> Self:
         """
        Fit the GBDT model. sklearn estimators conventionally return self from fit().
@@ -293,6 +299,9 @@ class HyperGBDTree(Base, BaseEstimator):
        """
         self._init_model()
 
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+
         self._model.fit(features, labels)
         self._fitted = True
 
@@ -302,17 +311,7 @@ class HyperGBDTree(Base, BaseEstimator):
         self.n_features_in_ = self._model.n_features_in_
         return self
 
-    # Keep your original API.
-    def train(self, features: DataFrame, labels: Series) -> None:
-        """
-        Train the GBDT estimator.
-
-        :param features: The features of the training data.
-        :param labels: The labels of the training data.
-        :return: None
-        """
-        self.fit(features, labels)
-
+    @override
     def predict(self, features: DataFrame) -> Any:
         """
         Predict labels or regression values.
@@ -320,7 +319,6 @@ class HyperGBDTree(Base, BaseEstimator):
         :param features: The features of the input data.
         :return: Predicted labels or regression values.
         """
-
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.predict(features)
@@ -338,9 +336,6 @@ class HyperGBDTree(Base, BaseEstimator):
             raise RuntimeError("Estimator has not been trained yet.")
         return float(self._model.score(features, labels))
 
-    # ================================================================
-    # Additional API
-    # ================================================================
     def confidence(self, features: DataFrame) -> Any:
         """
         Predict class probabilities for classification tasks.
