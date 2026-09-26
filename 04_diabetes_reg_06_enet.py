@@ -23,7 +23,7 @@ from utils.ml import (
     split_data,
     tune_optimal_reg_degree,
 )
-from utils.ml.estimators import ElasticNetReg
+from utils.ml.estimators import ElasticNetRegressor
 
 
 def init_diabetes() -> Bunch:
@@ -56,7 +56,7 @@ def main() -> None:
         valid_features = standardiser.transform(valid_features)
         prove_features = standardiser.transform(prove_features)
 
-        enet = ElasticNetReg(l1_ratio=0.5)
+        enet = ElasticNetRegressor(l1_ratio=0.5)
         degrees: list[int] = [1, 2, 3]
         best_degree, best_rmse = tune_optimal_reg_degree(
             enet,
@@ -72,7 +72,7 @@ def main() -> None:
             prove_features=prove_features
         )
 
-        enet.train(poly_train_features, train_labels)
+        enet.fit(poly_train_features, train_labels)
 
         train_predictions = enet.predict(poly_train_features)
         train_metrics = enet.eval_reg(train_labels, train_predictions, display=False)
