@@ -137,7 +137,7 @@ def main() -> None:
             prove_features=transformed_prove_features
         )
 
-        tree.train(poly_train_features, train_labels)
+        tree.fit(poly_train_features, train_labels)
 
         train_predictions = tree.predict(poly_train_features)
         train_metrics = tree.eval_cls(train_labels, train_predictions, display=False)
