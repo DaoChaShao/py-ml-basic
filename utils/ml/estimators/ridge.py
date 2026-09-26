@@ -6,7 +6,7 @@
 # @File     :   ridge.py
 # @Desc     :
 
-from typing import Any, override, Self
+from typing import Any, Self, override
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
