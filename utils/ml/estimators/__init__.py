@@ -31,13 +31,14 @@ from .boosting import (
     HyperXGBooster,
 )
 from .cart import DecisionTree, HyperDecisionTree
-from .enet import ElasticNetRegressor, HyperElasticNetRegressor
+from .kmeans import HyperKMeans
 from .knn import KNN, HyperKNN
-from .lasso import HyperLassoRegressor, LassoRegressor
+from .linear import ElasticNetRegressor, HyperElasticNetRegressor
+from .linear.lasso import HyperLassoRegressor, LassoRegressor
+from .linear.ols import HyperOLSRegressor, OLSRegressor
+from .linear.ridge import HyperRidgeRegressor, RidgeRegressor
+from .linear.sgd import HyperSGDRegressor, SGDRegressor
 from .logistic import HyperLogisticRegClassifier, LogisticRegClassifier
-from .ols import HyperOLSRegressor, OLSRegressor
-from .ridge import HyperRidgeRegressor, RidgeRegressor
-from .sgd import HyperSGDRegressor, SGDRegressor
 
 __all__ = [
     # Protocols
@@ -56,6 +57,7 @@ __all__ = [
     # Hyper-Parameters Estimators
     "HyperDecisionTree",
     "HyperElasticNetRegressor",
+    "HyperKMeans",
     "HyperKNN",
     "HyperLassoRegressor",
     "HyperLogisticRegClassifier",
