@@ -6,11 +6,12 @@
 # @File     :   sgd.py
 # @Desc     :   Stochastic Gradient Descent Regression Estimator Wrapper.
 
-from typing import Any, Literal, override
+from typing import Any, Literal, override, Self
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
 from pydantic import Field, validate_call
+from sklearn.base import BaseEstimator
 from sklearn.linear_model import SGDRegressor
 
 from utils.ml.types import AlphaCategories, RegLosses, RegPenalties
@@ -58,8 +59,6 @@ class SGDReg(Base):
         self._randomness: int = randomness
         self._lr_category: AlphaCategories = AlphaCategories(lr_category)
 
-        self._init_model()
-
     @protectedmethod
     def _init_model(self) -> None:
         """
@@ -78,7 +77,7 @@ class SGDReg(Base):
         )
 
     @override
-    def train(self, features: DataFrame, labels: Series) -> None:
+    def fit(self, features: DataFrame, labels: Series) -> Self:
         """
         Train the SGD Regression estimator with the given features and labels.
 
@@ -86,10 +85,14 @@ class SGDReg(Base):
         :param labels: The labels to train the estimator.
         :return: None
         """
+        self._init_model()
+
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
+
         self._model.fit(features, labels)
         self._fitted = True
+        return self
 
     @override
     def predict(self, features: DataFrame) -> Any:
@@ -174,3 +177,161 @@ class SGDReg(Base):
             f"lr_category={self._lr_category.value}, "
             f"fitted={self._fitted})"
         )
+
+
+class HyperSGDRegressor(Base, BaseEstimator):
+    """ Stochastic Gradient Descent Regression Estimator Wrapper. """
+
+    @validate_call
+    def __init__(
+            self,
+            *,
+            loss: str | RegLosses | Literal[
+                "squared_error", "huber", "epsilon_insensitive", "squared_epsilon_insensitive"
+            ] = RegLosses.SQUARED_ERROR,
+            penalty: str | RegPenalties | Literal["l2", "l1", "elasticnet"] = RegPenalties.L2,
+            penalty_strength: float = Field(0.0001, gt=0, description="Bigger strength, stronger regularisation."),
+            is_intercept: bool = True,
+            epochs: int = Field(1_000, gt=0, description="Maximum number of passes over the training data."),
+            randomness: int = 27,
+            lr_category: str | AlphaCategories | Literal[
+                "invscaling", "constant", "optimal", "adaptive"
+            ] = AlphaCategories.INVSCALING,
+    ) -> None:
+        """
+        Initialise the SGD Regression estimator.
+
+        :param loss: The loss function to be used.
+        :param penalty: The regularisation penalty to be used.
+        :param penalty_strength: The regularisation strength.
+        :param is_intercept: Whether to calculate the intercept for this model.
+        :param epochs: Maximum number of passes over the training data.
+        :param randomness: Seed for reproducible random state.
+        :param lr_category: The learning rate category.
+        :return: None
+        """
+        super().__init__()
+        self.loss: RegLosses = RegLosses(loss)
+        self.penalty: RegPenalties = RegPenalties(penalty)
+        self.penalty_strength: float = penalty_strength
+        self.is_intercept: bool = is_intercept
+        self.epochs: int = epochs
+        self.randomness: int = randomness
+        self.lr_category: AlphaCategories = AlphaCategories(lr_category)
+
+    @protectedmethod
+    def _init_model(self) -> None:
+        """
+        Initialise the estimator based on the specified parameters.
+
+        :return: None
+        """
+        self._model = SGDRegressor(
+            loss=self.loss.value,
+            penalty=self.penalty.value,
+            alpha=self.penalty_strength,
+            fit_intercept=self.is_intercept,
+            max_iter=self.epochs,
+            random_state=self.randomness,
+            learning_rate=self.lr_category.value
+        )
+
+    @override
+    def get_params(self, deep: bool = True) -> dict[str, Any]:
+        """
+        This method allows sklearn utilities such as GridSearchCV to inspect and clone the estimator.
+
+        :param deep: Whether to return parameters of nested estimators.
+        :return: Estimator parameters.
+        """
+        return {
+            "loss": self.loss,
+            "penalty": self.penalty,
+            "penalty_strength": self.penalty_strength,
+            "is_intercept": self.is_intercept,
+            "epochs": self.epochs,
+            "randomness": self.randomness,
+            "lr_category": self.lr_category,
+        }
+
+    @override
+    def set_params(self, **params: Any) -> Self:
+        """
+        This method is required by sklearn's hyperparameter search utilities.
+
+        :param params: Parameters to set.
+        :return: The estimator with parameters set.
+        """
+        if not params:
+            return self
+
+        valid_params = self.get_params()
+
+        for key, value in params.items():
+            if key not in valid_params:
+                raise ValueError(
+                    f"Invalid parameter {key!r} for HyperSGDRegressor. "
+                    f"Valid parameters are: {list(valid_params)}."
+                )
+            setattr(self, key, value)
+
+        self._fitted = False
+        return self
+
+    @override
+    def fit(self, features: DataFrame, labels: Series) -> Self:
+        """
+        Train the SGD Regression estimator with the given features and labels.
+
+        :param features: The features to train the estimator.
+        :param labels: The labels to train the estimator.
+        :return: None
+        """
+        self._init_model()
+
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+
+        self._model.fit(features, labels)
+        self._fitted = True
+        return self
+
+    @override
+    def predict(self, features: DataFrame) -> Any:
+        """
+        Predict the labels for the given features using the SGD Regression estimator.
+
+        :param features: The features to predict the labels for.
+        :return: The predicted labels.
+        """
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+        if not self._fitted:
+            raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        return self._model.predict(features)
+
+    @property
+    def coefficient(self) -> Any:
+        """
+        Get the regression coefficients (weights).
+
+        :return: The regression coefficients (weights).
+        """
+        if not self._fitted:
+            raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        return self._model.coef_
+
+    @property
+    def intercept(self) -> Any:
+        """
+        Get the regression intercept (bias).
+
+        :return: The regression intercept (bias).
+        """
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+        if not self._fitted:
+            raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        if not self.is_intercept:
+            return None
+        return self._model.intercept_[0] if self._model.intercept_.ndim > 0 else self._model.intercept_
