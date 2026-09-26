@@ -18,11 +18,17 @@ the Boosting strategy, including Gradient Boosting estimators and so on.
 __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
-from .adaboost import AdaBoost
-from .gbdt import GBDTree, HyperGBDTree
+from .adaboost import AdaBoost, HyperAdaBoost
+from .gbdtree import GBDTree, HyperGBDTree
+from .xgboost import HyperXGBooster
 
 __all__ = [
+    # Boosting Estimators
     "AdaBoost",
-    "HyperGBDTree",
     "GBDTree",
+
+    # Hyper-Parameters Tuning for Boosting Estimators
+    "HyperAdaBoost",
+    "HyperGBDTree",
+    "HyperXGBooster",
 ]
