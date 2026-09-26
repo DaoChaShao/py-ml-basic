@@ -14,9 +14,8 @@ from pydantic import Field, validate_call
 from sklearn.base import BaseEstimator
 from sklearn.linear_model import SGDRegressor
 
+from utils.ml.estimators.base import Base
 from utils.ml.types import AlphaCategories, RegLosses, RegPenalties
-
-from .base import Base
 
 
 class SGDReg(Base):
