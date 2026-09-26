@@ -1,10 +1,19 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-26)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-27)
 
 ### Features
 
+- **deps:** add numpy-typing-compat, optype, and scipy-stubs packages ([2fe8de8](https://github.com/DaoChaShao/py-ml-basic/commit/2fe8de8203ea408bbf19e70f1407b29d28d12eae))
+- **ml:** add K-Means initialization and algorithm enum types ([765a9b9](https://github.com/DaoChaShao/py-ml-basic/commit/765a9b99ab31a274f5f4abdb1661cd18da9a8b00))
+- **deps:** add scipy-stubs dependency ([8932169](https://github.com/DaoChaShao/py-ml-basic/commit/89321697d35dc5911e9913c65d6ae5eca1da5bb9))
+- **ml:** add KMeans clustering evaluation functions and metrics ([b421583](https://github.com/DaoChaShao/py-ml-basic/commit/b421583659df436adda9837e68d4fefe50bf2d82))
+- **ml:** add HyperKMeans estimator with sklearn compatibility ([ea3c51a](https://github.com/DaoChaShao/py-ml-basic/commit/ea3c51a4bc5d636065572bc6d14e984fb5bbd41e))
+- **utils/ml:** add KMeans evaluation functions and algorithm categories to module exports ([eb32c9c](https://github.com/DaoChaShao/py-ml-basic/commit/eb32c9c4dc5b29fc194017b6d72c76e3750617ab))
+- **ml:** add linear estimators module with core regression algorithms ([8beba47](https://github.com/DaoChaShao/py-ml-basic/commit/8beba47b0d8c15b01e9005e9c1a6073511646e13))
+- **ml:** add k-means clustering implementation with hyperparameter optimization ([d7fc941](https://github.com/DaoChaShao/py-ml-basic/commit/d7fc941745aa0338587c522f3e7560f861d20d12))
+- **ml:** add Naive Bayes and XGBoost implementations with import reordering ([86f2fc8](https://github.com/DaoChaShao/py-ml-basic/commit/86f2fc82236c71e9ff4efaa0b684e02fe8eba229))
 - **ml:** add Naive Bayes estimator implementation ([4f03fb2](https://github.com/DaoChaShao/py-ml-basic/commit/4f03fb29fbd06984acda3e4a01b42f88b797ae48))
 - **ml:** add Naive Bayes estimator and reorder imports ([ebc63aa](https://github.com/DaoChaShao/py-ml-basic/commit/ebc63aae90fc412163158b9af1b9c6aa3aa94744))
 - **ml:** add naive bayes classification implementation with iris dataset ([13dd7f6](https://github.com/DaoChaShao/py-ml-basic/commit/13dd7f68a8ab13d9db8482a41eff4fc8593b534f))
@@ -149,6 +158,9 @@
 
 ### Chore
 
+- **linear:** add gitignore for linear estimator module ([8bf1896](https://github.com/DaoChaShao/py-ml-basic/commit/8bf18965cb97ea3c0a37a0d8a43ab6d86040ce68))
+- **ml:** add gitignore for boosting estimator module ([b4c46f1](https://github.com/DaoChaShao/py-ml-basic/commit/b4c46f183e451bb3f21645159b38b308500b91fe))
+- **ml:** add gitignore for bagging estimator module ([76477b8](https://github.com/DaoChaShao/py-ml-basic/commit/76477b8cfde347219d123d2da7dfc8d0f7cfae59))
 - **xgboost:** update file description comment ([43b8b5d](https://github.com/DaoChaShao/py-ml-basic/commit/43b8b5db8fcaabc5fb9fec20fa9c53879c11f52c))
 - **comment:** update file description comment ([69e467f](https://github.com/DaoChaShao/py-ml-basic/commit/69e467f67a8d3006d57f1a937eec281ac40d71ef))
 - **files:** rename gbdt regression file from 02 to 03 ([01d6e80](https://github.com/DaoChaShao/py-ml-basic/commit/01d6e80ed768a9d5d58813fb0c7fb71ce0f8a44e))
@@ -190,6 +202,13 @@
 
 ### Code Refactoring
 
+- **utils:** move SGD estimator to linear module ([b09f91d](https://github.com/DaoChaShao/py-ml-basic/commit/b09f91d4104c0515405c07367f41c060d3c4787e))
+- **utils:** move ridge estimator to linear module ([9309882](https://github.com/DaoChaShao/py-ml-basic/commit/930988271fa411682d1006d99ea4a7b0647dbf0c))
+- **utils:** move OLS estimator to linear subdirectory ([a1686a2](https://github.com/DaoChaShao/py-ml-basic/commit/a1686a28da83ed37ae498536749020c754c7dc28))
+- **utils:** move lasso estimator to linear module and update import path ([487b0ae](https://github.com/DaoChaShao/py-ml-basic/commit/487b0ae9957998efc2f1b9709f41c1bcfc0661c9))
+- **utils:** move enet estimator to linear module and update import path ([be2e963](https://github.com/DaoChaShao/py-ml-basic/commit/be2e96321c2942aa13569940e39fc50fb340a172))
+- **ml:** update base estimator fit method signature ([cd78b82](https://github.com/DaoChaShao/py-ml-basic/commit/cd78b82c884f6e65344bc996c8e342a1c769714b))
+- **ml:** restructure linear model imports and add KMeans estimator ([daf1607](https://github.com/DaoChaShao/py-ml-basic/commit/daf1607a919e1d5169fdb46704291bb28564fa18))
 - **utils/ml/estimators/sgd.py:** reorder imports for consistency ([522edfc](https://github.com/DaoChaShao/py-ml-basic/commit/522edfc234362120b1cea47a2c75ec885776c1e4))
 - **utils:** reorder imports in ridge estimator module ([5893e0c](https://github.com/DaoChaShao/py-ml-basic/commit/5893e0c65b0bd504171f3d2388772d99dfc12b05))
 - **utils:** reorder imports in OLS estimator module ([d993091](https://github.com/DaoChaShao/py-ml-basic/commit/d993091a76f6357d1458f747851aeb35a7f2ece9))
