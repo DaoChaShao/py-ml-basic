@@ -20,7 +20,7 @@ from utils.ml import (
     get_reg_labels_distribution,
     split_data,
 )
-from utils.ml.estimators import OLSReg
+from utils.ml.estimators import OLSRegressor
 
 
 def init_california_housing() -> Bunch:
@@ -64,8 +64,8 @@ def main() -> None:
         ****************************************************************
         """
 
-        linear = OLSReg()
-        linear.train(train_features, train_labels)
+        linear = OLSRegressor()
+        linear.fit(train_features, train_labels)
         predictions = linear.predict(valid_features)
         linear.eval_reg(valid_labels, predictions, display=True)
 
