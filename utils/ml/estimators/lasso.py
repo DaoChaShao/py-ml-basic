@@ -6,17 +6,18 @@
 # @File     :   lasso.py
 # @Desc     :   Lasso (L1 Regularised) Regression Estimator Wrapper.
 
-from typing import Any, override
+from typing import Any, override, Self
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
 from pydantic import Field, validate_call
+from sklearn.base import BaseEstimator
 from sklearn.linear_model import Lasso
 
 from .base import Base
 
 
-class LassoReg(Base):
+class LassoRegressor(Base):
     """Lasso Regression Estimator Wrapper."""
 
     @validate_call
@@ -43,8 +44,6 @@ class LassoReg(Base):
         self._epochs: int = epochs
         self._randomness: int = randomness
 
-        self._init_model()
-
     @protectedmethod
     def _init_model(self) -> None:
         """
@@ -60,18 +59,22 @@ class LassoReg(Base):
         )
 
     @override
-    def train(self, features: DataFrame, labels: Series) -> None:
+    def fit(self, features: DataFrame, labels: Series) -> Self:
         """
         Train the Lasso Regression estimator with the given features and labels.
 
         :param features: The features to train the estimator.
         :param labels: The labels to train the estimator.
-        :return: None
+        :return: The estimator
         """
+        self._init_model()
+
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
+
         self._model.fit(features, labels)
         self._fitted = True
+        return self
 
     @override
     def predict(self, features: DataFrame) -> Any:
@@ -138,3 +141,153 @@ class LassoReg(Base):
             f"randomness={self._randomness}, "
             f"fitted={self._fitted})"
         )
+
+
+class HyperLassoRegressor(Base, BaseEstimator):
+    """Lasso Regression Estimator Wrapper."""
+
+    @validate_call
+    def __init__(
+            self,
+            *,
+            penalty_strength: float = Field(1.0, gt=0, description="Bigger strength, stronger regularisation."),
+            is_intercept: bool = True,
+            epochs: int = Field(1_000, gt=0, description="Maximum number of iterations for coordinate descent."),
+            randomness: int = 27,
+    ) -> None:
+        """
+        Initialise the Lasso Regression estimator.
+
+        :param penalty_strength: Constant that multiplies the L1 term. Defaults to 1.0.
+        :param is_intercept: Whether to calculate the intercept for this model.
+        :param epochs: Maximum number of iterations for coordinate descent.
+        :param randomness: Seed for reproducible random state.
+        :return: None
+        """
+        super().__init__()
+        self.strength: float = penalty_strength
+        self.is_intercept: bool = is_intercept
+        self.epochs: int = epochs
+        self.randomness: int = randomness
+
+    @protectedmethod
+    def _init_model(self) -> None:
+        """
+        Initialise the underlying Scikit-Learn Lasso estimator.
+
+        :return: None
+        """
+        self._model = Lasso(
+            alpha=self.strength,
+            fit_intercept=self.is_intercept,
+            max_iter=self.epochs,
+            random_state=self.randomness,
+        )
+
+    @override
+    def get_params(self, deep: bool = True) -> dict[str, Any]:
+        """
+        This method allows sklearn utilities such as GridSearchCV to inspect and clone the estimator.
+
+        :param deep: Whether to return parameters of nested estimators.
+        :return: Estimator parameters.
+        """
+        return {
+            "penalty_strength": self.strength,
+            "is_intercept": self.is_intercept,
+            "epochs": self.epochs,
+            "randomness": self.randomness,
+        }
+
+    @override
+    def set_params(self, **params: Any) -> Self:
+        """
+        This method is required by sklearn's hyperparameter search utilities.
+
+        :param params: Parameters to set.
+        :return: The estimator with parameters set.
+        """
+        if not params:
+            return self
+
+        valid_params = self.get_params()
+
+        for key, value in params.items():
+            if key not in valid_params:
+                raise ValueError(
+                    f"Invalid parameter {key!r} for HyperLassoRegressor. "
+                    f"Valid parameters are: {list(valid_params)}."
+                )
+            setattr(self, key, value)
+
+        self._fitted = False
+        return self
+
+    @override
+    def fit(self, features: DataFrame, labels: Series) -> Self:
+        """
+        Train the Lasso Regression estimator with the given features and labels.
+
+        :param features: The features to train the estimator.
+        :param labels: The labels to train the estimator.
+        :return: The estimator
+        """
+        self._init_model()
+
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+
+        self._model.fit(features, labels)
+        self._fitted = True
+        return self
+
+    @override
+    def predict(self, features: DataFrame) -> Any:
+        """
+        Predict the labels for the given features using the Lasso estimator.
+
+        :param features: The features to predict the labels for.
+        :return: The predicted labels.
+        """
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+        if not self._fitted:
+            raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        return self._model.predict(features)
+
+    @property
+    def penalty_strength(self) -> float:
+        """
+        Get the regularisation strength (alpha).
+
+        :return: The alpha value.
+        """
+        return self.strength
+
+    @property
+    def coefficient(self) -> Any:
+        """
+        Get the regression coefficients (weights).
+
+        :return: The regression coefficients.
+        """
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+        if not self._fitted:
+            raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        return self._model.coef_
+
+    @property
+    def intercept(self) -> Any:
+        """
+        Get the regression intercept (bias).
+
+        :return: The regression intercept value or None if disabled.
+        """
+        if self._model is None:
+            raise RuntimeError("Estimator has not been initialised.")
+        if not self._fitted:
+            raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
+        if not self.is_intercept:
+            return None
+        return self._model.intercept_[0] if self._model.intercept_.ndim > 0 else self._model.intercept_
