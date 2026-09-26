@@ -111,7 +111,7 @@ def main() -> None:
             prove_features=prove_features
         )
 
-        adaboost.train(poly_train_features, train_labels)
+        adaboost.fit(poly_train_features, train_labels)
 
         train_predictions = adaboost.predict(poly_train_features)
         train_metrics = adaboost.eval_cls(train_labels, train_predictions, display=False)
