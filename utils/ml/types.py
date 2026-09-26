@@ -369,3 +369,17 @@ class XGBRegObjectives(StrEnum):
     PSEUDOHUBERERROR = "reg:pseudohubererror"
     QUANTILEERROR = "reg:quantileerror"
     HUBER = "reg:huber"
+
+
+@unique
+class KMeansInitCategories(StrEnum):
+    """ K-Means initialisation methods. """
+    K_MEANS_PLUS_PLUS = "k-means++"
+    RANDOM = "random"
+
+
+@unique
+class KMeansAlgorithms(StrEnum):
+    """ K-Means algorithms. """
+    LLOYD = "lloyd"
+    ELKAN = "elkan"
