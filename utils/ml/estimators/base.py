@@ -47,13 +47,13 @@ class Base(ABC, Access):
         self._fitted: bool = False
 
     @abstractmethod
-    def fit(self, features: DataFrame, labels: Series) -> None:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the model.
 
         :param features: The features to train on.
-        :param labels: The labels to train on.
-        :return: None
+        :param labels: The optional labels to train on.
+        :return: The trained estimator.
         """
         pass
 
