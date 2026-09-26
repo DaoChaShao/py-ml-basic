@@ -85,7 +85,7 @@ def main() -> None:
             prove_features=prove_features
         )
 
-        classifier.train(poly_train_features, train_labels)
+        classifier.fit(poly_train_features, train_labels)
 
         train_predictions = classifier.predict(poly_train_features)
         train_metrics = classifier.eval_cls(train_labels, train_predictions, display=False)
