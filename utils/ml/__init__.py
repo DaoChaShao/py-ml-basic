@@ -77,6 +77,8 @@ from .types import (
     TreeRegCriteria,
     TreeRegLoss,
     TreeSplitters,
+    XGBClsObjectives,
+    XGBRegObjectives,
 )
 
 __all__ = [
@@ -138,4 +140,6 @@ __all__ = [
     "TreeRegCriteria",
     "TreeRegLoss",
     "TreeSplitters",
+    "XGBClsObjectives",
+    "XGBRegObjectives",
 ]
