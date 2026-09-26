@@ -18,8 +18,12 @@ the Bagging strategy, including Random Forest estimators and so on.
 __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
-from .forest import RandomForest
+from .forest import RandomForest, HyperRandomForest
 
 __all__ = [
+    # Bagging Estimators
     "RandomForest",
+
+    # Hyper-Parameters Tuning for Bagging Estimators
+    "HyperRandomForest",
 ]
