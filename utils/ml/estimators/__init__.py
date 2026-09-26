@@ -20,8 +20,9 @@ Descent (SGD), Ridge (L2), and Lasso (L1) estimators.
 __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
-from .bagging import RandomForest, HyperRandomForest
+from .bagging import HyperRandomForest, RandomForest
 from .base import Base
+from .bayes import NaiveBayes
 from .boosting import (
     AdaBoost,
     GBDTree,
@@ -32,11 +33,11 @@ from .boosting import (
 from .cart import DecisionTree, HyperDecisionTree
 from .enet import ElasticNetRegressor, HyperElasticNetRegressor
 from .knn import KNN, HyperKNN
-from .lasso import LassoRegressor, HyperLassoRegressor
-from .logistic import LogisticRegClassifier, HyperLogisticRegClassifier
-from .ols import OLSRegressor, HyperOLSRegressor
-from .ridge import RidgeRegressor, HyperRidgeRegressor
-from .sgd import SGDRegressor, HyperSGDRegressor
+from .lasso import HyperLassoRegressor, LassoRegressor
+from .logistic import HyperLogisticRegClassifier, LogisticRegClassifier
+from .ols import HyperOLSRegressor, OLSRegressor
+from .ridge import HyperRidgeRegressor, RidgeRegressor
+from .sgd import HyperSGDRegressor, SGDRegressor
 
 __all__ = [
     # Protocols
@@ -48,6 +49,7 @@ __all__ = [
     "KNN",
     "LassoRegressor",
     "LogisticRegClassifier",
+    "NaiveBayes",
     "OLSRegressor",
     "RidgeRegressor",
     "SGDRegressor",
