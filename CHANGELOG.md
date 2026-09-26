@@ -5,6 +5,10 @@
 
 ### Features
 
+- **ml:** add Naive Bayes estimator implementation ([4f03fb2](https://github.com/DaoChaShao/py-ml-basic/commit/4f03fb29fbd06984acda3e4a01b42f88b797ae48))
+- **ml:** add Naive Bayes estimator and reorder imports ([ebc63aa](https://github.com/DaoChaShao/py-ml-basic/commit/ebc63aae90fc412163158b9af1b9c6aa3aa94744))
+- **ml:** add naive bayes classification implementation with iris dataset ([13dd7f6](https://github.com/DaoChaShao/py-ml-basic/commit/13dd7f68a8ab13d9db8482a41eff4fc8593b534f))
+- **ml:** add XGBoost estimator and hyperparameter tuning capabilities ([9f00c5d](https://github.com/DaoChaShao/py-ml-basic/commit/9f00c5dfcf0ba5281d5b45018e889a4ed1e18584))
 - **ml:** add XGBoost estimator implementation ([dcce731](https://github.com/DaoChaShao/py-ml-basic/commit/dcce73185f8df28cffa9939095005399185423bb))
 - **dependencies:** add xgboost to project dependencies ([0a7038f](https://github.com/DaoChaShao/py-ml-basic/commit/0a7038feb77aa1276e66b94e22aada6aab14240c))
 - **utils:** add XGBoost objective enums for classification and regression ([e475200](https://github.com/DaoChaShao/py-ml-basic/commit/e475200d695691243676ae9e325702a54f8b8cea))
@@ -145,6 +149,7 @@
 
 ### Chore
 
+- **xgboost:** update file description comment ([43b8b5d](https://github.com/DaoChaShao/py-ml-basic/commit/43b8b5db8fcaabc5fb9fec20fa9c53879c11f52c))
 - **comment:** update file description comment ([69e467f](https://github.com/DaoChaShao/py-ml-basic/commit/69e467f67a8d3006d57f1a937eec281ac40d71ef))
 - **files:** rename gbdt regression file from 02 to 03 ([01d6e80](https://github.com/DaoChaShao/py-ml-basic/commit/01d6e80ed768a9d5d58813fb0c7fb71ce0f8a44e))
 - **diabetes-reg:** update prediction result display messages ([1f1acea](https://github.com/DaoChaShao/py-ml-basic/commit/1f1acea93ed53fbe5b8920bcc3fe9fc1867c3ca2))
@@ -185,6 +190,18 @@
 
 ### Code Refactoring
 
+- **utils/ml/estimators/sgd.py:** reorder imports for consistency ([522edfc](https://github.com/DaoChaShao/py-ml-basic/commit/522edfc234362120b1cea47a2c75ec885776c1e4))
+- **utils:** reorder imports in ridge estimator module ([5893e0c](https://github.com/DaoChaShao/py-ml-basic/commit/5893e0c65b0bd504171f3d2388772d99dfc12b05))
+- **utils:** reorder imports in OLS estimator module ([d993091](https://github.com/DaoChaShao/py-ml-basic/commit/d993091a76f6357d1458f747851aeb35a7f2ece9))
+- **utils/ml/estimators/logistic:** reorder imports alphabetically ([c0dc7ca](https://github.com/DaoChaShao/py-ml-basic/commit/c0dc7caac2eb1a85389ba78ecff4d878cc834655))
+- **ml:** reorder imports in lasso estimator module ([9f83b13](https://github.com/DaoChaShao/py-ml-basic/commit/9f83b131af27a4eec08047f8c1e017fad7d17191))
+- **ml:** reorder imports in knn estimator module ([dedf3b2](https://github.com/DaoChaShao/py-ml-basic/commit/dedf3b2def8e0007e26f97b1c898eb92a9150edf))
+- **utils/ml/estimators/bagging/forest.py:** reorder imports alphabetically ([0ce538d](https://github.com/DaoChaShao/py-ml-basic/commit/0ce538df1def05623754e2f42f4f3aafad662136))
+- **utils:** reorder imports in elastic net estimator ([49e89d3](https://github.com/DaoChaShao/py-ml-basic/commit/49e89d327c135de3a4c3eb184dc4c21410cba6e1))
+- **utils/ml/estimators/cart:** reorder imports alphabetically ([da56bc3](https://github.com/DaoChaShao/py-ml-basic/commit/da56bc3dbbd5ff06e32265c050c9c5de4ac48556))
+- **ml:** reorder imports in adaboost estimator ([e204d0e](https://github.com/DaoChaShao/py-ml-basic/commit/e204d0e1021a6115328b8db1ce420bbe326a594c))
+- **utils:** reorder imports in bagging module ([8601ea0](https://github.com/DaoChaShao/py-ml-basic/commit/8601ea073a83c3366247bb7b8702dc3576945297))
+- **titanic:** reorganize imports and reorder module dependencies ([18ef874](https://github.com/DaoChaShao/py-ml-basic/commit/18ef874f42bfb938f8fe99f68b1f67916587ead8))
 - **ml:** update SGD estimator to follow scikit-learn conventions ([168de70](https://github.com/DaoChaShao/py-ml-basic/commit/168de70509df16455a3d52c75e14c053bc52002d))
 - **ml:** update ridge regressor implementation ([5201861](https://github.com/DaoChaShao/py-ml-basic/commit/52018617a4a394c46e839e0c0fae5651692b57ae))
 - **utils/ml:** replace train method calls with fit in preprocessor ([89a1a30](https://github.com/DaoChaShao/py-ml-basic/commit/89a1a30434ac7d334a9b4954821e3ded84fa54bf))
