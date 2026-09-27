@@ -13,7 +13,7 @@ from pandas import DataFrame, Series
 from sklearn.base import BaseEstimator
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
-from utils.ml.types import KNNMetrics, Missions
+from utils.ml.types import DistanceMetrics, Missions
 
 from .base import Base
 
@@ -26,9 +26,9 @@ class KNN(Base):
             mission: str | Missions | Literal["cls", "reg"],
             *,
             n_neighbours: int = 5,
-            metric: str | KNNMetrics | Literal[
+            metric: str | DistanceMetrics | Literal[
                 "euclidean", "manhattan", "chebyshev", "minkowski"
-            ] = KNNMetrics.MINKOWSKI,
+            ] = DistanceMetrics.MINKOWSKI,
             p: float = 2.0,
     ):
         """
@@ -42,7 +42,7 @@ class KNN(Base):
         super().__init__()
         self._mission: Missions = Missions(mission)
         self._neighbours: int = n_neighbours
-        self._metric: KNNMetrics = KNNMetrics(metric)
+        self._metric: DistanceMetrics = DistanceMetrics(metric)
         self._p: float = p
 
     @protectedmethod
@@ -104,7 +104,7 @@ class KNN(Base):
         return self._neighbours
 
     @property
-    def metric(self) -> KNNMetrics:
+    def metric(self) -> DistanceMetrics:
         """ Get the metric used for distance calculation. """
         return self._metric
 
@@ -132,9 +132,9 @@ class HyperKNN(Base, BaseEstimator):
             mission: str | Missions | Literal["cls", "reg"],
             *,
             n_neighbours: int = 5,
-            metric: str | KNNMetrics | Literal[
+            metric: str | DistanceMetrics | Literal[
                 "euclidean", "manhattan", "chebyshev", "minkowski"
-            ] = KNNMetrics.MINKOWSKI,
+            ] = DistanceMetrics.MINKOWSKI,
             p: float = 2.0,
     ):
         """
@@ -148,7 +148,7 @@ class HyperKNN(Base, BaseEstimator):
         super().__init__()
         self.mission: Missions = Missions(mission)
         self.n_neighbours: int = n_neighbours
-        self.metric: KNNMetrics = KNNMetrics(metric)
+        self.metric: DistanceMetrics = DistanceMetrics(metric)
         self.p: float = p
 
     @protectedmethod
