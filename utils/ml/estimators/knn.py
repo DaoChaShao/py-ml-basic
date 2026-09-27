@@ -47,16 +47,12 @@ class KNN(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the KNN estimator based on the mode.
-
-        :return: None
-        """
+        """ Initialise the KNN estimator based on the mode. """
         _estimator = KNeighborsClassifier if self._mission is Missions.CLS else KNeighborsRegressor
         self._model = _estimator(n_neighbors=self._neighbours, metric=self._metric.value, p=self._p)
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the KNN estimator with the given features and labels.
 
@@ -104,37 +100,21 @@ class KNN(Base):
 
     @property
     def neighbours(self) -> int:
-        """
-        Get the number of neighbors considered for classification or regression.
-
-        :return: The number of neighbors considered for classification or regression.
-        """
+        """ Get the number of neighbors considered for classification or regression. """
         return self._neighbours
 
     @property
     def metric(self) -> KNNMetrics:
-        """
-        Get the metric used for distance calculation.
-
-        :return: The metric used for distance calculation.
-        """
+        """ Get the metric used for distance calculation. """
         return self._metric
 
     @property
     def p(self) -> float:
-        """
-        Get the value of p used for the Minkowski distance metric.
-
-        :return: The value of p used for the Minkowski distance metric.
-        """
+        """ Get the value of p used for the Minkowski distance metric. """
         return self._p
 
     def __repr__(self) -> str:
-        """
-        Return a string representation of the KNN object.
-
-        :return: A string representation of the KNN object.
-        """
+        """ Return a string representation of the KNN object. """
         return (
             f"KNN("
             f"mission={self._mission.value!r}, "
@@ -173,11 +153,7 @@ class HyperKNN(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the KNN estimator based on the mode.
-
-        :return: None
-        """
+        """ Initialise the KNN estimator based on the mode. """
         _estimator = KNeighborsClassifier if self.mission is Missions.CLS else KNeighborsRegressor
         self._model = _estimator(n_neighbors=self.n_neighbours, metric=self.metric.value, p=self.p)
 
@@ -221,7 +197,7 @@ class HyperKNN(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the KNN estimator with the given features and labels.
 
