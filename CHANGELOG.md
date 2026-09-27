@@ -1,10 +1,17 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-27)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-28)
 
 ### Features
 
+- **deps:** add llvmlite numba pynndescent umap-learn packages ([f08525b](https://github.com/DaoChaShao/py-ml-basic/commit/f08525bd709d18d83fff3ae7eedab4d91977020f))
+- **dependencies:** add umap-learn to project dependencies ([6feb495](https://github.com/DaoChaShao/py-ml-basic/commit/6feb495434cdf6adbfbc5548ae1ff157d27f7743))
+- **ml:** enhance preprocessor with LDA and UMAP dimensionality reduction ([3c3cbe3](https://github.com/DaoChaShao/py-ml-basic/commit/3c3cbe3179868a9e1d5f54430bb1dc05a787fcec))
+- **ml:** add unsupervised learning pipeline with GMM and UMAP ([1b03326](https://github.com/DaoChaShao/py-ml-basic/commit/1b03326cce82e4cf0d9e9285b7a285122dfee6d0))
+- **ml:** add supervised UMAP dimensionality reduction with GMM clustering ([ab04b6e](https://github.com/DaoChaShao/py-ml-basic/commit/ab04b6eb4dfb2df27a0e4f75e370747967881db4))
+- **ml:** add GMM clustering with LDA dimensionality reduction for wine dataset ([dbee995](https://github.com/DaoChaShao/py-ml-basic/commit/dbee9951b07313d74404163fd683a41a458211c6))
+- **ml:** add GMM clustering with PCA analysis for wine dataset ([f52763a](https://github.com/DaoChaShao/py-ml-basic/commit/f52763aa2b4aeb48305eece4046ed5a85e22cede))
 - **utils:** add PCAIAssessor to ml utilities ([36ee535](https://github.com/DaoChaShao/py-ml-basic/commit/36ee5359147e9880f0ff10c7d5dc981abf233eec))
 - **ml:** enhance preprocessor with PCA analysis and improve documentation ([a697b01](https://github.com/DaoChaShao/py-ml-basic/commit/a697b015ebd4f5dbfccd292aaf3347a3d6606637))
 - **ml:** add Gaussian Mixture Model and clustering estimators module ([b15fd2a](https://github.com/DaoChaShao/py-ml-basic/commit/b15fd2a62fa42d3dda9d8a0dcc048efff8cf3f82))
@@ -170,6 +177,7 @@
 
 ### Chore
 
+- **files:** rename gmm script with version suffix ([bb26cd5](https://github.com/DaoChaShao/py-ml-basic/commit/bb26cd5d39c4e3cb06663997dd50ce5fc1c3d233))
 - **clustering:** add gitignore for clustering estimator module ([7ccd4a2](https://github.com/DaoChaShao/py-ml-basic/commit/7ccd4a25027155aa0f264975f4256982f22b627a))
 - **linear:** add gitignore for linear estimator module ([8bf1896](https://github.com/DaoChaShao/py-ml-basic/commit/8bf18965cb97ea3c0a37a0d8a43ab6d86040ce68))
 - **ml:** add gitignore for boosting estimator module ([b4c46f1](https://github.com/DaoChaShao/py-ml-basic/commit/b4c46f183e451bb3f21645159b38b308500b91fe))
@@ -216,6 +224,14 @@
 
 ### Code Refactoring
 
+- **utils:** rename KNNMetrics to DistanceMetrics and add FeaturesCategories ([a1b3001](https://github.com/DaoChaShao/py-ml-basic/commit/a1b3001951631f25627c392277944d9ded0cfae9))
+- **ml:** replace KNNMetrics with DistanceMetrics in KNN estimator ([6b66f69](https://github.com/DaoChaShao/py-ml-basic/commit/6b66f69f2b87e06449197d84acd0d3a11b50de5c))
+- **utils:** replace dynamic package metadata lookup with static version info ([3e48a8d](https://github.com/DaoChaShao/py-ml-basic/commit/3e48a8d1b1868ec1f0d64eb627e28b59980d98fc))
+- **utils/ml:** update module exports and imports ([67d8d2b](https://github.com/DaoChaShao/py-ml-basic/commit/67d8d2bfea0cb7042aec80fca309b112eba95e16))
+- **ml:** replace KNNMetrics with DistanceMetrics for consistency ([f1d75ac](https://github.com/DaoChaShao/py-ml-basic/commit/f1d75ac4dee603689addc5fe9a1c0c70605f9f9b))
+- **digits:** replace KNNMetrics with DistanceMetrics for consistency ([20d8289](https://github.com/DaoChaShao/py-ml-basic/commit/20d82894725b6ea6fa173e44054b16ec1cabdfa8))
+- **ml:** update distance metrics import and usage ([8472bc0](https://github.com/DaoChaShao/py-ml-basic/commit/8472bc019965ca41a314166eacccc5156d98524b))
+- **ml:** update XGBoost estimator and simplify multiple estimator implementations ([478dade](https://github.com/DaoChaShao/py-ml-basic/commit/478dade05b5fe8248cb8b2bacacef89f3d27ff6f))
 - **ml:** update XGBoost estimator with optional labels parameter ([f86d48f](https://github.com/DaoChaShao/py-ml-basic/commit/f86d48fdd12fab2224deb4abdd8e0827baff0a74))
 - **utils:** add type hints and documentation to ML types enum ([8b8b110](https://github.com/DaoChaShao/py-ml-basic/commit/8b8b1107efc838401e6a3c7c67f77455a023badb))
 - **ml:** simplify docstrings and update method signatures in SGD estimators ([0ae19fd](https://github.com/DaoChaShao/py-ml-basic/commit/0ae19fd8ed97c5f04a6ed9f886e7d84069d40b51))
