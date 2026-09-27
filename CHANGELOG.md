@@ -5,10 +5,10 @@
 
 ### Features
 
+- **ml:** add K-means clustering implementation with SSE optimization ([2fff6ed](https://github.com/DaoChaShao/py-ml-basic/commit/2fff6ede8ebc0d675974e921176e4c9331574d87))
 - **ml:** add SSESeeker class for K-means elbow point detection ([60e71f5](https://github.com/DaoChaShao/py-ml-basic/commit/60e71f545a77e765dbf9c9c99c6d512fda520275))
 - **utils/ml:** add model property to base estimator class ([718c2cf](https://github.com/DaoChaShao/py-ml-basic/commit/718c2cfb9a2db1baf4bbb5758c1dee92c78ea3e7))
 - **utils:** add SSESeeker to ML utilities module ([234dd54](https://github.com/DaoChaShao/py-ml-basic/commit/234dd54b76ca28d55a05c27f8dc3a42c749313b2))
-- **ml:** add K-means clustering implementation with SSE optimization ([e98e2ae](https://github.com/DaoChaShao/py-ml-basic/commit/e98e2ae67b8c03fd914e71c89e3e9f7034fec5a6))
 - **ml:** add machine learning algorithms and refactor estimator modules ([2ceb9de](https://github.com/DaoChaShao/py-ml-basic/commit/2ceb9deffc5a753492a01d1cb2e4dde0ac16d09e))
 - **deps:** add numpy-typing-compat, optype, and scipy-stubs packages ([2fe8de8](https://github.com/DaoChaShao/py-ml-basic/commit/2fe8de8203ea408bbf19e70f1407b29d28d12eae))
 - **ml:** add K-Means initialization and algorithm enum types ([765a9b9](https://github.com/DaoChaShao/py-ml-basic/commit/765a9b99ab31a274f5f4abdb1661cd18da9a8b00))
@@ -207,6 +207,7 @@
 
 ### Code Refactoring
 
+- **kmeans:** simplify SSESeeker constructor by removing unnecessary variable ([001a82c](https://github.com/DaoChaShao/py-ml-basic/commit/001a82cf06c55f657283765b2a06c10991d8f5c1))
 - **utils/ml:** reorganize preprocessor module imports and cleanup ([0467ed3](https://github.com/DaoChaShao/py-ml-basic/commit/0467ed3626159363d3dd7891ee6d01e857520e65))
 - **kmeans:** update imports and file description ([e593e30](https://github.com/DaoChaShao/py-ml-basic/commit/e593e302b719ba90f940337085ffe2dad02e9424))
 - **kmeans:** replace silhouette evaluation with Calinski-Harabasz index ([91ea8d0](https://github.com/DaoChaShao/py-ml-basic/commit/91ea8d0302a766544d39d22e6bd033b238f9afdb))
