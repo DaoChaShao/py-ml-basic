@@ -19,8 +19,8 @@ from utils.ml import (
     KMeansAlgorithms,
     KMeansInitCategories,
     Missions,
-    evaluate_kmeans_classification,
-    evaluate_kmeans_with_ch,
+    eval_clustering_classification,
+    eval_clustering_with_ch,
     get_cls_labels_distribution,
     split_data,
     summary_dataframe,
@@ -115,9 +115,9 @@ def main() -> None:
         """
 
         train_predictions = km.predict(train_features)
-        evaluate_kmeans_with_ch(train_features, train_predictions, "train", display=True)
+        eval_clustering_with_ch(train_features, train_predictions, "train", display=True)
         # evaluate_kmeans_with_silhouette(train_features, train_predictions, "train", display=True)
-        evaluate_kmeans_classification(train_labels, train_predictions, "train", display=True)
+        eval_clustering_classification(train_labels, train_predictions, "train", display=True)
         """
         ****************************************************************
         The function named 'evaluate_kmeans_classification' is starting:
@@ -142,9 +142,9 @@ def main() -> None:
         """
 
         valid_predictions = km.predict(valid_features)
-        evaluate_kmeans_with_ch(valid_features, valid_predictions, "valid", display=True)
+        eval_clustering_with_ch(valid_features, valid_predictions, "valid", display=True)
         # evaluate_kmeans_with_silhouette(valid_features, valid_predictions, "valid", display=True)
-        evaluate_kmeans_classification(valid_labels, valid_predictions, "valid", display=True)
+        eval_clustering_classification(valid_labels, valid_predictions, "valid", display=True)
         """
         ****************************************************************
         The function named 'evaluate_kmeans_classification' is starting:
@@ -169,9 +169,9 @@ def main() -> None:
         """
 
         prove_predictions = km.predict(prove_features)
-        evaluate_kmeans_with_ch(prove_features, prove_predictions, "prove", display=True)
+        eval_clustering_with_ch(prove_features, prove_predictions, "prove", display=True)
         # evaluate_kmeans_with_silhouette(prove_features, prove_predictions, "prove", display=True)
-        evaluate_kmeans_classification(prove_labels, prove_predictions, "prove", display=True)
+        eval_clustering_classification(prove_labels, prove_predictions, "prove", display=True)
         """
         ****************************************************************
         The function named 'evaluate_kmeans_classification' is starting:
