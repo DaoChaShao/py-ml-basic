@@ -30,15 +30,11 @@ class OLSRegressor(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the estimator based on the mode.
-
-        :return: None
-        """
+        """ Initialise the estimator based on the mode. """
         self._model = LinearRegression(fit_intercept=self._is_intercept)
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
        Train the estimator with the given features and labels.
 
@@ -71,22 +67,14 @@ class OLSRegressor(Base):
 
     @property
     def coefficient(self) -> Any:
-        """
-        Get the regression coefficients (weights).
-
-        :return: The regression coefficients (weights).
-        """
+        """ Get the regression coefficients (weights). """
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.coef_
 
     @property
     def intercept(self) -> Any:
-        """
-        Get the regression intercept (bias).
-
-        :return: The regression intercept (bias).
-        """
+        """ Get the regression intercept (bias). """
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         if not self._is_intercept:
@@ -94,15 +82,12 @@ class OLSRegressor(Base):
         return self._model.intercept_
 
     def __repr__(self) -> str:
-        """
-        Get the string representation of the estimator.
-
-        :return: The string representation of the estimator.
-        """
+        """ Get the string representation of the estimator. """
         return f"Linear(is_intercept={self._is_intercept})"
 
 
 class HyperOLSRegressor(Base, BaseEstimator):
+    """ Hyper-Parameter Optimised Ordinary Least Squares Regressor """
 
     def __init__(self, is_intercept: bool = True) -> None:
         """
@@ -116,11 +101,7 @@ class HyperOLSRegressor(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the estimator based on the mode.
-
-        :return: None
-        """
+        """ Initialise the estimator based on the mode. """
         self._model = LinearRegression(fit_intercept=self.is_intercept)
 
     @override
@@ -160,7 +141,7 @@ class HyperOLSRegressor(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
        Train the estimator with the given features and labels.
 
@@ -193,22 +174,14 @@ class HyperOLSRegressor(Base, BaseEstimator):
 
     @property
     def coefficient(self) -> Any:
-        """
-        Get the regression coefficients (weights).
-
-        :return: The regression coefficients (weights).
-        """
+        """ Get the regression coefficients (weights). """
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.coef_
 
     @property
     def intercept(self) -> Any:
-        """
-        Get the regression intercept (bias).
-
-        :return: The regression intercept (bias).
-        """
+        """ Get the regression intercept (bias). """
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         if not self.is_intercept:
