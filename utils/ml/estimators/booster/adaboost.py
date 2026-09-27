@@ -54,11 +54,7 @@ class AdaBoost(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying sklearn AdaBoost model.
-
-        :return: None
-        """
+        """ Initialise the underlying sklearn AdaBoost model. """
         _base_estimator = (
             DecisionTreeClassifier(max_depth=self._max_depth, random_state=self._randomness)
             if self._mission is Missions.CLS
@@ -85,7 +81,7 @@ class AdaBoost(Base):
                 raise ValueError(f"Invalid mission: {self._mission}")
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the AdaBoost estimator.
 
@@ -135,22 +131,14 @@ class AdaBoost(Base):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances calculated from the AdaBoost ensemble.
-
-        :return: Array of feature importances.
-        """
+        """ Return feature importances calculated from the AdaBoost ensemble. """
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
 
         return self._model.feature_importances_
 
     def __repr__(self) -> str:
-        """
-        String representation of the AdaBoost estimator.
-
-        :return: String representation of the AdaBoost estimator.
-        """
+        """ String representation of the AdaBoost estimator. """
         match self._mission:
             case Missions.CLS:
                 return (
@@ -208,11 +196,7 @@ class HyperAdaBoost(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying sklearn AdaBoost model.
-
-        :return: None
-        """
+        """ Initialise the underlying sklearn AdaBoost model. """
         _estimator = (
             DecisionTreeClassifier(max_depth=self.max_depth, random_state=self.randomness)
             if self.mission is Missions.CLS
@@ -280,7 +264,7 @@ class HyperAdaBoost(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the AdaBoost estimator.
 
@@ -330,11 +314,7 @@ class HyperAdaBoost(Base, BaseEstimator):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances calculated from the AdaBoost ensemble.
-
-        :return: Array of feature importances.
-        """
+        """ Return feature importances calculated from the AdaBoost ensemble. """
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
 
