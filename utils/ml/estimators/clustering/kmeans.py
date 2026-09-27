@@ -14,8 +14,8 @@ from pydantic import Field, validate_call
 from sklearn.base import BaseEstimator
 from sklearn.cluster import KMeans
 
-from ..types import KMeansAlgorithms, KMeansInitCategories
-from .base import Base
+from utils.ml import KMeansAlgorithms, KMeansInitCategories
+from utils.ml.estimators import Base
 
 
 class HyperKMeans(Base, BaseEstimator):
