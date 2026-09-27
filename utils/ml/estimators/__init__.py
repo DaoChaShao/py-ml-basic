@@ -31,7 +31,7 @@ from .boosting import (
     HyperXGBooster,
 )
 from .cart import DecisionTree, HyperDecisionTree
-from .kmeans import HyperKMeans
+from .clustering import HyperGaussianMixture, HyperKMeans
 from .knn import KNN, HyperKNN
 from .linear import ElasticNetRegressor, HyperElasticNetRegressor
 from .linear.lasso import HyperLassoRegressor, LassoRegressor
@@ -57,7 +57,6 @@ __all__ = [
     # Hyper-Parameters Estimators
     "HyperDecisionTree",
     "HyperElasticNetRegressor",
-    "HyperKMeans",
     "HyperKNN",
     "HyperLassoRegressor",
     "HyperLogisticRegClassifier",
@@ -77,4 +76,8 @@ __all__ = [
     "RandomForest",
     # Hyper-Parameters Tuning for Bagging Estimators
     "HyperRandomForest",
+
+    # Clustering Estimators
+    "HyperGaussianMixture",
+    "HyperKMeans",
 ]
