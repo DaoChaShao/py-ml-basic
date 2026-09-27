@@ -46,11 +46,7 @@ class LassoRegressor(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying Scikit-Learn Lasso estimator.
-
-        :return: None
-        """
+        """ Initialise the underlying Scikit-Learn Lasso estimator. """
         self._model = Lasso(
             alpha=self._strength,
             fit_intercept=self._is_intercept,
@@ -59,7 +55,7 @@ class LassoRegressor(Base):
         )
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the Lasso Regression estimator with the given features and labels.
 
@@ -92,20 +88,12 @@ class LassoRegressor(Base):
 
     @property
     def penalty_strength(self) -> float:
-        """
-        Get the regularisation strength (alpha).
-
-        :return: The alpha value.
-        """
+        """ Get the regularisation strength (alpha). """
         return self._strength
 
     @property
     def coefficient(self) -> Any:
-        """
-        Get the regression coefficients (weights).
-
-        :return: The regression coefficients.
-        """
+        """ Get the regression coefficients (weights). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
@@ -114,11 +102,7 @@ class LassoRegressor(Base):
 
     @property
     def intercept(self) -> Any:
-        """
-        Get the regression intercept (bias).
-
-        :return: The regression intercept value or None if disabled.
-        """
+        """ Get the regression intercept (bias). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
@@ -128,11 +112,7 @@ class LassoRegressor(Base):
         return self._model.intercept_[0] if self._model.intercept_.ndim > 0 else self._model.intercept_
 
     def __repr__(self) -> str:
-        """
-        Get the string representation of the estimator.
-
-        :return: The string representation.
-        """
+        """ Get the string representation of the estimator. """
         return (
             f"LassoReg("
             f"penalty_strength={self._strength}, "
@@ -172,11 +152,7 @@ class HyperLassoRegressor(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying Scikit-Learn Lasso estimator.
-
-        :return: None
-        """
+        """ Initialise the underlying Scikit-Learn Lasso estimator. """
         self._model = Lasso(
             alpha=self.strength,
             fit_intercept=self.is_intercept,
@@ -224,7 +200,7 @@ class HyperLassoRegressor(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the Lasso Regression estimator with the given features and labels.
 
@@ -257,20 +233,12 @@ class HyperLassoRegressor(Base, BaseEstimator):
 
     @property
     def penalty_strength(self) -> float:
-        """
-        Get the regularisation strength (alpha).
-
-        :return: The alpha value.
-        """
+        """ Get the regularisation strength (alpha). """
         return self.strength
 
     @property
     def coefficient(self) -> Any:
-        """
-        Get the regression coefficients (weights).
-
-        :return: The regression coefficients.
-        """
+        """ Get the regression coefficients (weights). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
@@ -279,11 +247,7 @@ class HyperLassoRegressor(Base, BaseEstimator):
 
     @property
     def intercept(self) -> Any:
-        """
-        Get the regression intercept (bias).
-
-        :return: The regression intercept value or None if disabled.
-        """
+        """ Get the regression intercept (bias). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
