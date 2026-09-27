@@ -49,7 +49,13 @@ class IrisFeatures(Enum):
     PETAL_LENGTH = ("petal length (cm)", "花瓣长度 (厘米)")
     PETAL_WIDTH = ("petal width (cm)", "花瓣宽度 (厘米)")
 
-    def __init__(self, en_name: str, cn_name: str):
+    def __init__(self, en_name: str, cn_name: str) -> None:
+        """
+        Initialise the enum member with English and Chinese names.
+
+        :param en_name: English name
+        :param cn_name: Chinese name
+        """
         self.EN: str = en_name
         self.CN: str = cn_name
 
