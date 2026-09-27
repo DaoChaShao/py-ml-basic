@@ -67,6 +67,15 @@ class Base(ABC, Access):
         """
         pass
 
+    @property
+    def model(self):
+        """
+        Get the trained model.
+
+        :return: The trained model.
+        """
+        return self._model
+
     @staticmethod
     def eval_cls(
             valid_labels: Series, predictions: Series,
