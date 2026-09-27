@@ -73,9 +73,8 @@ def main() -> None:
 
         # Find the best k value | Elbow Method
         ks: list[int] = [2, 3, 4, 5]
-        estimator = HyperKMeans
         with SSESeeker(
-                estimator, ks, train_features,
+                HyperKMeans, ks, train_features,
                 init_cat=KMeansInitCategories.K_MEANS_PLUS_PLUS,
                 epochs=300,
                 randomness=27,
