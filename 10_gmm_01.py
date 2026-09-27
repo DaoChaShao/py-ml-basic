@@ -3,7 +3,7 @@
 # @Time     :   2026/9/27 17:35
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
-# @File     :   10_gmm.py
+# @File     :   10_gmm_01.py
 # @Desc     :
 
 from pprint import pprint
