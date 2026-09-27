@@ -73,11 +73,7 @@ class RandomForest(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying sklearn random forest model.
-
-        :return: None
-        """
+        """ Initialise the underlying sklearn random forest model. """
         _estimator = RandomForestClassifier if self._mission is Missions.CLS else RandomForestRegressor
         _max_features = (
             self._max_features.value
@@ -96,7 +92,7 @@ class RandomForest(Base):
         )
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the random forest estimator.
 
@@ -140,21 +136,13 @@ class RandomForest(Base):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances calculated by Gini impurity / MDI.
-
-        :return: Array of feature importances.
-        """
+        """ Return feature importances calculated by Gini impurity / MDI. """
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.feature_importances_
 
     def __repr__(self) -> str:
-        """
-        String representation of the RandomForest estimator.
-
-        :return: String representation of the RandomForest estimator.
-        """
+        """ String representation of the RandomForest estimator. """
         _max_features = (
             self._max_features.value
             if isinstance(self._max_features, ForestFeaturesStrategies)
@@ -221,11 +209,7 @@ class HyperRandomForest(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying sklearn random forest model.
-
-        :return: None
-        """
+        """ Initialise the underlying sklearn random forest model. """
         _estimator = RandomForestClassifier if self.mission is Missions.CLS else RandomForestRegressor
         _max_features = (
             self.max_features.value
@@ -287,7 +271,7 @@ class HyperRandomForest(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the random forest estimator.
 
@@ -330,11 +314,7 @@ class HyperRandomForest(Base, BaseEstimator):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances calculated by Gini impurity / MDI.
-
-        :return: Array of feature importances.
-        """
+        """ Return feature importances calculated by Gini impurity / MDI. """
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.feature_importances_
