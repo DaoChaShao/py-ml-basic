@@ -73,11 +73,7 @@ class GBDTree(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying sklearn gradient booster model.
-
-        :return: None
-        """
+        """ Initialise the underlying sklearn gradient booster model. """
         _estimator = GradientBoostingClassifier if self._mission is Missions.CLS else GradientBoostingRegressor
         _max_features = (
             self._max_features.value
@@ -96,7 +92,7 @@ class GBDTree(Base):
         )
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the gradient booster estimator.
 
@@ -140,21 +136,13 @@ class GBDTree(Base):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances calculated by Gini impurity / MDI.
-
-        :return: Array of feature importances.
-        """
+        """ Return feature importances calculated by Gini impurity / MDI. """
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.feature_importances_
 
     def __repr__(self) -> str:
-        """
-        String representation of the GBDT estimator.
-
-        :return: String representation of the GBDT estimator.
-        """
+        """ String representation of the GBDT estimator. """
         _max_features = (
             self._max_features.value
             if isinstance(self._max_features, ForestFeaturesStrategies)
@@ -222,11 +210,7 @@ class HyperGBDTree(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying sklearn GBDT model.
-
-        :return: None
-        """
+        """ Initialise the underlying sklearn GBDT model. """
         _estimator = GradientBoostingClassifier if self.mission is Missions.CLS else GradientBoostingRegressor
         _max_features = (
             self.max_features.value
@@ -289,7 +273,7 @@ class HyperGBDTree(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
        Fit the GBDT model. sklearn estimators conventionally return self from fit().
 
@@ -352,11 +336,7 @@ class HyperGBDTree(Base, BaseEstimator):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances.
-
-        :return: Feature importances.
-        """
+        """ Return feature importances. """
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.feature_importances_
