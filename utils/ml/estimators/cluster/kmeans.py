@@ -52,11 +52,7 @@ class HyperKMeans(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying KMeans model.
-
-        :return: None
-        """
+        """ Initialise the underlying KMeans model. """
         self._model = KMeans(
             n_clusters=self.n_clusters,
             init=self.init_cat.value,
@@ -135,7 +131,7 @@ class HyperKMeans(Base, BaseEstimator):
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.predict(features)
 
-    def score(self, features: DataFrame, labels: Series, ) -> float:
+    def score(self, features: DataFrame, labels: Series) -> float:
         """
         Return the default sklearn score.
 
@@ -143,7 +139,6 @@ class HyperKMeans(Base, BaseEstimator):
         :param labels: The labels of the input data.
         :return: The score.
         """
-
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
         return float(self._model.score(features, labels))
