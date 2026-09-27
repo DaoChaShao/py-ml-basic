@@ -13,10 +13,11 @@ from time import perf_counter
 from typing import Any, Literal, Self
 
 from access_modifiers import protectedmethod
-from numpy import ndarray, argmax
+from numpy import argmax, ndarray
 from numpy import random as np_random
 from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, option_context, read_csv, read_excel
+from scipy.optimize import linear_sum_assignment
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import (
@@ -26,7 +27,7 @@ from sklearn.metrics import (
     confusion_matrix,
     f1_score,
     normalized_mutual_info_score,
-    silhouette_score
+    silhouette_score,
 )
 from sklearn.model_selection import (
     GridSearchCV,
@@ -35,7 +36,6 @@ from sklearn.model_selection import (
     train_test_split,
 )
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
-from scipy.optimize import linear_sum_assignment
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import (
     LabelEncoder,
