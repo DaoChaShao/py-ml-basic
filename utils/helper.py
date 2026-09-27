@@ -19,11 +19,7 @@ class Beautifier:
     """ beautifying code blocks using a context manager """
 
     def __init__(self, desc: str | None = None) -> None:
-        """
-        Initialise the Beautifier class
-
-        :param desc: the description of a beautifier
-        """
+        """ Initialise the Beautifier class """
         self._desc = desc
 
     def __enter__(self) -> Self:
