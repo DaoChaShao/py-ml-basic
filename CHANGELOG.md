@@ -5,6 +5,10 @@
 
 ### Features
 
+- **ml:** add SVM estimator module with basic structure ([8e89a90](https://github.com/DaoChaShao/py-ml-basic/commit/8e89a902a130a7ae9ae4563f809eac8a01fd57db))
+- **ml:** add journey estimator module with main function ([f53c59a](https://github.com/DaoChaShao/py-ml-basic/commit/f53c59acf8c6f3945fa22ead19a58155a3354f21))
+- **ml:** add anomaly detection estimators module ([070f041](https://github.com/DaoChaShao/py-ml-basic/commit/070f0418199f73277bf8671fbf72c53a05909de3))
+- **ml:** add UMAP dimensionality reduction and enhance clustering capabilities ([e5f9a64](https://github.com/DaoChaShao/py-ml-basic/commit/e5f9a648c936bb08ceee7f1bf76396e38017654a))
 - **deps:** add llvmlite numba pynndescent umap-learn packages ([f08525b](https://github.com/DaoChaShao/py-ml-basic/commit/f08525bd709d18d83fff3ae7eedab4d91977020f))
 - **dependencies:** add umap-learn to project dependencies ([6feb495](https://github.com/DaoChaShao/py-ml-basic/commit/6feb495434cdf6adbfbc5548ae1ff157d27f7743))
 - **ml:** enhance preprocessor with LDA and UMAP dimensionality reduction ([3c3cbe3](https://github.com/DaoChaShao/py-ml-basic/commit/3c3cbe3179868a9e1d5f54430bb1dc05a787fcec))
@@ -177,6 +181,9 @@
 
 ### Chore
 
+- **journey:** add gitignore for ml estimators journey module ([8a3f5b8](https://github.com/DaoChaShao/py-ml-basic/commit/8a3f5b8db02ce377dd75d908d15d0ef408d7fe16))
+- **svm:** add .gitignore file for SVM estimator module ([1324077](https://github.com/DaoChaShao/py-ml-basic/commit/13240775c065b589420ba4c4710980756a4203f6))
+- **anomaly:** add gitignore for anomaly estimator module ([6118d37](https://github.com/DaoChaShao/py-ml-basic/commit/6118d3789f768e347474d1faa86c2e97c4082ff6))
 - **files:** rename gmm script with version suffix ([bb26cd5](https://github.com/DaoChaShao/py-ml-basic/commit/bb26cd5d39c4e3cb06663997dd50ce5fc1c3d233))
 - **clustering:** add gitignore for clustering estimator module ([7ccd4a2](https://github.com/DaoChaShao/py-ml-basic/commit/7ccd4a25027155aa0f264975f4256982f22b627a))
 - **linear:** add gitignore for linear estimator module ([8bf1896](https://github.com/DaoChaShao/py-ml-basic/commit/8bf18965cb97ea3c0a37a0d8a43ab6d86040ce68))
