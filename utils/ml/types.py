@@ -26,8 +26,8 @@ class Missions(StrEnum):
 
 
 @unique
-class KNNMetrics(StrEnum):
-    """ K-Nearest Neighbors metrics. """
+class DistanceMetrics(StrEnum):
+    """ Distance metrics. """
     EUCLIDEAN = "euclidean"
     MANHATTAN = "manhattan"
     CHEBYSHEV = "chebyshev"
@@ -407,3 +407,11 @@ class GMMInitParamsCategories(StrEnum):
     RANDOM = "random"
     RANDOM_FROM_DATA = "random_from_data"
     K_MEANS_PLUS_PLUS = "k-means++"
+
+
+@unique
+class FeaturesCategories(StrEnum):
+    """ Supported features categories. """
+    TRAIN = "train"
+    VALID = "valid"
+    PROVE = "prove"
