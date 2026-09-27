@@ -5,6 +5,11 @@
 
 ### Features
 
+- **ml:** add SSESeeker class for K-means elbow point detection ([60e71f5](https://github.com/DaoChaShao/py-ml-basic/commit/60e71f545a77e765dbf9c9c99c6d512fda520275))
+- **utils/ml:** add model property to base estimator class ([718c2cf](https://github.com/DaoChaShao/py-ml-basic/commit/718c2cfb9a2db1baf4bbb5758c1dee92c78ea3e7))
+- **utils:** add SSESeeker to ML utilities module ([234dd54](https://github.com/DaoChaShao/py-ml-basic/commit/234dd54b76ca28d55a05c27f8dc3a42c749313b2))
+- **ml:** add K-means clustering implementation with SSE optimization ([e98e2ae](https://github.com/DaoChaShao/py-ml-basic/commit/e98e2ae67b8c03fd914e71c89e3e9f7034fec5a6))
+- **ml:** add machine learning algorithms and refactor estimator modules ([2ceb9de](https://github.com/DaoChaShao/py-ml-basic/commit/2ceb9deffc5a753492a01d1cb2e4dde0ac16d09e))
 - **deps:** add numpy-typing-compat, optype, and scipy-stubs packages ([2fe8de8](https://github.com/DaoChaShao/py-ml-basic/commit/2fe8de8203ea408bbf19e70f1407b29d28d12eae))
 - **ml:** add K-Means initialization and algorithm enum types ([765a9b9](https://github.com/DaoChaShao/py-ml-basic/commit/765a9b99ab31a274f5f4abdb1661cd18da9a8b00))
 - **deps:** add scipy-stubs dependency ([8932169](https://github.com/DaoChaShao/py-ml-basic/commit/89321697d35dc5911e9913c65d6ae5eca1da5bb9))
@@ -202,6 +207,10 @@
 
 ### Code Refactoring
 
+- **utils/ml:** reorganize preprocessor module imports and cleanup ([0467ed3](https://github.com/DaoChaShao/py-ml-basic/commit/0467ed3626159363d3dd7891ee6d01e857520e65))
+- **kmeans:** update imports and file description ([e593e30](https://github.com/DaoChaShao/py-ml-basic/commit/e593e302b719ba90f940337085ffe2dad02e9424))
+- **kmeans:** replace silhouette evaluation with Calinski-Harabasz index ([91ea8d0](https://github.com/DaoChaShao/py-ml-basic/commit/91ea8d0302a766544d39d22e6bd033b238f9afdb))
+- **kmeans:** rename kmeans file and update internal reference ([0664240](https://github.com/DaoChaShao/py-ml-basic/commit/066424045057a3fb3bd550cef7bf23dc26844c6f))
 - **utils:** move SGD estimator to linear module ([b09f91d](https://github.com/DaoChaShao/py-ml-basic/commit/b09f91d4104c0515405c07367f41c060d3c4787e))
 - **utils:** move ridge estimator to linear module ([9309882](https://github.com/DaoChaShao/py-ml-basic/commit/930988271fa411682d1006d99ea4a7b0647dbf0c))
 - **utils:** move OLS estimator to linear subdirectory ([a1686a2](https://github.com/DaoChaShao/py-ml-basic/commit/a1686a28da83ed37ae498536749020c754c7dc28))
