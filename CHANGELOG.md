@@ -5,6 +5,7 @@
 
 ### Features
 
+- **ml:** add Gaussian Mixture Model and clustering estimators module ([d3a5c70](https://github.com/DaoChaShao/py-ml-basic/commit/d3a5c706ee4b89fe36170db1aef37f6ad4ce9bd6))
 - **utils:** add GMM covariance and initialization parameter types ([002c861](https://github.com/DaoChaShao/py-ml-basic/commit/002c8619d83082424c8c4343e2caae51188db3a2))
 - **ml:** add Gaussian Mixture Model estimator with hyperparameter tuning support ([f187036](https://github.com/DaoChaShao/py-ml-basic/commit/f187036039bd4779cad77424d674a53fee51d96b))
 - **ml:** add clustering estimators module with GMM and K-Means ([da35447](https://github.com/DaoChaShao/py-ml-basic/commit/da354474d85a4c77f37ecd2ea65cb8c9218f9c02))
@@ -212,6 +213,7 @@
 
 ### Code Refactoring
 
+- **ml:** rename estimators modules for consistency ([e392ba7](https://github.com/DaoChaShao/py-ml-basic/commit/e392ba784f24c11818dfcd4cec2fba299b22d86a))
 - **ml:** rename clustering evaluation functions and class ([2b1c4bb](https://github.com/DaoChaShao/py-ml-basic/commit/2b1c4bbd7cabd181f6130e1909397f2a77698fb6))
 - **utils:** move kmeans estimator to clustering module ([130b4c4](https://github.com/DaoChaShao/py-ml-basic/commit/130b4c45e8403d3e198f6000647ce847342ecd16))
 - **utils/ml:** update clustering evaluation function names and add GMM categories ([2cd6197](https://github.com/DaoChaShao/py-ml-basic/commit/2cd6197a2186e177b0c09df4c61b9a4499cb4a66))
