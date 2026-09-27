@@ -69,11 +69,7 @@ class DecisionTree(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the model
-
-        :return: None
-        """
+        """ Initialise the model """
         _estimator = DecisionTreeClassifier if self._mission is Missions.CLS else DecisionTreeRegressor
         self._model = _estimator(
             criterion=self._criterion.value,
@@ -86,7 +82,7 @@ class DecisionTree(Base):
         )
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the estimator.
 
@@ -134,11 +130,7 @@ class DecisionTree(Base):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances calculated by Gini impurity / MDI.
-
-        :return: Array of feature importances.
-        """
+        """ Return feature importances calculated by Gini impurity / MDI. """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
@@ -147,46 +139,26 @@ class DecisionTree(Base):
 
     @property
     def max_depth(self) -> int | None:
-        """
-        Return the maximum depth of the tree.
-
-        :return: The maximum depth of the tree.
-        """
+        """ Return the maximum depth of the tree. """
         return self._max_depth
 
     @property
     def min_samples_split(self) -> int:
-        """
-        Return the minimum number of samples required to split an internal node.
-
-        :return: The minimum number of samples required to split an internal node.
-        """
+        """ Return the minimum number of samples required to split an internal node. """
         return self._min_samples_split
 
     @property
     def min_samples_leaf(self) -> int:
-        """
-       Return the minimum number of samples required to be at a leaf node.
-
-       :return: The minimum number of samples required to be at a leaf node.
-       """
+        """ Return the minimum number of samples required to be at a leaf node. """
         return self._min_samples_leaf
 
     @property
     def max_features(self) -> int | float | None:
-        """
-        Return the number of features considered when looking for the best split.
-
-        :return: The number of features considered when looking for the best split.
-        """
+        """ Return the number of features considered when looking for the best split. """
         return self._max_features
 
     def __repr__(self) -> str:
-        """
-        String representation of the CART estimator.
-
-        :return: String representation of the CART estimator.
-        """
+        """ String representation of the CART estimator. """
         return (
             f"DecisionTree("
             f"mission={self._mission.value!r}, "
@@ -244,11 +216,7 @@ class HyperDecisionTree(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the model
-
-        :return: None
-        """
+        """ Initialise the model """
         _estimator = DecisionTreeClassifier if self.mission is Missions.CLS else DecisionTreeRegressor
         self._model = _estimator(
             criterion=self.criterion.value,
@@ -304,7 +272,7 @@ class HyperDecisionTree(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the estimator.
 
@@ -352,11 +320,7 @@ class HyperDecisionTree(Base, BaseEstimator):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances calculated by Gini impurity / MDI.
-
-        :return: Array of feature importances.
-        """
+        """ Return feature importances calculated by Gini impurity / MDI. """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
