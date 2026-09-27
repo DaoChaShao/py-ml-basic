@@ -5,6 +5,10 @@
 
 ### Features
 
+- **utils:** add GMM covariance and initialization parameter types ([002c861](https://github.com/DaoChaShao/py-ml-basic/commit/002c8619d83082424c8c4343e2caae51188db3a2))
+- **ml:** add Gaussian Mixture Model estimator with hyperparameter tuning support ([f187036](https://github.com/DaoChaShao/py-ml-basic/commit/f187036039bd4779cad77424d674a53fee51d96b))
+- **ml:** add clustering estimators module with GMM and K-Means ([da35447](https://github.com/DaoChaShao/py-ml-basic/commit/da354474d85a4c77f37ecd2ea65cb8c9218f9c02))
+- **ml:** add Gaussian Mixture Model implementation for wine dataset clustering ([1c4969d](https://github.com/DaoChaShao/py-ml-basic/commit/1c4969d9a42573911e47d3a093c5279a85749812))
 - **ml:** add K-means clustering implementation with SSE optimization ([2fff6ed](https://github.com/DaoChaShao/py-ml-basic/commit/2fff6ede8ebc0d675974e921176e4c9331574d87))
 - **ml:** add SSESeeker class for K-means elbow point detection ([60e71f5](https://github.com/DaoChaShao/py-ml-basic/commit/60e71f545a77e765dbf9c9c99c6d512fda520275))
 - **utils/ml:** add model property to base estimator class ([718c2cf](https://github.com/DaoChaShao/py-ml-basic/commit/718c2cfb9a2db1baf4bbb5758c1dee92c78ea3e7))
@@ -163,6 +167,7 @@
 
 ### Chore
 
+- **clustering:** add gitignore for clustering estimator module ([7ccd4a2](https://github.com/DaoChaShao/py-ml-basic/commit/7ccd4a25027155aa0f264975f4256982f22b627a))
 - **linear:** add gitignore for linear estimator module ([8bf1896](https://github.com/DaoChaShao/py-ml-basic/commit/8bf18965cb97ea3c0a37a0d8a43ab6d86040ce68))
 - **ml:** add gitignore for boosting estimator module ([b4c46f1](https://github.com/DaoChaShao/py-ml-basic/commit/b4c46f183e451bb3f21645159b38b308500b91fe))
 - **ml:** add gitignore for bagging estimator module ([76477b8](https://github.com/DaoChaShao/py-ml-basic/commit/76477b8cfde347219d123d2da7dfc8d0f7cfae59))
@@ -207,7 +212,13 @@
 
 ### Code Refactoring
 
-- **kmeans:** simplify SSESeeker constructor by removing unnecessary variable ([001a82c](https://github.com/DaoChaShao/py-ml-basic/commit/001a82cf06c55f657283765b2a06c10991d8f5c1))
+- **ml:** rename clustering evaluation functions and class ([2b1c4bb](https://github.com/DaoChaShao/py-ml-basic/commit/2b1c4bbd7cabd181f6130e1909397f2a77698fb6))
+- **utils:** move kmeans estimator to clustering module ([130b4c4](https://github.com/DaoChaShao/py-ml-basic/commit/130b4c45e8403d3e198f6000647ce847342ecd16))
+- **utils/ml:** update clustering evaluation function names and add GMM categories ([2cd6197](https://github.com/DaoChaShao/py-ml-basic/commit/2cd6197a2186e177b0c09df4c61b9a4499cb4a66))
+- **ml:** update clustering estimators organization ([b63d14a](https://github.com/DaoChaShao/py-ml-basic/commit/b63d14a2b70790f32d70ee751d5fa2feb7020a39))
+- **kmeans:** update clustering evaluation functions and selector class ([e8a540c](https://github.com/DaoChaShao/py-ml-basic/commit/e8a540cd15a88dc0424ed329a3b5fa987571c4ee))
+- **kmeans:** rename evaluation functions for consistency ([cdd6c5d](https://github.com/DaoChaShao/py-ml-basic/commit/cdd6c5d0a359fc760520dbe30c0c5968eb04ef82))
+- **kmeans:** simplify SSESeeker constructor by removing unnecessary variable ([d840a37](https://github.com/DaoChaShao/py-ml-basic/commit/d840a37edbc5282c0820c2e6be4aaf8286597258))
 - **utils/ml:** reorganize preprocessor module imports and cleanup ([0467ed3](https://github.com/DaoChaShao/py-ml-basic/commit/0467ed3626159363d3dd7891ee6d01e857520e65))
 - **kmeans:** update imports and file description ([e593e30](https://github.com/DaoChaShao/py-ml-basic/commit/e593e302b719ba90f940337085ffe2dad02e9424))
 - **kmeans:** replace silhouette evaluation with Calinski-Harabasz index ([91ea8d0](https://github.com/DaoChaShao/py-ml-basic/commit/91ea8d0302a766544d39d22e6bd033b238f9afdb))
