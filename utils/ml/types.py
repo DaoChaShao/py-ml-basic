@@ -383,3 +383,21 @@ class KMeansAlgorithms(StrEnum):
     """ K-Means algorithms. """
     LLOYD = "lloyd"
     ELKAN = "elkan"
+
+
+@unique
+class GMMCovarianceCategories(StrEnum):
+    """ GMM covariance types. """
+    FULL = "full"
+    TIED = "tied"
+    DIAG = "diag"
+    SPHERICAL = "spherical"
+
+
+@unique
+class GMMInitParamsCategories(StrEnum):
+    """ GMM init params. """
+    KMEANS = "kmeans"
+    RANDOM = "random"
+    RANDOM_FROM_DATA = "random_from_data"
+    K_MEANS_PLUS_PLUS = "k-means++"
