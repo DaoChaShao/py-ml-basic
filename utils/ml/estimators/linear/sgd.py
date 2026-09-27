@@ -60,11 +60,7 @@ class SGDReg(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the estimator based on the specified parameters.
-
-        :return: None
-        """
+        """ Initialise the estimator based on the specified parameters. """
         self._model = SGDRegressor(
             loss=self._loss.value,
             penalty=self._penalty.value,
@@ -76,7 +72,7 @@ class SGDReg(Base):
         )
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the SGD Regression estimator with the given features and labels.
 
@@ -109,40 +105,24 @@ class SGDReg(Base):
 
     @property
     def loss(self) -> RegLosses:
-        """
-        Get the loss function.
-
-        :return: The loss function.
-        """
+        """ Get the loss function. """
         return self._loss
 
     @property
     def penalty_strength(self) -> float:
-        """
-        Get the regularisation strength.
-
-        :return: The regularisation strength.
-        """
+        """ Get the regularisation strength. """
         return self._strength
 
     @property
     def coefficient(self) -> Any:
-        """
-        Get the regression coefficients (weights).
-
-        :return: The regression coefficients (weights).
-        """
+        """ Get the regression coefficients (weights). """
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.coef_
 
     @property
     def intercept(self) -> Any:
-        """
-        Get the regression intercept (bias).
-
-        :return: The regression intercept (bias).
-        """
+        """ Get the regression intercept (bias). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
@@ -153,19 +133,11 @@ class SGDReg(Base):
 
     @property
     def lr_category(self) -> AlphaCategories:
-        """
-        Get the learning rate category.
-
-        :return: The learning rate category.
-        """
+        """ Get the learning rate category. """
         return self._lr_category
 
     def __repr__(self) -> str:
-        """
-        Get the string representation of the estimator.
-
-        :return: The string representation of the estimator.
-        """
+        """ Get the string representation of the estimator. """
         return (
             f"SGDReg("
             f"loss={self._loss.value}, "
@@ -220,11 +192,7 @@ class HyperSGDRegressor(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the estimator based on the specified parameters.
-
-        :return: None
-        """
+        """ Initialise the estimator based on the specified parameters. """
         self._model = SGDRegressor(
             loss=self.loss.value,
             penalty=self.penalty.value,
@@ -278,7 +246,7 @@ class HyperSGDRegressor(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the SGD Regression estimator with the given features and labels.
 
@@ -311,22 +279,14 @@ class HyperSGDRegressor(Base, BaseEstimator):
 
     @property
     def coefficient(self) -> Any:
-        """
-        Get the regression coefficients (weights).
-
-        :return: The regression coefficients (weights).
-        """
+        """ Get the regression coefficients (weights). """
         if not self._fitted:
             raise RuntimeError("Estimator has not been trained yet. Call `train()` first.")
         return self._model.coef_
 
     @property
     def intercept(self) -> Any:
-        """
-        Get the regression intercept (bias).
-
-        :return: The regression intercept (bias).
-        """
+        """ Get the regression intercept (bias). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
