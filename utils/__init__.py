@@ -15,7 +15,8 @@ and classes designed for general data processing tasks.
 ****************************************************************
 """
 
-from importlib.metadata import PackageNotFoundError, metadata
+__author__ = "Shawn Yu"
+__version__ = "0.1.0"
 
 from .decorator import beautifier, clock, countdown, timer
 from .helper import Beautifier, RandomSeed, Timer
@@ -36,14 +37,6 @@ from .highlighter import (
     white,
     yellow,
 )
-
-try:
-    _meta = metadata("py-ml-basic")
-    __version__ = _meta.get("Version", "0.0.0")
-    __author__ = _meta.get("Author", "Shawn Yu")
-except PackageNotFoundError:
-    __author__ = "Shawn Yu"
-    __version__ = "0.1.0"
 
 __all__ = [
     "beautifier",
