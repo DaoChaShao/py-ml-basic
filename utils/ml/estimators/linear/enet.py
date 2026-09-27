@@ -49,11 +49,7 @@ class ElasticNetRegressor(Base):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying Scikit-Learn ElasticNet estimator.
-
-        :return: None
-        """
+        """ Initialise the underlying Scikit-Learn ElasticNet estimator. """
         self._model = ElasticNet(
             alpha=self._strength,
             l1_ratio=self._ratio,
@@ -63,7 +59,7 @@ class ElasticNetRegressor(Base):
         )
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the ElasticNet Regression estimator with the given features and labels.
 
@@ -96,29 +92,17 @@ class ElasticNetRegressor(Base):
 
     @property
     def penalty_strength(self) -> float:
-        """
-        Get the regularisation strength (alpha).
-
-        :return: The alpha value.
-        """
+        """ Get the regularisation strength (alpha). """
         return self._strength
 
     @property
     def l1_ratio(self) -> float:
-        """
-        Get the ElasticNet mixing parameter (l1_ratio).
-
-        :return: The l1_ratio value.
-        """
+        """ Get the ElasticNet mixing parameter (l1_ratio). """
         return self._ratio
 
     @property
     def coefficient(self) -> Any:
-        """
-        Get the regression coefficients (weights).
-
-        :return: The regression coefficients.
-        """
+        """ Get the regression coefficients (weights). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
@@ -127,11 +111,7 @@ class ElasticNetRegressor(Base):
 
     @property
     def intercept(self) -> Any:
-        """
-        Get the regression intercept (bias).
-
-        :return: The regression intercept value or None if disabled.
-        """
+        """ Get the regression intercept (bias). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
@@ -141,11 +121,7 @@ class ElasticNetRegressor(Base):
         return self._model.intercept_[0] if self._model.intercept_.ndim > 0 else self._model.intercept_
 
     def __repr__(self) -> str:
-        """
-        Get the string representation of the estimator.
-
-        :return: The string representation.
-        """
+        """ Get the string representation of the estimator. """
         return (
             f"ElasticNetReg("
             f"penalty_strength={self._strength}, "
@@ -189,11 +165,7 @@ class HyperElasticNetRegressor(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying Scikit-Learn ElasticNet estimator.
-
-        :return: None
-        """
+        """ Initialise the underlying Scikit-Learn ElasticNet estimator. """
         self._model = ElasticNet(
             alpha=self.strength,
             l1_ratio=self.ratio,
@@ -243,7 +215,7 @@ class HyperElasticNetRegressor(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
         Train the ElasticNet Regression estimator with the given features and labels.
 
@@ -276,29 +248,17 @@ class HyperElasticNetRegressor(Base, BaseEstimator):
 
     @property
     def penalty_strength(self) -> float:
-        """
-        Get the regularisation strength (alpha).
-
-        :return: The alpha value.
-        """
+        """ Get the regularisation strength (alpha). """
         return self.strength
 
     @property
     def l1_ratio(self) -> float:
-        """
-        Get the ElasticNet mixing parameter (l1_ratio).
-
-        :return: The l1_ratio value.
-        """
+        """ Get the ElasticNet mixing parameter (l1_ratio). """
         return self.ratio
 
     @property
     def coefficient(self) -> Any:
-        """
-        Get the regression coefficients (weights).
-
-        :return: The regression coefficients.
-        """
+        """ Get the regression coefficients (weights). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
@@ -307,11 +267,7 @@ class HyperElasticNetRegressor(Base, BaseEstimator):
 
     @property
     def intercept(self) -> Any:
-        """
-        Get the regression intercept (bias).
-
-        :return: The regression intercept value or None if disabled.
-        """
+        """ Get the regression intercept (bias). """
         if self._model is None:
             raise RuntimeError("Estimator has not been initialised.")
         if not self._fitted:
