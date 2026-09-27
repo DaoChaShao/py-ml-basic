@@ -1422,7 +1422,7 @@ def expand_polynomial_features(
 
 
 @timer
-def evaluate_kmeans_with_silhouette(
+def eval_clustering_with_silhouette(
         features: DataFrame, predictions: Any,
         data_type: str | Literal["train", "valid", "prove"],
         *,
@@ -1445,7 +1445,7 @@ def evaluate_kmeans_with_silhouette(
 
 
 @timer
-def evaluate_kmeans_with_ch(
+def eval_clustering_with_ch(
         features: DataFrame, predictions: Any,
         data_type: str | Literal["train", "valid", "prove"],
         *,
@@ -1468,7 +1468,7 @@ def evaluate_kmeans_with_ch(
 
 
 @timer
-def evaluate_kmeans_classification(
+def eval_clustering_classification(
         true_labels: Series, pred_labels: Any,
         data_type: str | Literal["train", "valid", "prove"],
         *,
@@ -1504,7 +1504,7 @@ def evaluate_kmeans_classification(
     return _ari, _nmi, _accuracy
 
 
-class SSESeeker(Access):
+class KmeansSelector(Access):
     """ Sum of Squared Errors """
 
     def __init__(
