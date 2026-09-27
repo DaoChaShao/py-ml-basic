@@ -37,8 +37,8 @@ class AdaBoost(Base):
         Initialise the AdaBoost classifier/regressor.
 
         :param mission: The mission of the estimator ('cls' or 'reg').
-        :param n_estimators: Maximum number of boosting stages.
-        :param learning_rate: Weight applied to each boosting stage.
+        :param n_estimators: Maximum number of booster stages.
+        :param learning_rate: Weight applied to each booster stage.
         :param loss: Loss function for regression tasks.
         :param max_depth: Maximum depth of the base decision tree.
         :param randomness: Random seed for reproducibility.
@@ -191,8 +191,8 @@ class HyperAdaBoost(Base, BaseEstimator):
         Initialise the AdaBoost classifier/regressor.
 
         :param mission: The mission of the estimator ('cls' or 'reg').
-        :param n_estimators: Maximum number of boosting stages.
-        :param learning_rate: Weight applied to each boosting stage.
+        :param n_estimators: Maximum number of booster stages.
+        :param learning_rate: Weight applied to each booster stage.
         :param loss: Loss function for regression tasks.
         :param max_depth: Maximum depth of the base decision tree.
         :param randomness: Random seed for reproducibility.

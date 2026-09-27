@@ -1299,7 +1299,7 @@ def tune_optimal_gbd_tree(
     :param valid_labels: Labels for validation.
     :param criterion: The criterion used for splitting in the regression tree.
     :param learning_rates: List of learning rates to iterate over. Defaults to [0.01, 0.05, 0.1].
-    :param n_estimators_list: List of boosting stages to iterate over. Defaults to [100, 200, 300].
+    :param n_estimators_list: List of booster stages to iterate over. Defaults to [100, 200, 300].
     :param max_depths: List of maximum tree depths to iterate over. Defaults to [2, 3, 4, 5].
     :param min_samples_splits: List of minimum samples per split to iterate over. Defaults to [2, 5, 10].
     :param min_samples_leafs: List of minimum samples per leaf to iterate over. Defaults to [1, 2, 5, 10].
@@ -1429,7 +1429,7 @@ def eval_clustering_with_silhouette(
         display: bool = False,
 ) -> float:
     """
-    Evaluate KMeans clustering performance on train, valid, and prove datasets.
+    Evaluate KMeans cluster performance on train, valid, and prove datasets.
 
     :param features: Feature DataFrame for training.
     :param predictions: Predictions from the KMeans model.
@@ -1452,7 +1452,7 @@ def eval_clustering_with_ch(
         display: bool = False,
 ) -> float:
     """
-    Evaluate KMeans clustering performance on train, valid, and prove datasets.
+    Evaluate KMeans cluster performance on train, valid, and prove datasets.
 
     :param features: Feature DataFrame for training.
     :param predictions: Predictions from the KMeans model.
@@ -1475,7 +1475,7 @@ def eval_clustering_classification(
         display: bool = False
 ) -> tuple[float, float, float]:
     """
-    Evaluate KMeans clustering against true labels.
+    Evaluate KMeans cluster against true labels.
 
     :param true_labels: True labels.
     :param pred_labels: Predictions.
@@ -1523,7 +1523,7 @@ class KmeansSelector(Access):
         """
         Initialise the SSE class.
 
-        :param estimator: The estimator to use for clustering.
+        :param estimator: The estimator to use for cluster.
         :param ks: The list of k values to try.
         :param train_features: The training features.
         :param init_cat: The initialisation method for the k-means algorithm.
@@ -1549,7 +1549,7 @@ class KmeansSelector(Access):
         """
         Evaluate KMeans SSE.
 
-        :param estimator: The estimator to use for clustering.
+        :param estimator: The estimator to use for cluster.
         :param k_value: The current k value.
         :param display: Whether to print the SSE.
         :return: The SSE for the current k value.

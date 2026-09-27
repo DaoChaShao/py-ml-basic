@@ -35,7 +35,7 @@ class GBDTree(Base):
             ],
             *,
             learning_rate: float = Field(0.1, gt=0, description="Learning rate shrinks the contribution of each tree."),
-            n_estimators: int = Field(100, gt=0, description="The number of boosting stages to perform."),
+            n_estimators: int = Field(100, gt=0, description="The number of booster stages to perform."),
             max_depth: int | None = 3,
             min_samples_split: int = Field(2, ge=2, description="Minimum samples required to split an internal node."),
             min_samples_leaf: int = Field(1, gt=0, description="Minimum samples required at a leaf node."),
@@ -50,7 +50,7 @@ class GBDTree(Base):
         :param mission: The mission of the estimator ('cls' or 'reg').
         :param loss: Loss function to be optimized.
         :param learning_rate: Learning rate (shrinkage).
-        :param n_estimators: Number of boosting stages.
+        :param n_estimators: Number of booster stages.
         :param max_depth: Maximum depth of the individual regression estimators.
         :param min_samples_split: Minimum number of samples required to split an internal node.
         :param min_samples_leaf: Minimum number of samples required at a leaf node.
@@ -74,7 +74,7 @@ class GBDTree(Base):
     @protectedmethod
     def _init_model(self) -> None:
         """
-        Initialise the underlying sklearn gradient boosting model.
+        Initialise the underlying sklearn gradient booster model.
 
         :return: None
         """
@@ -98,7 +98,7 @@ class GBDTree(Base):
     @override
     def fit(self, features: DataFrame, labels: Series) -> Self:
         """
-        Train the gradient boosting estimator.
+        Train the gradient booster estimator.
 
         :param features: The features of the training data.
         :param labels: The labels of the training data.
@@ -196,7 +196,7 @@ class HyperGBDTree(Base, BaseEstimator):
         :param mission: Estimator mission ('cls' or 'reg').
         :param loss: Loss function.
         :param learning_rate: Learning rate.
-        :param n_estimators: Number of boosting stages.
+        :param n_estimators: Number of booster stages.
         :param max_depth: Maximum depth of individual trees.
         :param min_samples_split: Minimum samples required to split a node.
         :param min_samples_leaf: Minimum samples required at a leaf.

@@ -31,7 +31,7 @@ class NaiveBayes(Base, BaseEstimator):
         """
         Initialise the NaiveBayes estimator.
         :param alpha: Learning rate.
-        :param force_alpha: Number of boosting stages.
+        :param force_alpha: Number of booster stages.
         :return: None
         """
         super().__init__()

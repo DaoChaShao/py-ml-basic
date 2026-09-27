@@ -20,10 +20,10 @@ Descent (SGD), Ridge (L2), and Lasso (L1) estimators.
 __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
-from .bagging import HyperRandomForest, RandomForest
+from .bagger import HyperRandomForest, RandomForest
 from .base import Base
 from .bayes import NaiveBayes
-from .boosting import (
+from .booster import (
     AdaBoost,
     GBDTree,
     HyperAdaBoost,
@@ -31,7 +31,7 @@ from .boosting import (
     HyperXGBooster,
 )
 from .cart import DecisionTree, HyperDecisionTree
-from .clustering import HyperGaussianMixture, HyperKMeans
+from .cluster import HyperGaussianMixture, HyperKMeans
 from .knn import KNN, HyperKNN
 from .linear import ElasticNetRegressor, HyperElasticNetRegressor
 from .linear.lasso import HyperLassoRegressor, LassoRegressor

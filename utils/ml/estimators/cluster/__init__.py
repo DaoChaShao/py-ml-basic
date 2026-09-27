@@ -10,7 +10,7 @@
 ****************************************************************
 Machine Learning Module - Clustering Estimators
 ----------------------------------------------------------------
-This subpackage provides clustering algorithm implementations,
+This subpackage provides cluster algorithm implementations,
 including K-Means and Gaussian Mixture Models (GMM), together
 with their hyper-parameter tuning estimators.
 ****************************************************************

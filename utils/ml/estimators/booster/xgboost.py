@@ -44,7 +44,7 @@ class HyperXGBooster(Base, BaseEstimator):
         :param mission: Estimator mission ('cls' or 'reg').
         :param objective: Loss function.
         :param learning_rate: Learning rate.
-        :param n_estimators: Number of boosting stages.
+        :param n_estimators: Number of booster stages.
         :param max_depth: Maximum depth of individual trees.
         :param randomness: Random seed.
         :return: None
