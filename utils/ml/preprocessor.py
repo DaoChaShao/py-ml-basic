@@ -7,18 +7,20 @@
 # @Desc     :
 
 from pathlib import Path
+from pprint import pprint
 from random import getstate, setstate
 from random import seed as rnd_seed
 from time import perf_counter
 from typing import Any, Literal, Self
 
 from access_modifiers import protectedmethod
-from numpy import argmax, ndarray
+from numpy import argmax, cumsum, ndarray
 from numpy import random as np_random
 from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, option_context, read_csv, read_excel
 from scipy.optimize import linear_sum_assignment
 from sklearn.compose import ColumnTransformer
+from sklearn.decomposition import PCA
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import (
     accuracy_score,
@@ -73,6 +75,7 @@ class NumpySeed:
     def __init__(self, description: str, seed: int = 27, tick_tock: bool = False) -> None:
         """
         Initialise the RandomSeed class
+
         :param description: the description of a random seed
         :param seed: the seed value to be set
         :param tick_tock: whether to measure elapsed time
@@ -132,6 +135,7 @@ class NumpySeed:
     def _format_time(seconds: float) -> str:
         """
         Format time breakdown from seconds to days, hours, minutes, and seconds
+
         :param seconds: time in seconds
         :return: formatted time breakdown string
         """
@@ -186,12 +190,8 @@ class FileLoader(Access):
         self._dataset: DataFrame | None = None
 
     @protectedmethod
-    def _load_data(self):
-        """
-        Load data from a file based on the specified file category.
-
-        :return: None
-        """
+    def _load_data(self) -> None:
+        """ Load data from a file based on the specified file category. """
         match self._type:
             case FileCategories.CSV:
                 self._dataset = read_csv(self._path.resolve())
@@ -201,11 +201,7 @@ class FileLoader(Access):
                 raise ValueError(f"Invalid file category: {self._type}")
 
     def __enter__(self) -> DataFrame:
-        """
-        Load data from a file based on the specified file category.
-
-        :return: The loaded dataset
-        """
+        """ Load data from a file based on the specified file category. """
         self._load_data()
         if self._display:
             self._display_info()
@@ -213,11 +209,13 @@ class FileLoader(Access):
         assert self._dataset is not None, "Dataset failed to load."
         return self._dataset
 
-    def __exit__(self, *args) -> None:
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
         """
-        Exit the file loader context manager.
+        Exit the context manager.
 
-        :param args: Exception arguments
+        :param exc_type: The type of exception that occurred.
+        :param exc_value: The exception that occurred.
+        :param traceback: The traceback of the exception.
         :return: None
         """
         pass
@@ -249,27 +247,15 @@ class FileLoader(Access):
 
     @property
     def dataset(self) -> DataFrame | None:
-        """
-        Return the dataset
-
-        :return: The dataset or None if the dataset is not loaded
-        """
+        """ Return the dataset """
         return self._dataset
 
     def __len__(self) -> int:
-        """
-        Return the length of the dataset
-
-        :return: The length of the dataset or 0 if the dataset is not loaded
-        """
+        """ Return the length of the dataset. """
         return len(self._dataset) if self._dataset is not None else 0
 
     def __repr__(self) -> str:
-        """
-        Return the string representation of the FileLoader class.
-
-        :return: The string representation of the FileLoader class.
-        """
+        """ Return the string representation of the FileLoader class. """
         return (
             f"FileLoader("
             f"filepath={self._path!r}, "
@@ -380,6 +366,7 @@ def transform_features(
 
 
 class FeaturesTransformer(Access):
+    """ Preprocess the data by handling missing values, scaling numerical features, and encoding categorical features. """
 
     def __init__(
             self,
@@ -422,6 +409,7 @@ class FeaturesTransformer(Access):
 
     @protectedmethod
     def _init_scaler(self) -> Any:
+        """ Initialise the scaler based on the selected strategy. """
         match self._features_scaler:
             case FeaturesScalerCategories.ROBUSTIFICATION:
                 return RobustScaler()
@@ -434,11 +422,7 @@ class FeaturesTransformer(Access):
 
     @protectedmethod
     def _init_transformer(self) -> ColumnTransformer:
-        """
-        Divide the columns into numerical and categorical types and build ColumnTransformer.
-
-        :return: Initialised ColumnTransformer instance.
-        """
+        """ Divide the columns into numerical and categorical types and build ColumnTransformer. """
         # Divide the columns into numerical and categorical types
         _cols_num: list[str] = self._features.select_dtypes(
             include=["int32", "int64", "float32", "float64"],
@@ -469,11 +453,19 @@ class FeaturesTransformer(Access):
         return ColumnTransformer(transformers=_transformers)
 
     def __enter__(self) -> Self:
+        """ Fit the transformer to the features. """
         self._transformer: ColumnTransformer = self._init_transformer()
         self._transformer.fit(self._features)
         return self
 
     def transform(self, features: DataFrame | None = None, *, display: bool = False) -> DataFrame | Tensor:
+        """
+        Transform the features using the fitted transformer.
+
+        :param features: The features to transform. If None, uses the features passed during initialisation.
+        :param display: Whether to display the transformed data type and shape.
+        :return: The transformed features as DataFrame or Tensor.
+        """
         if self._transformer is None:
             raise RuntimeError("Transformer has not been fitted. Use within `with FeaturesTransformer(...)` context.")
 
@@ -498,10 +490,19 @@ class FeaturesTransformer(Access):
             )
         return self._transformed_data
 
-    def __exit__(self, *args) -> None:
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of exception that occurred.
+        :param exc_value: The exception that occurred.
+        :param traceback: The traceback of the exception.
+        :return: None
+        """
         pass
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """ Return a string representation of the FeaturesTransformer object. """
         return (
             f"FeaturesTransformer("
             f"features={self._features!r}, "
@@ -607,6 +608,7 @@ def get_reg_labels_distribution(labels: Series, display: bool = True) -> dict:
 def encode_labels(labels: Series, *, top_n: int = 5, display: bool = False) -> tuple[Series, LabelEncoder]:
     """
     Encode the labels in the target variable.
+
     :param labels: the target variable
     :param top_n: the number of top labels to display
     :param display: Toggle for printing the encoded labels
@@ -695,11 +697,7 @@ class FeaturesNormaliser(Access):
         self._scaler: MinMaxScaler = MinMaxScaler(feature_range=(self._min, self._max))
 
     def __enter__(self) -> Self:
-        """
-        Fit the scaler to the features.
-
-        :return: self
-        """
+        """ Fit the scaler to the features. """
         self._scaler.fit(self._features)
         return self
 
@@ -756,44 +754,33 @@ class FeaturesNormaliser(Access):
         return DataFrame(_transformed, columns=_features.columns, index=_features.index)
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
-        """ Do nothing. """
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of the exception that occurred.
+        :param exc_value: The value of the exception that occurred.
+        :param traceback: The traceback of the exception that occurred.
+        :return: Whether to suppress the exception.
+        """
         pass
 
     def __repr__(self) -> str:
-        """
-        Return the string representation of the Normaliser class.
-
-        :return: The string representation of the Normaliser class.
-        """
+        """ Return the string representation of the Normaliser class. """
         _shape: Any = getattr(self._features, "shape", type(self._features).__name__)
-        return (
-            f"Normaliser("
-            f"features_shape={_shape}, "
-            f"min_value={self._min!r}, "
-            f"max_value={self._max!r}"
-            f")"
-        )
+        return f"Normaliser(features_shape={_shape}, min_value={self._min!r}, max_value={self._max!r})"
 
 
 class FeaturesStandardiser(Access):
     """ A class for standardising features using StandardScaler. """
 
     def __init__(self, features: DataFrame) -> None:
-        """
-        Initialise the Standardiser class
-
-        :param features: The features to standardise.
-        """
+        """ Initialise the Standardiser class """
         super().__init__()
         self._features: DataFrame = features
         self._scaler: StandardScaler = StandardScaler()
 
     def __enter__(self) -> Self:
-        """
-        Fit the scaler to the features.
-
-        :return: self
-        """
+        """ Fit the scaler to the features. """
         self._scaler.fit(self._features)
         return self
 
@@ -850,43 +837,33 @@ class FeaturesStandardiser(Access):
         return DataFrame(_transformed, columns=_features.columns, index=_features.index)
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
-        """ Do nothing. """
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of the exception that occurred.
+        :param exc_value: The value of the exception that occurred.
+        :param traceback: The traceback of the exception that occurred.
+        :return: Whether to suppress the exception.
+        """
         pass
 
     def __repr__(self) -> str:
-        """
-        Return the string representation of the Standardiser class.
-
-        :return: The string representation of the Standardiser class.
-        """
+        """ Return the string representation of the Standardiser class. """
         _shape: Any = getattr(self._features, "shape", type(self._features).__name__)
-        return (
-            f"Standardiser("
-            f"features_shape={_shape}"
-            f")"
-        )
+        return f"Standardiser(features_shape={_shape})"
 
 
 class FeaturesRobustScaler(Access):
     """ A class for robustly scaling features using RobustScaler. """
 
     def __init__(self, features: DataFrame) -> None:
-
-        """
-        Initialise the RobustScaler class
-
-        :param features: The features to robustly scale.
-        """
+        """ Initialise the RobustScaler class """
         super().__init__()
         self._features: DataFrame = features
         self._scaler: RobustScaler = RobustScaler()
 
     def __enter__(self) -> Self:
-        """
-        Fit the scaler to the features.
-
-        :return: self
-        """
+        """ Fit the scaler to the features. """
         self._scaler.fit(self._features)
         return self
 
@@ -943,21 +920,20 @@ class FeaturesRobustScaler(Access):
         return DataFrame(_transformed, columns=_features.columns, index=_features.index)
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:
-        """ Do nothing. """
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of the exception that occurred.
+        :param exc_value: The value of the exception that occurred.
+        :param traceback: The traceback of the exception that occurred.
+        :return: Whether to suppress the exception.
+        """
         pass
 
     def __repr__(self) -> str:
-        """
-        Return the string representation of the RobustScaler class.
-
-        :return: The string representation of the RobustScaler class.
-        """
+        """ Return the string representation of the RobustScaler class. """
         _shape: Any = getattr(self._features, "shape", type(self._features).__name__)
-        return (
-            f"FeaturesRobustScaler("
-            f"features_shape={_shape}"
-            f")"
-        )
+        return f"FeaturesRobustScaler(features_shape={_shape})"
 
 
 def euclidean_distance(x1: Any, x2: Any) -> float:
@@ -1562,11 +1538,7 @@ class KmeansSelector(Access):
 
     @protectedmethod
     def _collect_sse(self, ) -> None:
-        """
-        Collect SSE for each k value.
-
-        :return: None
-        """
+        """ Collect SSE for each k value. """
         for k in self._ks:
             _estimator = self._estimator(
                 n_clusters=k,
@@ -1581,11 +1553,7 @@ class KmeansSelector(Access):
             self._sse.update(curr_sse)
 
     def __enter__(self) -> Self:
-        """
-        Enter the context manager.
-
-        :return: The SSE object.
-        """
+        """ Enter the context manager. """
         self._collect_sse()
         return self
 
@@ -1626,10 +1594,96 @@ class KmeansSelector(Access):
         pass
 
 
+class PCAIAssessor(Access):
+    """ PCA Importance Assessor """
+
+    def __init__(self, features: DataFrame, *, threshold: float = 0.95) -> None:
+        """
+        Initialise the PCA Importance Assessor.
+
+        :param features: The features to assess.
+        :param threshold: The threshold for cumulative variance ratio.
+        :return: None
+        """
+        super().__init__()
+        self._model: Any | None = None
+        self._features: DataFrame = features
+        self._threshold: float = threshold
+        self._n_components: int | None = None
+
+    @protectedmethod
+    def _init_model(self) -> None:
+        """ Initialise PCA model. """
+        self._model = PCA()
+
+    @protectedmethod
+    def _fit_model(self) -> None:
+        """ Fit the PCA model to the features. """
+        self._model.fit(self._features)
+
+    def __enter__(self) -> Self:
+        """ Enter the context manager. """
+        # Initialise and fit the PCA model
+        self._init_model()
+        # Fit the PCA model to the features
+        self._fit_model()
+
+        # Calculate cumulative variance ratio
+        cumulative_variance: ndarray = cumsum(self._model.explained_variance_ratio_)
+        # Determine the number of components to reach the threshold
+        self._n_components = int(argmax(cumulative_variance >= self._threshold) + 1)
+
+        # Reinitialise the PCA model with the determined number of components
+        self._model = PCA(n_components=self._n_components)
+        # Fit the PCA model to the features
+        self._model.fit(self._features)
+        return self
+
+    def reduce(self, features: DataFrame) -> DataFrame:
+        """
+        Reduce the features dimensions based on the principal components.
+
+        :param features: The features to reduce.
+        :return: The reduced features.
+        """
+        return self._model.transform(features)
+
+    def important(self) -> DataFrame:
+        """ Get the important features based on the principal components. """
+        # Build a DataFrame to hold feature loadings
+        _ratios: DataFrame = DataFrame(
+            self._model.components_.T,
+            columns=[f"PC{i + 1}" for i in range(self._n_components)],
+            index=self._features.columns
+        )
+
+        # Calculate the absolute contribution of each feature to the selected components
+        _ratios["Contribution"] = _ratios.iloc[:, :self._n_components].abs().sum(axis=1)
+        # Sort features by their contribution
+        return _ratios.sort_values("Contribution", ascending=False)
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of exception that occurred.
+        :param exc_value: The exception that occurred.
+        :param traceback: The traceback of the exception.
+        :return: None
+        """
+        pass
+
+    @property
+    def model(self) -> Any:
+        """ Get the PCA model. """
+        return self._model
+
+
 @timer
 def calc_labels_weight(labels: Any, *, display: bool = True) -> ndarray:
     """
     Compute class weight for imbalanced datasets.
+
     :param labels: the target variable
     :param display: Toggle for printing the class weights
     :return:
