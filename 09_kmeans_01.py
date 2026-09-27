@@ -20,10 +20,10 @@ from utils.ml import (
     KMeansInitCategories,
     Missions,
     evaluate_kmeans_classification,
-    evaluate_kmeans_with_silhouette,
+    evaluate_kmeans_with_ch,
     get_cls_labels_distribution,
     split_data,
-    summary_dataframe, evaluate_kmeans_with_ch,
+    summary_dataframe,
 )
 from utils.ml.estimators import HyperKMeans
 
