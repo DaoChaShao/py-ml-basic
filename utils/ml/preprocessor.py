@@ -13,7 +13,7 @@ from time import perf_counter
 from typing import Any, Literal, Self
 
 from access_modifiers import protectedmethod
-from numpy import ndarray
+from numpy import ndarray, argmax
 from numpy import random as np_random
 from numpy import unique as np_unique
 from pandas import DataFrame, Series, concat, option_context, read_csv, read_excel
@@ -57,6 +57,8 @@ from .types import (
     FeaturesScalerCategories,
     FileCategories,
     GridSearchTunesResponse,
+    KMeansAlgorithms,
+    KMeansInitCategories,
     Missions,
     OneHotEncoderStrategies,
     RegScoreStrategies,
@@ -1500,6 +1502,128 @@ def evaluate_kmeans_classification(
         print(f"{data_type.capitalize()} NMI      : {_nmi:.4f}")
         print(f"{data_type.capitalize()} Accuracy : {_accuracy:.4f}")
     return _ari, _nmi, _accuracy
+
+
+class SSESeeker(Access):
+    """ Sum of Squared Errors """
+
+    def __init__(
+            self,
+            estimator: Any,
+            ks: list[int],
+            train_features: DataFrame,
+            *,
+            init_cat: str | KMeansInitCategories | Literal[
+                "k-means++", "random"
+            ] = KMeansInitCategories.K_MEANS_PLUS_PLUS,
+            epochs: int = 300,
+            randomness: int = 27,
+            algorithm: str | KMeansAlgorithms | Literal["lloyd", "elkan"] = KMeansAlgorithms.LLOYD,
+    ) -> None:
+        """
+        Initialise the SSE class.
+
+        :param estimator: The estimator to use for clustering.
+        :param ks: The list of k values to try.
+        :param train_features: The training features.
+        :param init_cat: The initialisation method for the k-means algorithm.
+        :param epochs: The number of epochs to run the k-means algorithm.
+        :param randomness: The seed for the random number generator.
+        :param algorithm: The algorithm to use for the k-means algorithm.
+        :return: None
+        """
+        super().__init__()
+        self._estimator: Any = estimator
+        self._ks: list = ks
+        self._train_features: DataFrame = train_features
+        self._init_cat: KMeansInitCategories = KMeansInitCategories(init_cat)
+        self._epochs: int = epochs
+        self._randomness: int = randomness
+        self._algorithm: KMeansAlgorithms = KMeansAlgorithms(algorithm)
+
+        self._sse: dict[int, float] = {}
+        self._distances: list[float] = []
+
+    @protectedmethod
+    def _get_current_sse(self, estimator: Any, k_value: int, *, display: bool = False) -> dict[int, float]:
+        """
+        Evaluate KMeans SSE.
+
+        :param estimator: The estimator to use for clustering.
+        :param k_value: The current k value.
+        :param display: Whether to print the SSE.
+        :return: The SSE for the current k value.
+        """
+        _sse = estimator.model.inertia_
+
+        if display:
+            print(f"k={k_value}'s SSE : {_sse:.4f}")
+        return {k_value: _sse}
+
+    @protectedmethod
+    def _collect_sse(self, ) -> None:
+        """
+        Collect SSE for each k value.
+
+        :return: None
+        """
+        for k in self._ks:
+            _estimator = self._estimator(
+                n_clusters=k,
+                init_cat=self._init_cat,
+                epochs=self._epochs,
+                randomness=self._randomness,
+                algorithm=self._algorithm,
+            )
+            _estimator.fit(self._train_features)
+
+            curr_sse = self._get_current_sse(_estimator, k, display=True)
+            self._sse.update(curr_sse)
+
+    def __enter__(self) -> Self:
+        """
+        Enter the context manager.
+
+        :return: The SSE object.
+        """
+        self._collect_sse()
+        return self
+
+    def seek_elbow_k(self, *, display: bool = False) -> int:
+        """
+        Seek the elbow k value using the SSE values.
+
+        :param display: Whether to print the elbow k value.
+        :return: The elbow k value.
+        """
+        _sse_values = list(self._sse.values())
+        x1, y1 = self._ks[0], _sse_values[0]
+        x2, y2 = self._ks[-1], _sse_values[-1]
+
+        # Clear distances list
+        self._distances.clear()
+
+        for k, sse in self._sse.items():
+            _distance = (
+                    abs((y2 - y1) * k - (x2 - x1) * sse + x2 * y1 - y2 * x1) / ((y2 - y1) ** 2 + (x2 - x1) ** 2) ** 0.5
+            )
+            self._distances.append(_distance)
+        _best_k = self._ks[argmax(self._distances)]
+
+        if display:
+            print(f"Best K : {_best_k}")
+        return _best_k
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of exception that occurred.
+        :param exc_value: The exception that occurred.
+        :param traceback: The traceback of the exception.
+        :return: None
+        """
+        pass
 
 
 @timer
