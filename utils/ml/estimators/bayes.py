@@ -30,6 +30,7 @@ class NaiveBayes(Base, BaseEstimator):
     ) -> None:
         """
         Initialise the NaiveBayes estimator.
+
         :param alpha: Learning rate.
         :param force_alpha: Number of booster stages.
         :return: None
@@ -40,11 +41,7 @@ class NaiveBayes(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying XGBoost model.
-
-        :return: None
-        """
+        """ Initialise the underlying XGBoost model. """
         self._model = MultinomialNB(
             alpha=self.alpha,
             force_alpha=self.force_alpha,
@@ -88,7 +85,7 @@ class NaiveBayes(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
        Fit the XGBoost model. sklearn estimators conventionally return self from fit().
 
@@ -117,7 +114,7 @@ class NaiveBayes(Base, BaseEstimator):
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.predict(features)
 
-    def score(self, features: DataFrame, labels: Series, ) -> float:
+    def score(self, features: DataFrame, labels: Series) -> float:
         """
         Return the default sklearn score.
 
@@ -125,7 +122,6 @@ class NaiveBayes(Base, BaseEstimator):
         :param labels: The labels of the input data.
         :return: The score.
         """
-
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
         return float(self._model.score(features, labels))
