@@ -41,6 +41,7 @@ class HyperXGBooster(Base, BaseEstimator):
     ) -> None:
         """
         Initialise the XGBoost estimator.
+
         :param mission: Estimator mission ('cls' or 'reg').
         :param objective: Loss function.
         :param learning_rate: Learning rate.
@@ -61,11 +62,7 @@ class HyperXGBooster(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying XGBoost model.
-
-        :return: None
-        """
+        """ Initialise the underlying XGBoost model. """
         _estimator = XGBClassifier if self.mission is Missions.CLS else XGBRegressor
         self._model = _estimator(
             objective=self.objective.value,
@@ -118,7 +115,7 @@ class HyperXGBooster(Base, BaseEstimator):
         return self
 
     @override
-    def fit(self, features: DataFrame, labels: Series) -> Self:
+    def fit(self, features: DataFrame, labels: Series | None = None) -> Self:
         """
        Fit the XGBoost model. sklearn estimators conventionally return self from fit().
 
@@ -152,7 +149,7 @@ class HyperXGBooster(Base, BaseEstimator):
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.predict(features)
 
-    def score(self, features: DataFrame, labels: Series, ) -> float:
+    def score(self, features: DataFrame, labels: Series | None = None) -> float:
         """
         Return the default sklearn score.
 
@@ -181,11 +178,7 @@ class HyperXGBooster(Base, BaseEstimator):
 
     @property
     def feature_importances(self) -> Any:
-        """
-        Return feature importances.
-
-        :return: Feature importances.
-        """
+        """ Return feature importances. """
         if self._model is None or not self._fitted:
             raise RuntimeError("Estimator has not been trained yet.")
         return self._model.feature_importances_
