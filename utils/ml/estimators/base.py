@@ -37,11 +37,7 @@ class Base(ABC, Access):
     """ Base class for all machine learning models. """
 
     def __init__(self) -> None:
-        """
-        Initialize the base class.
-
-        :return: None
-        """
+        """ Initialize the base class. """
         super().__init__()
         self._model: Any = None
         self._fitted: bool = False
@@ -69,11 +65,7 @@ class Base(ABC, Access):
 
     @property
     def model(self):
-        """
-        Get the trained model.
-
-        :return: The trained model.
-        """
+        """ Get the trained model. """
         return self._model
 
     @staticmethod
