@@ -7,7 +7,6 @@
 # @Desc     :
 
 from pathlib import Path
-from pprint import pprint
 from random import getstate, setstate
 from random import seed as rnd_seed
 from time import perf_counter
@@ -21,6 +20,7 @@ from pandas import DataFrame, Series, concat, option_context, read_csv, read_exc
 from scipy.optimize import linear_sum_assignment
 from sklearn.compose import ColumnTransformer
 from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import (
     accuracy_score,
@@ -49,6 +49,7 @@ from sklearn.preprocessing import (
 )
 from sklearn.utils.class_weight import compute_class_weight
 from torch import Tensor, float32, tensor
+from umap import UMAP
 
 from ..constants import WIDTH
 from ..decorator import timer
@@ -56,6 +57,8 @@ from ..helper import Access
 from ..highlighter import lines, stars
 from .types import (
     ClsScoreStrategies,
+    DistanceMetrics,
+    FeaturesCategories,
     FeaturesScalerCategories,
     FileCategories,
     GridSearchTunesResponse,
@@ -522,7 +525,7 @@ def get_cls_labels_distribution(
         *,
         threshold: float = 1.5,
         display: bool = False
-) -> tuple[Series, Series, float, bool]:
+) -> tuple[Series, Series, float, bool, int]:
     """
     Check the distribution of the labels in the target variable and evaluate class balance.
 
@@ -542,6 +545,10 @@ def get_cls_labels_distribution(
     # Determine if the class balance is acceptable
     is_balanced: bool = ir < threshold
 
+    # Determine the number of classes
+    n_classes: int = counts.size
+
+    # Display the label counts, proportions, and balance verdict
     if display:
         print(counts)
         lines()
@@ -560,7 +567,9 @@ def get_cls_labels_distribution(
         else:
             verdict = "Severely Imbalanced (Severe imbalance, resampling or weight setting required)"
         print(f"Status                : {verdict}")
-    return counts, proportions, ir, is_balanced
+        lines()
+        print(f"Number of classes     : {n_classes}")
+    return counts, proportions, ir, is_balanced, n_classes
 
 
 @timer
@@ -1423,7 +1432,7 @@ def eval_clustering_with_silhouette(
 @timer
 def eval_clustering_with_ch(
         features: DataFrame, predictions: Any,
-        data_type: str | Literal["train", "valid", "prove"],
+        features_category: str | FeaturesCategories | Literal["train", "valid", "prove"],
         *,
         display: bool = False,
 ) -> float:
@@ -1432,21 +1441,22 @@ def eval_clustering_with_ch(
 
     :param features: Feature DataFrame for training.
     :param predictions: Predictions from the KMeans model.
-    :param data_type: The type of data being evaluated ("train", "valid", or "prove").
+    :param features_category: The type of data being evaluated ("train", "valid", or "prove").
     :param display: Whether to print the evaluation metrics.
     :return: The silhouette score (Bigger is better).
     """
+    _category: FeaturesCategories = FeaturesCategories(features_category)
     _score: float = calinski_harabasz_score(features, predictions)
 
     if display:
-        print(f"{data_type.capitalize()} Calinski-Harabasz Score: {_score:.4f}.")
+        print(f"{_category.value.capitalize()} Calinski-Harabasz Score: {_score:.4f}.")
     return _score
 
 
 @timer
 def eval_clustering_classification(
         true_labels: Series, pred_labels: Any,
-        data_type: str | Literal["train", "valid", "prove"],
+        features_category: str | FeaturesCategories | Literal["train", "valid", "prove"],
         *,
         display: bool = False
 ) -> tuple[float, float, float]:
@@ -1455,10 +1465,12 @@ def eval_clustering_classification(
 
     :param true_labels: True labels.
     :param pred_labels: Predictions.
-    :param data_type: The type of data being evaluated ("train", "valid", or "prove").
+    :param features_category: The type of data being evaluated ("train", "valid", or "prove").
     :param display: Whether to print the evaluation metrics.
     :return: A tuple of (ARI, NMI, Accuracy).
     """
+    _category: FeaturesCategories = FeaturesCategories(features_category)
+
     _ari = adjusted_rand_score(true_labels, pred_labels)
     _nmi = normalized_mutual_info_score(true_labels, pred_labels)
     # Build contingency matrix
@@ -1474,9 +1486,9 @@ def eval_clustering_classification(
     _accuracy = accuracy_score(true_labels, _mapped_predictions)
 
     if display:
-        print(f"{data_type.capitalize()} ARI      : {_ari:.4f}")
-        print(f"{data_type.capitalize()} NMI      : {_nmi:.4f}")
-        print(f"{data_type.capitalize()} Accuracy : {_accuracy:.4f}")
+        print(f"{_category.value.capitalize()} ARI      : {_ari:.4f}")
+        print(f"{_category.value.capitalize()} NMI      : {_nmi:.4f}")
+        print(f"{_category.value.capitalize()} Accuracy : {_accuracy:.4f}")
     return _ari, _nmi, _accuracy
 
 
@@ -1595,7 +1607,7 @@ class KmeansSelector(Access):
 
 
 class PCAIAssessor(Access):
-    """ PCA Importance Assessor """
+    """ PCA Importance Assessor (Unsupervised - without labels） """
 
     def __init__(self, features: DataFrame, *, threshold: float = 0.95) -> None:
         """
@@ -1639,21 +1651,36 @@ class PCAIAssessor(Access):
         self._model.fit(self._features)
         return self
 
-    def reduce(self, features: DataFrame) -> DataFrame:
+    def reduce(
+            self, features: DataFrame,
+            features_category: str | FeaturesCategories | Literal["train", "valid", "prove"],
+            *,
+            display: bool = False
+    ) -> DataFrame:
         """
         Reduce the features dimensions based on the principal components.
 
         :param features: The features to reduce.
+        :param features_category: The type of features being reduced ("train", "valid", or "prove").
+        :param display: Whether to print the reduction information.
         :return: The reduced features.
         """
-        return self._model.transform(features)
+        _category: FeaturesCategories = FeaturesCategories(features_category)
+        _reduced = self._model.transform(features)
+
+        if display:
+            print(
+                f"Reducing {_category.value.capitalize()} features to {self._n_components} components. "
+                f"From {self._features.shape[1]} features to {_reduced.shape[1]} features."
+            )
+        return _reduced
 
     def important(self) -> DataFrame:
         """ Get the important features based on the principal components. """
         # Build a DataFrame to hold feature loadings
         _ratios: DataFrame = DataFrame(
             self._model.components_.T,
-            columns=[f"PC{i + 1}" for i in range(self._n_components)],
+            columns=[f"PCA{i + 1}" for i in range(self._n_components)],
             index=self._features.columns
         )
 
@@ -1676,6 +1703,203 @@ class PCAIAssessor(Access):
     @property
     def model(self) -> Any:
         """ Get the PCA model. """
+        return self._model
+
+
+class LDAAssessor(Access):
+    """ LDA Dimensionality Reduction Assessor (Supervised - with labels) """
+
+    def __init__(self, *, features: DataFrame, labels: Series, n_components: int) -> None:
+        """
+        Initialise the LDA Assessor.
+
+        :param features: The features used for supervised dimensionality reduction.
+        :param labels: The class labels corresponding to the features.
+        :param n_components: The number of classes. The actual number of LDA components is limited to min(n_features, n_classes - 1).
+        :return: None
+        """
+        super().__init__()
+        self._model: Any | None = None
+        self._features: DataFrame = features
+        self._labels: Series = labels
+        self._n_components: int = min(self._features.shape[1], n_components - 1)
+
+    def _init_model(self) -> None:
+        """ Initialise LDA model. """
+        self._model = LinearDiscriminantAnalysis(n_components=self._n_components)
+
+    def _fit_model(self) -> None:
+        """ Fit the LDA model. """
+        self._model.fit(self._features, self._labels)
+
+    def __enter__(self) -> Self:
+        """ Enter the context manager. """
+        self._init_model()
+        self._fit_model()
+        return self
+
+    def reduce(
+            self,
+            features: DataFrame,
+            features_category: str | FeaturesCategories | Literal["train", "valid", "prove"],
+            *,
+            display: bool = False
+    ) -> DataFrame:
+        """
+        Reduce the feature dimensions.
+
+        :param features: The features to reduce.
+        :param features_category: The type of features being reduced ("train", "valid", or "prove").
+        :param display: Whether to print the reduction information.
+        :return: The reduced features.
+        """
+        _category: FeaturesCategories = FeaturesCategories(features_category)
+        _reduced: DataFrame = DataFrame(
+            self._model.transform(features),
+            index=features.index,
+            columns=[f"LDA{i + 1}" for i in range(self._model.scalings_.shape[1])]
+        )
+
+        if display:
+            print(
+                f"Reducing {_category.value.capitalize()} features to {self._n_components} components. "
+                f"From {self._features.shape[1]} features to {_reduced.shape[1]} features."
+            )
+        return _reduced
+
+    def important(self) -> DataFrame:
+        """ Get feature importance based on LDA coefficients. """
+        _ratios = DataFrame(
+            self._model.scalings_,
+            index=self._features.columns,
+            columns=[
+                f"LD{i + 1}"
+                for i in range(self._model.scalings_.shape[1])
+            ]
+        )
+
+        _ratios["Contribution"] = (_ratios.abs().sum(axis=1))
+        return _ratios.sort_values("Contribution", ascending=False)
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of exception that occurred.
+        :param exc_value: The exception that occurred.
+        :param traceback: The traceback of the exception.
+        :return: None
+        """
+        pass
+
+    @property
+    def model(self):
+        """ Get the LDA model. """
+        return self._model
+
+
+class UMAPAssessor(Access):
+    """ UMAP Dimensionality Reduction Assessor (Unsupervised & Supervised) """
+
+    def __init__(
+            self,
+            features: DataFrame,
+            labels: Series | None = None,
+            *,
+            metric: str | DistanceMetrics | Literal[
+                "euclidean", "manhattan", "chebyshev", "minkowski"
+            ] = DistanceMetrics.MINKOWSKI,
+            neighbors: int = 15,
+            n_components: int = 2,
+            min_dist: float = 0.1,
+            randomness: int = 27
+    ) -> None:
+        """
+        Initialise the UMAP Assessor.
+
+        :param features: The features to assess.
+        :param labels: Optional labels for supervised dimensionality reduction.
+        :param metric: Distance metric to use.
+        :param n_components: Number of output dimensions.
+        :param neighbors: Number of neighbouring samples.
+        :param min_dist: Minimum distance between embedded points.
+        :param randomness: Random state.
+        :return: None
+        """
+        super().__init__()
+        self._model: Any | None = None
+        self._features: DataFrame = features
+        self._labels: Series | None = labels
+        self._metric: DistanceMetrics = DistanceMetrics(metric)
+        self._neighbors: int = neighbors
+        self._n_components: int = n_components
+        self._min_dist: float = min_dist
+        self._randomness: int = randomness
+
+    def _init_model(self) -> None:
+        """ Initialise UMAP model. """
+        self._model = UMAP(
+            n_neighbors=self._neighbors,
+            n_components=self._n_components,
+            metric=self._metric.value,
+            min_dist=self._min_dist,
+            n_jobs=1,
+            random_state=self._randomness,
+        )
+
+    def _fit_model(self) -> None:
+        """ Fit the UMAP model. """
+        self._model.fit(self._features, y=self._labels)
+
+    def __enter__(self) -> Self:
+        """ Enter the context manager. """
+        self._init_model()
+        self._fit_model()
+        return self
+
+    def reduce(
+            self,
+            features: DataFrame,
+            features_category: str | FeaturesCategories | Literal["train", "valid", "prove"],
+            *,
+            display: bool = False
+    ) -> DataFrame:
+        """
+        Reduce the feature dimensions.
+
+        :param features: The features to reduce.
+        :param features_category: The type of features being reduced ("train", "valid", or "prove").
+        :param display: Whether to print the reduction information.
+        :return: The reduced features.
+        """
+        _category: FeaturesCategories = FeaturesCategories(features_category)
+        _reduced: DataFrame = DataFrame(
+            self._model.transform(features),
+            index=features.index,
+            columns=[f"UMAP{i + 1}" for i in range(self._n_components)]
+        )
+
+        if display:
+            print(
+                f"Reducing {_category.value.capitalize()} features to {self._n_components} components. "
+                f"From {self._features.shape[1]} features to {self._model.transform(features).shape[1]} features."
+            )
+        return _reduced
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of exception that occurred.
+        :param exc_value: The exception that occurred.
+        :param traceback: The traceback of the exception.
+        :return: None
+        """
+        pass
+
+    @property
+    def model(self):
+        """ Get the UMAP model. """
         return self._model
 
 
