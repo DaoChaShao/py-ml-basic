@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   09_kmeans_02_sse.py.py
-# @Desc     :   
+# @Desc     :
 
 from pprint import pprint
 
@@ -21,10 +21,10 @@ from utils.ml import (
     Missions,
     SSESeeker,
     evaluate_kmeans_classification,
-    evaluate_kmeans_with_silhouette,
+    evaluate_kmeans_with_ch,
     get_cls_labels_distribution,
     split_data,
-    summary_dataframe, evaluate_kmeans_with_ch,
+    summary_dataframe,
 )
 from utils.ml.estimators import HyperKMeans
 
