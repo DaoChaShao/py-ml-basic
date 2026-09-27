@@ -5,7 +5,9 @@
 
 ### Features
 
-- **ml:** add Gaussian Mixture Model and clustering estimators module ([d3a5c70](https://github.com/DaoChaShao/py-ml-basic/commit/d3a5c706ee4b89fe36170db1aef37f6ad4ce9bd6))
+- **utils:** add PCAIAssessor to ml utilities ([36ee535](https://github.com/DaoChaShao/py-ml-basic/commit/36ee5359147e9880f0ff10c7d5dc981abf233eec))
+- **ml:** enhance preprocessor with PCA analysis and improve documentation ([a697b01](https://github.com/DaoChaShao/py-ml-basic/commit/a697b015ebd4f5dbfccd292aaf3347a3d6606637))
+- **ml:** add Gaussian Mixture Model and clustering estimators module ([b15fd2a](https://github.com/DaoChaShao/py-ml-basic/commit/b15fd2a62fa42d3dda9d8a0dcc048efff8cf3f82))
 - **utils:** add GMM covariance and initialization parameter types ([002c861](https://github.com/DaoChaShao/py-ml-basic/commit/002c8619d83082424c8c4343e2caae51188db3a2))
 - **ml:** add Gaussian Mixture Model estimator with hyperparameter tuning support ([f187036](https://github.com/DaoChaShao/py-ml-basic/commit/f187036039bd4779cad77424d674a53fee51d96b))
 - **ml:** add clustering estimators module with GMM and K-Means ([da35447](https://github.com/DaoChaShao/py-ml-basic/commit/da354474d85a4c77f37ecd2ea65cb8c9218f9c02))
@@ -200,6 +202,7 @@
 
 ### Docs
 
+- **utils:** add missing docstring parameter documentation ([de4d363](https://github.com/DaoChaShao/py-ml-basic/commit/de4d363a482da873768c4a621ae0683305b1e23c))
 - **ml:** add documentation for AdaBoost regressor loss functions ([f554791](https://github.com/DaoChaShao/py-ml-basic/commit/f5547911e56e2594e4384761e140a6cedae0e5cf))
 - **ml:** add documentation and improve type definitions ([8718f57](https://github.com/DaoChaShao/py-ml-basic/commit/8718f57195af20ea3db8afd76d94085cf896a34d))
 - **california_housing:** update docstring spelling from initialize to initialise ([35e8b82](https://github.com/DaoChaShao/py-ml-basic/commit/35e8b82ff0fb1ff65fc42d8ea393cea23e376ca6))
@@ -213,6 +216,21 @@
 
 ### Code Refactoring
 
+- **ml:** update XGBoost estimator with optional labels parameter ([f86d48f](https://github.com/DaoChaShao/py-ml-basic/commit/f86d48fdd12fab2224deb4abdd8e0827baff0a74))
+- **utils:** add type hints and documentation to ML types enum ([8b8b110](https://github.com/DaoChaShao/py-ml-basic/commit/8b8b1107efc838401e6a3c7c67f77455a023badb))
+- **ml:** simplify docstrings and update method signatures in SGD estimators ([0ae19fd](https://github.com/DaoChaShao/py-ml-basic/commit/0ae19fd8ed97c5f04a6ed9f886e7d84069d40b51))
+- **ml:** simplify docstrings and update method signatures in OLS regressor ([9d5a841](https://github.com/DaoChaShao/py-ml-basic/commit/9d5a8413d9007fa7ccedc59ed9c9bdf18b520487))
+- **ml:** simplify docstrings and update method signatures in KNN estimator ([de95edd](https://github.com/DaoChaShao/py-ml-basic/commit/de95eddf175c5b46902ebf90608238d9cc6106d8))
+- **ml:** simplify KMeans estimator implementation ([2e90de6](https://github.com/DaoChaShao/py-ml-basic/commit/2e90de605616b5c941dd512c0791fa82e687a254))
+- **utils:** simplify Beautifier class initialization ([4c6db3b](https://github.com/DaoChaShao/py-ml-basic/commit/4c6db3bca06d7bf16360e522809f370aa97da886))
+- **ml:** simplify docstring format in GMM estimator ([abe05d4](https://github.com/DaoChaShao/py-ml-basic/commit/abe05d469236adf2db9e43fe8dbed98c8346b17f))
+- **ml:** simplify docstrings and update type hints in gbdtree estimator ([1ec75a2](https://github.com/DaoChaShao/py-ml-basic/commit/1ec75a2a0afa0b8e455e2ccbc866cdf76cd7d4c3))
+- **ml:** update random forest estimator implementation ([b31ca07](https://github.com/DaoChaShao/py-ml-basic/commit/b31ca070f574d506f75066912fd900c7663d605a))
+- **ml:** simplify docstrings and update fit method signature in ElasticNet estimator ([4b5408f](https://github.com/DaoChaShao/py-ml-basic/commit/4b5408f2c15bc94ea94601fefb72800e1fc47363))
+- **ml:** simplify docstrings and update fit method signature ([c2950f6](https://github.com/DaoChaShao/py-ml-basic/commit/c2950f62d66f0ff5305b83eb52ad6eab9e9da466))
+- **utils:** update bayes estimator implementation ([e8a1908](https://github.com/DaoChaShao/py-ml-basic/commit/e8a19087d8e5b288448255422b5285cd33d70279))
+- **ml:** simplify docstrings in base estimator class ([782158f](https://github.com/DaoChaShao/py-ml-basic/commit/782158f1bdea745c8a997510f46b1ccc5bc874a6))
+- **ml:** update AdaBoost implementation with improved typing and docstring formatting ([f2aead9](https://github.com/DaoChaShao/py-ml-basic/commit/f2aead9ea9b771803136d589af968f130a4e707d))
 - **ml:** rename estimators modules for consistency ([e392ba7](https://github.com/DaoChaShao/py-ml-basic/commit/e392ba784f24c11818dfcd4cec2fba299b22d86a))
 - **ml:** rename clustering evaluation functions and class ([2b1c4bb](https://github.com/DaoChaShao/py-ml-basic/commit/2b1c4bbd7cabd181f6130e1909397f2a77698fb6))
 - **utils:** move kmeans estimator to clustering module ([130b4c4](https://github.com/DaoChaShao/py-ml-basic/commit/130b4c45e8403d3e198f6000647ce847342ecd16))
