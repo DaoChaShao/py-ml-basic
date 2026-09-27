@@ -163,6 +163,7 @@ def timer(arg: Callable | str | None = None) -> Callable:
 def _build_wrapper(func, desc: str | None) -> Callable:
     """
     Inner decorator that wraps the target function with timing logic.
+
     :param func: The function to be decorated.
     :param desc: The custom name for the function shown in logs.
     :return: The wrapped function with timing and logging.
