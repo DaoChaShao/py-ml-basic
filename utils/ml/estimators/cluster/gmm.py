@@ -54,11 +54,7 @@ class HyperGaussianMixture(Base, BaseEstimator):
 
     @protectedmethod
     def _init_model(self) -> None:
-        """
-        Initialise the underlying GaussianMixture model.
-
-        :return: None
-        """
+        """ Initialise the underlying GaussianMixture model. """
         self._model = SklearnGaussianMixture(
             n_components=self.n_components,
             covariance_type=self.covariance,
