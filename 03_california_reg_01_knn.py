@@ -15,8 +15,8 @@ from sklearn.utils import Bunch
 
 from utils import green, red
 from utils.ml import (
+    DistanceMetrics,
     FeaturesNormaliser,
-    KNNMetrics,
     Missions,
     get_reg_labels_distribution,
     split_data,
@@ -78,7 +78,7 @@ def main() -> None:
         Best Score: -0.6032
         """
 
-        knn = KNN(Missions.REG, n_neighbours=9, metric=KNNMetrics.MINKOWSKI, p=1.0)
+        knn = KNN(Missions.REG, n_neighbours=9, metric=DistanceMetrics.MINKOWSKI, p=1.0)
         knn.fit(train_features, train_labels)
         predictions = knn.predict(valid_features)
         # print(f"Predictions: {predictions}", end="\n\n")
