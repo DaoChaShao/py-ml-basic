@@ -75,6 +75,7 @@ from .types import (
     KMeansAlgorithms,
     KMeansInitCategories,
     Languages,
+    LOFAlgorithms,
     LogisticSolvers,
     Missions,
     OneHotEncoderStrategies,
@@ -168,4 +169,5 @@ __all__ = [
     "TreeSplitters",
     "XGBClsObjectives",
     "XGBRegObjectives",
+    "LOFAlgorithms",
 ]
