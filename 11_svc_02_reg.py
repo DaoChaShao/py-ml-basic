@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   11_svc_02_reg.py
-# @Desc     :   
+# @Desc     :
 
 from pprint import pprint
 from random import randint
@@ -19,11 +19,9 @@ from utils.ml import (
     FeaturesRobustScaler,
     Missions,
     SVMKernelCategories,
-    TreeRegCriteria,
     diagnose_reg_fit,
     get_reg_labels_distribution,
     split_data,
-    tune_optimal_cart_tree,
 )
 from utils.ml.estimators import HyperSVRegressor
 
