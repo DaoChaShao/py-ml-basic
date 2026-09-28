@@ -4,9 +4,9 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   svc.py
-# @Desc     :   
+# @Desc     :
 
-from typing import Any, Literal, override, Self
+from typing import Any, Literal, Self, override
 
 from access_modifiers import protectedmethod
 from pandas import DataFrame, Series
@@ -14,8 +14,8 @@ from pydantic import Field, validate_call
 from sklearn.base import BaseEstimator
 from sklearn.svm import SVC
 
-from ..base import Base
 from ...types import SVMKernelCategories
+from ..base import Base
 
 
 class HyperSVClassifier(Base, BaseEstimator):
