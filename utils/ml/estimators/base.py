@@ -75,6 +75,7 @@ class Base(ABC, Access):
             ave_strategy: str | AveStrategies | Literal[
                 "weighted", "macro", "micro", "samples", "binary"
             ] = AveStrategies.WEIGHTED,
+            pos_label: int | None = None,
             display: bool = False
     ) -> dict[str, Any]:
         """
@@ -83,13 +84,15 @@ class Base(ABC, Access):
         :param valid_labels: The true labels.
         :param predictions: The predicted labels.
         :param ave_strategy: The average method for multi-class metrics ('weighted', 'macro', etc.).
+        :param pos_label: The positive label for binary classification.
         :param display: Whether to print the formatted evaluation result.
         :return: Dictionary containing calculated evaluation metrics and matrices.
         """
+        _strat: AveStrategies = AveStrategies(ave_strategy)
         _acc: float = accuracy_score(valid_labels, predictions)
-        _pre: float = precision_score(valid_labels, predictions, average=AveStrategies(ave_strategy), zero_division=0)
-        _rec: float = recall_score(valid_labels, predictions, average=AveStrategies(ave_strategy), zero_division=0)
-        _f1: float = f1_score(valid_labels, predictions, average=AveStrategies(ave_strategy), zero_division=0)
+        _pre: float = precision_score(valid_labels, predictions, average=_strat, pos_label=pos_label, zero_division=0)
+        _rec: float = recall_score(valid_labels, predictions, average=_strat, pos_label=pos_label, zero_division=0)
+        _f1: float = f1_score(valid_labels, predictions, average=_strat, pos_label=pos_label, zero_division=0)
         _metrics = {
             "accuracy": _acc,
             "precision": _pre,
