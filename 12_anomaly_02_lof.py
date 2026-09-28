@@ -130,6 +130,7 @@ def generate_anomalies(*, samples: int = 500, randomness: int = 27, display: boo
 #         print(_features.head())
 #     return _features
 
+
 # @timer
 # def generate_anomalies(*, samples: int = 50, randomness: int = 27, display: bool = True) -> DataFrame:
 #     _rng = default_rng(randomness)
