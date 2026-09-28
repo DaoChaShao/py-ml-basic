@@ -415,3 +415,11 @@ class FeaturesCategories(StrEnum):
     TRAIN = "train"
     VALID = "valid"
     PROVE = "prove"
+
+
+@unique
+class SVMKernelCategories(StrEnum):
+    LINEAR = "linear"
+    POLY = "poly"
+    RBF = "rbf"
+    SIGMOID = "sigmoid"
