@@ -20,7 +20,7 @@ Descent (SGD), Ridge (L2), and Lasso (L1) estimators.
 __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
-from .anomaly import HyperIsolationForest
+from .anomaly import HyperIsolationForest, HyperLOF
 from .bagger import HyperRandomForest, RandomForest
 from .base import Base
 from .bayes import NaiveBayes
@@ -67,6 +67,7 @@ __all__ = [
     "HyperSGDRegressor",
 
     # Anomaly Detection Estimators
+    "HyperLOF",
     "HyperIsolationForest",
 
     # Bagging Estimators
