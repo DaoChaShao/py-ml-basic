@@ -29,16 +29,16 @@ class Missions(StrEnum):
 class DistanceMetrics(StrEnum):
     """ Distance metrics. """
     EUCLIDEAN = "euclidean"
-    MANHATTAN = "manhattan"
     CHEBYSHEV = "chebyshev"
+    MANHATTAN = "manhattan"
     MINKOWSKI = "minkowski"
 
 
 @unique
 class Languages(StrEnum):
     """ Programming languages. """
-    EN = "English"
     CN = "Chinese"
+    EN = "English"
 
 
 @unique
@@ -91,11 +91,11 @@ class AveStrategies(StrEnum):
     - SAMPLES: Calculate metrics for each instance, and find their average (only meaningful for multilabel classification).
     - BINARY: Report metrics for the class specified by pos_label (used for binary classification only).
     """
-    WEIGHTED = "weighted"
+    BINARY = "binary"
     MACRO = "macro"
     MICRO = "micro"
     SAMPLES = "samples"
-    BINARY = "binary"
+    WEIGHTED = "weighted"
 
 
 @unique
@@ -113,9 +113,9 @@ class ClsScoreStrategies(StrEnum):
     ACCURACY = "accuracy"
     F1_WEIGHTED = "f1_weighted"
     F1_MACRO = "f1_macro"
-    PRECISION_WEIGHTED = "precision_weighted"
     RECALL_WEIGHTED = "recall_weighted"
     ROC_AUC_OVR = "roc_auc_ovr"
+    PRECISION_WEIGHTED = "precision_weighted"
 
 
 @unique
@@ -129,11 +129,11 @@ class RegScoreStrategies(StrEnum):
     - R2: Coefficient of determination ($R^2$). Represents the proportion of variance explained by the model (best = 1.0).
     - MAPE: Mean Absolute Percentage Error. Relative error percentage, useful for scale-independent comparisons.
     """
-    RMSE = "neg_root_mean_squared_error"
-    MSE = "neg_mean_squared_error"
     MAE = "neg_mean_absolute_error"
-    R2 = "r2"
     MAPE = "neg_mean_absolute_percentage_error"
+    MSE = "neg_mean_squared_error"
+    RMSE = "neg_root_mean_squared_error"
+    R2 = "r2"
 
 
 class GridSearchTunesResponse(BaseModel):
@@ -171,27 +171,27 @@ class CaliforniaFeatures(Enum):
 @unique
 class RegLosses(StrEnum):
     """ Supported loss functions for SGDRegressor in Scikit-Learn. """
-    SQUARED_ERROR = "squared_error"
     ABSOLUTE_ERROR = "absolute_error"  # Not for SGD Regression
-    HUBER = "huber"
     EPSILON_INSENSITIVE = "epsilon_insensitive"
+    HUBER = "huber"
     SQUARED_EPSILON_INSENSITIVE = "squared_epsilon_insensitive"
+    SQUARED_ERROR = "squared_error"
 
 
 @unique
 class AlphaCategories(StrEnum):
     """ Supported learning rate schedules for Regressor. """
+    ADAPTIVE = "adaptive"
+    CONSTANT = "constant"
     INVSCALING = "invscaling"
     OPTIMAL = "optimal"
-    CONSTANT = "constant"
-    ADAPTIVE = "adaptive"
 
 
 @unique
 class RegPenalties(StrEnum):
     """ Supported regularisation penalties for SGDRegressor and linear models. """
-    L2 = "l2"
     L1 = "l1"
+    L2 = "l2"
     ELASTICNET = "elasticnet"
 
 
@@ -199,11 +199,11 @@ class RegPenalties(StrEnum):
 class LogisticSolvers(StrEnum):
     """ Supported solvers for LogisticRegression in Scikit-Learn. """
     LBFGS = "lbfgs"
-    SAGA = "saga"
-    SAG = "sag"
     LIBLINEAR = "liblinear"
     NEWTON_CG = "newton-cg"
     NEWTON_CHOLESKY = "newton-cholesky"
+    SAG = "sag"
+    SAGA = "saga"
 
 
 @unique
@@ -282,21 +282,24 @@ class TitanicLabels(Enum):
 
 @unique
 class TreeClsCriteria(StrEnum):
-    GINI = "gini"
+    """ Classification criteria for decision trees. """
     ENTROPY = "entropy"
+    GINI = "gini"
     LOG_LOSS = "log_loss"
 
 
 @unique
 class TreeRegCriteria(StrEnum):
-    SQUARED_ERROR = "squared_error"
-    FRIEDMAN_MSE = "friedman_mse"
+    """ Regression criteria for decision trees. """
     ABSOLUTE_ERROR = "absolute_error"
+    FRIEDMAN_MSE = "friedman_mse"
     POISSON = "poisson"
+    SQUARED_ERROR = "squared_error"
 
 
 @unique
 class TreeSplitters(StrEnum):
+    """ Splitter methods for decision trees. """
     BEST = "best"
     RANDOM = "random"
 
@@ -304,17 +307,17 @@ class TreeSplitters(StrEnum):
 @unique
 class SimpleImputerStrategies(StrEnum):
     """ Standard strategies for sklearn.impute.SimpleImputer. """
+    CONSTANT = "constant"
     MEAN = "mean"
     MEDIAN = "median"
     MOST_FREQUENT = "most_frequent"
-    CONSTANT = "constant"
 
 
 @unique
 class OneHotEncoderStrategies(StrEnum):
     """ Strategies for handling unknown categories during transform in OneHotEncoder. """
-    IGNORE = "ignore"
     ERROR = "error"
+    IGNORE = "ignore"
     INFREQUENT_IF_EXIST = "infrequent_if_exist"
 
 
@@ -322,39 +325,39 @@ class OneHotEncoderStrategies(StrEnum):
 class FeaturesScalerCategories(StrEnum):
     """ Supported scaling strategies for feature scaling. """
     NORMALISATION = "normalisation"
-    STANDARDISATION = "standardisation"
     ROBUSTIFICATION = "robustification"
+    STANDARDISATION = "standardisation"
 
 
 @unique
 class TreeClsLoss(StrEnum):
     """ Classification loss functions for ensemble tree models (Random Forest / GBDT). """
-    LOG_LOSS = "log_loss"
     EXPONENTIAL = "exponential"
+    LOG_LOSS = "log_loss"
 
 
 @unique
 class TreeRegLoss(StrEnum):
     """ Regression loss functions for ensemble tree models (Random Forest / GBDT). """
-    SQUARED_ERROR = "squared_error"
     ABSOLUTE_ERROR = "absolute_error"
     HUBER = "huber"
     QUANTILE = "quantile"
+    SQUARED_ERROR = "squared_error"
 
 
 @unique
 class ForestFeaturesStrategies(StrEnum):
     """ Supported strategies for max_features in RandomForest. """
-    SQRT = "sqrt"
     LOG2 = "log2"
+    SQRT = "sqrt"
 
 
 @unique
 class AdaBoostRegLoss(StrEnum):
     """ Loss functions for AdaBoostRegressor. """
+    EXPONENTIAL = "exponential"
     LINEAR = "linear"
     SQUARE = "square"
-    EXPONENTIAL = "exponential"
 
 
 @unique
@@ -369,12 +372,12 @@ class XGBClsObjectives(StrEnum):
 @unique
 class XGBRegObjectives(StrEnum):
     """ XGBoost regression objectives. """
-    SQUAREDEROR = "reg:squarederror"
-    SQUAREDLOGERROR = "reg:squaredlogerror"
     ABSERROR = "reg:absoluteerror"
+    HUBER = "reg:huber"
     PSEUDOHUBERERROR = "reg:pseudohubererror"
     QUANTILEERROR = "reg:quantileerror"
-    HUBER = "reg:huber"
+    SQUAREDEROR = "reg:squarederror"
+    SQUAREDLOGERROR = "reg:squaredlogerror"
 
 
 @unique
@@ -387,17 +390,17 @@ class KMeansInitCategories(StrEnum):
 @unique
 class KMeansAlgorithms(StrEnum):
     """ K-Means algorithms. """
-    LLOYD = "lloyd"
     ELKAN = "elkan"
+    LLOYD = "lloyd"
 
 
 @unique
 class GMMCovarianceCategories(StrEnum):
     """ GMM covariance types. """
-    FULL = "full"
-    TIED = "tied"
     DIAG = "diag"
+    FULL = "full"
     SPHERICAL = "spherical"
+    TIED = "tied"
 
 
 @unique
@@ -423,3 +426,12 @@ class SVMKernelCategories(StrEnum):
     POLY = "poly"
     RBF = "rbf"
     SIGMOID = "sigmoid"
+
+
+@unique
+class LOFAlgorithms(StrEnum):
+    """Algorithms for nearest-neighbor search in Local Outlier Factor."""
+    AUTO = "auto"
+    BALL_TREE = "ball_tree"
+    KD_TREE = "kd_tree"
+    BRUTE = "brute"
