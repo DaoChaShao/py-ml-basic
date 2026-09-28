@@ -4,7 +4,7 @@
 # @Author   :   Shawn
 # @Version  :   Version 0.1.0
 # @File     :   11_svc_01_cls.py
-# @Desc     :   
+# @Desc     :
 
 from pprint import pprint
 from random import randint
@@ -14,17 +14,12 @@ from sklearn.datasets import load_wine
 from sklearn.model_selection import GridSearchCV, KFold
 from sklearn.utils import Bunch
 
-from utils import red, green
+from utils import green, red
 from utils.ml import (
-    FeaturesCategories,
     FeaturesRobustScaler,
-    GMMCovarianceCategories,
-    GMMInitParamsCategories,
     Missions,
     SVMKernelCategories,
     diagnose_cls_fit,
-    eval_clustering_classification,
-    eval_clustering_with_ch,
     get_cls_labels_distribution,
     split_data,
     summary_dataframe,
