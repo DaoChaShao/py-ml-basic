@@ -5,6 +5,11 @@
 
 ### Features
 
+- **ml:** add HyperIsolationForest anomaly detection estimator ([b489bb1](https://github.com/DaoChaShao/py-ml-basic/commit/b489bb1a6ac0b31caeca1616489e9033c5eac8f9))
+- **ml:** add pos_label parameter support for binary classification metrics ([8a43d9f](https://github.com/DaoChaShao/py-ml-basic/commit/8a43d9fbb4269f2626abeb0a2453c5d8d4623d32))
+- **ml:** add HyperIsolationForest estimator and reorganize estimator exports ([85d0fbc](https://github.com/DaoChaShao/py-ml-basic/commit/85d0fbccc3779b393c59780cd60a671e4f7e1934))
+- **anomaly:** add isolation forest anomaly detection implementation ([e774716](https://github.com/DaoChaShao/py-ml-basic/commit/e77471646acecfe2ae6e5a97c70726eb33b477a6))
+- **ml:** add SVM estimators and reorganize ML utilities ([2469339](https://github.com/DaoChaShao/py-ml-basic/commit/2469339bcf4bce5bb0eea5c439732845f39290ce))
 - **utils:** add SVM kernel categories enum ([92da945](https://github.com/DaoChaShao/py-ml-basic/commit/92da94547089581e0799f8c562de7188178ffef5))
 - **ml:** add Support Vector Regression estimator implementation ([0872cbf](https://github.com/DaoChaShao/py-ml-basic/commit/0872cbf2adf0506fa498a21cd7c51a9a6cf8e56b))
 - **ml:** add support vector classifier implementation ([912ea77](https://github.com/DaoChaShao/py-ml-basic/commit/912ea7755b0fcd760e418e190965369080cd80b6))
@@ -225,6 +230,7 @@
 
 ### Docs
 
+- **ml:** update docstring parameter descriptions for clarity ([3c7754c](https://github.com/DaoChaShao/py-ml-basic/commit/3c7754c90d60897c14576b62292cd16733ba2361))
 - **utils:** add missing docstring parameter documentation ([de4d363](https://github.com/DaoChaShao/py-ml-basic/commit/de4d363a482da873768c4a621ae0683305b1e23c))
 - **ml:** add documentation for AdaBoost regressor loss functions ([f554791](https://github.com/DaoChaShao/py-ml-basic/commit/f5547911e56e2594e4384761e140a6cedae0e5cf))
 - **ml:** add documentation and improve type definitions ([8718f57](https://github.com/DaoChaShao/py-ml-basic/commit/8718f57195af20ea3db8afd76d94085cf896a34d))
@@ -239,6 +245,7 @@
 
 ### Code Refactoring
 
+- **ml:** update anomaly detection module structure and documentation ([d58fd7b](https://github.com/DaoChaShao/py-ml-basic/commit/d58fd7b78a23f6ce78ffb05003eb1010d4b19d65))
 - **ml:** reorganize imports and update typing annotations in SVR estimator ([7788ba7](https://github.com/DaoChaShao/py-ml-basic/commit/7788ba7cee5662f346501bcfcc9f071bcd7ef304))
 - **ml:** reorganize imports and update typing annotations in SVM classifier ([fb83469](https://github.com/DaoChaShao/py-ml-basic/commit/fb83469cae3c332d1af5751d9df4ffc1b3483d1f))
 - **utils:** reorganize ML utility imports ([c4afa88](https://github.com/DaoChaShao/py-ml-basic/commit/c4afa8818833a60920b0b6b545f4952d44bb042c))
