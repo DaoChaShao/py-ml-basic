@@ -61,8 +61,8 @@ def diagnose_cls_fit(
     """
     Diagnose if the classification model is underfitting, overfitting, or well-fitted.
 
-    :param train_f1_score: Training set F1 score (or Accuracy).
-    :param valid_f1_score: Validation set F1 score (or Accuracy).
+    :param train_f1_score: Training set F1 score.
+    :param valid_f1_score: Validation set F1 score.
     :param overfit_threshold: Drop in performance from train to valid to detect overfitting.
     :param underfit_threshold: Minimum acceptable baseline metric on train set to avoid underfitting.
     :param display: Whether to display the diagnosis result.
