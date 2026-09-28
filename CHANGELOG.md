@@ -5,7 +5,7 @@
 
 ### Features
 
-- **ml:** add LOF and HyperLOF anomaly detection estimators ([3d8eba3](https://github.com/DaoChaShao/py-ml-basic/commit/3d8eba3dd116fb7d85ff4fdff38d8aeb26cb7cb2))
+- **ml:** add LOF and HyperLOF anomaly detection estimators ([7b03398](https://github.com/DaoChaShao/py-ml-basic/commit/7b033984199af4001cf9ed4794872097753e81ea))
 - **ml:** add Local Outlier Factor anomaly detection estimator ([dd0e4d4](https://github.com/DaoChaShao/py-ml-basic/commit/dd0e4d44229d23ef7b72ca20adb8e6cea3acf823))
 - **utils:** add LOF algorithms to ml utilities ([766ef35](https://github.com/DaoChaShao/py-ml-basic/commit/766ef3501638aa17d3dfffbbc65a6ac262b135f2))
 - **estimators:** add HyperLOF to anomaly detection module ([fdb2df8](https://github.com/DaoChaShao/py-ml-basic/commit/fdb2df83bdf4bdb876fb24b5bcf119511cb82080))
@@ -238,6 +238,7 @@
 
 ### Docs
 
+- **journey:** update module documentation and metadata ([dbd6834](https://github.com/DaoChaShao/py-ml-basic/commit/dbd6834b5c658daa770ed410d5526349c07480f1))
 - **ml:** update docstring parameter descriptions for clarity ([3c7754c](https://github.com/DaoChaShao/py-ml-basic/commit/3c7754c90d60897c14576b62292cd16733ba2361))
 - **utils:** add missing docstring parameter documentation ([de4d363](https://github.com/DaoChaShao/py-ml-basic/commit/de4d363a482da873768c4a621ae0683305b1e23c))
 - **ml:** add documentation for AdaBoost regressor loss functions ([f554791](https://github.com/DaoChaShao/py-ml-basic/commit/f5547911e56e2594e4384761e140a6cedae0e5cf))
