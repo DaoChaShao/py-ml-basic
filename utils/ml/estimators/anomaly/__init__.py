@@ -6,10 +6,21 @@
 # @File     :   __init__.py.py
 # @Desc     :
 
-def main() -> None:
-    """ Main Function """
-    pass
+"""
+****************************************************************
+Machine Learning Module - Hyper-Parameters Estimators
+----------------------------------------------------------------
+This subpackage provides hyper-parameterized machine learning
+estimators, including Isolation Forest estimators and so on.
+****************************************************************
+"""
 
+__author__ = "Shawn Yu"
+__version__ = "0.1.0"
 
-if __name__ == "__main__":
-    main()
+from .forest import HyperIsolationForest
+
+__all__ = [
+    # Hyper-Parameters Estimators
+    "HyperIsolationForest"
+]
