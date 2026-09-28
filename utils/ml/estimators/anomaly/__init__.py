@@ -19,8 +19,10 @@ __author__ = "Shawn Yu"
 __version__ = "0.1.0"
 
 from .forest import HyperIsolationForest
+from .lof import HyperLOF
 
 __all__ = [
     # Hyper-Parameters Estimators
-    "HyperIsolationForest"
+    "HyperLOF",
+    "HyperIsolationForest",
 ]
