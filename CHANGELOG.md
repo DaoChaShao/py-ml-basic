@@ -5,6 +5,14 @@
 
 ### Features
 
+- **utils:** add SVM kernel categories enum ([92da945](https://github.com/DaoChaShao/py-ml-basic/commit/92da94547089581e0799f8c562de7188178ffef5))
+- **ml:** add Support Vector Regression estimator implementation ([0872cbf](https://github.com/DaoChaShao/py-ml-basic/commit/0872cbf2adf0506fa498a21cd7c51a9a6cf8e56b))
+- **ml:** add support vector classifier implementation ([912ea77](https://github.com/DaoChaShao/py-ml-basic/commit/912ea7755b0fcd760e418e190965369080cd80b6))
+- **utils:** add SVM kernel categories to ML utilities ([a4350d8](https://github.com/DaoChaShao/py-ml-basic/commit/a4350d81f528e15a1a70159c5b34d87c6f5e927b))
+- **ml:** add SVM estimators to ml library ([d7d2b97](https://github.com/DaoChaShao/py-ml-basic/commit/d7d2b97225c2c1ce0ca061367b89beebd2549a8e))
+- **ml:** add diabetes regression analysis with SVR implementation ([50124ea](https://github.com/DaoChaShao/py-ml-basic/commit/50124eac80845f0c2ad327b18bec2fd4466598f4))
+- **ml:** add wine dataset classification service with SVM ([42ae25d](https://github.com/DaoChaShao/py-ml-basic/commit/42ae25d324a6a379e5a42e0b46f4f9bd784acf40))
+- **ml:** add machine learning estimator modules and dependencies ([32c1967](https://github.com/DaoChaShao/py-ml-basic/commit/32c1967634dcdf497a6b3a0f94fd6aa00490d501))
 - **ml:** add SVM estimator module with basic structure ([8e89a90](https://github.com/DaoChaShao/py-ml-basic/commit/8e89a902a130a7ae9ae4563f809eac8a01fd57db))
 - **ml:** add journey estimator module with main function ([f53c59a](https://github.com/DaoChaShao/py-ml-basic/commit/f53c59acf8c6f3945fa22ead19a58155a3354f21))
 - **ml:** add anomaly detection estimators module ([070f041](https://github.com/DaoChaShao/py-ml-basic/commit/070f0418199f73277bf8671fbf72c53a05909de3))
@@ -231,6 +239,13 @@
 
 ### Code Refactoring
 
+- **ml:** reorganize imports and update typing annotations in SVR estimator ([7788ba7](https://github.com/DaoChaShao/py-ml-basic/commit/7788ba7cee5662f346501bcfcc9f071bcd7ef304))
+- **ml:** reorganize imports and update typing annotations in SVM classifier ([fb83469](https://github.com/DaoChaShao/py-ml-basic/commit/fb83469cae3c332d1af5751d9df4ffc1b3483d1f))
+- **utils:** reorganize ML utility imports ([c4afa88](https://github.com/DaoChaShao/py-ml-basic/commit/c4afa8818833a60920b0b6b545f4952d44bb042c))
+- **regression:** remove unused imports from SVC regression module ([52cc0a9](https://github.com/DaoChaShao/py-ml-basic/commit/52cc0a908fd989b07bafae63868f4b069e6dca45))
+- **svc:** reorder imports and remove unused utility functions ([f51f8bc](https://github.com/DaoChaShao/py-ml-basic/commit/f51f8bced194f981f1dfe6f0a58fe1c62a27d555))
+- **ml:** restructure SVM module with proper initialization and documentation ([5f2ad17](https://github.com/DaoChaShao/py-ml-basic/commit/5f2ad174a47a7916dfcda61c606ac832722be61a))
+- **tree:** update diabetes dataset initialization and metrics labels ([edbc41b](https://github.com/DaoChaShao/py-ml-basic/commit/edbc41bfb4885007b73e6d258d61b5a546405d25))
 - **utils:** rename KNNMetrics to DistanceMetrics and add FeaturesCategories ([a1b3001](https://github.com/DaoChaShao/py-ml-basic/commit/a1b3001951631f25627c392277944d9ded0cfae9))
 - **ml:** replace KNNMetrics with DistanceMetrics in KNN estimator ([6b66f69](https://github.com/DaoChaShao/py-ml-basic/commit/6b66f69f2b87e06449197d84acd0d3a11b50de5c))
 - **utils:** replace dynamic package metadata lookup with static version info ([3e48a8d](https://github.com/DaoChaShao/py-ml-basic/commit/3e48a8d1b1868ec1f0d64eb627e28b59980d98fc))
