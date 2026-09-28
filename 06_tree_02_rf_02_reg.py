@@ -26,11 +26,7 @@ from utils.ml.estimators import RandomForest
 
 
 def init_diabetes() -> Bunch:
-    """
-    Initialise the diabetes dataset.
-
-    :return: The diabetes dataset.
-    """
+    """ Initialise the diabetes dataset. """
     return load_diabetes()
 
 
@@ -99,7 +95,7 @@ def main() -> None:
     valid_r2: float = valid_metrics["r2"]
     """
     ****************************************************************
-    Regression Evaluation Metrics
+    Regression Evaluation Metrics (Decision Tree)
     ----------------------------------------------------------------
     R² Score  : -0.0423
     RMSE      : 65.3399
@@ -108,7 +104,7 @@ def main() -> None:
     MAPE      : 39.7905%
     ****************************************************************
     ****************************************************************
-    Regression Evaluation Metrics
+    Regression Evaluation Metrics (Random Forest)
     ----------------------------------------------------------------
     R² Score  : 0.2871
     RMSE      : 54.0371
