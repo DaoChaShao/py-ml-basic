@@ -39,6 +39,7 @@ from .linear.ols import HyperOLSRegressor, OLSRegressor
 from .linear.ridge import HyperRidgeRegressor, RidgeRegressor
 from .linear.sgd import HyperSGDRegressor, SGDRegressor
 from .logistic import HyperLogisticRegClassifier, LogisticRegClassifier
+from .svm import HyperSVClassifier, HyperSVRegressor
 
 __all__ = [
     # Protocols
@@ -80,4 +81,8 @@ __all__ = [
     # Clustering Estimators
     "HyperGaussianMixture",
     "HyperKMeans",
+
+    # SVM Estimators
+    "HyperSVClassifier",
+    "HyperSVRegressor",
 ]
