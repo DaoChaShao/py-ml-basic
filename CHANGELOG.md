@@ -5,6 +5,7 @@
 
 ### Features
 
+- **ml:** add LOF and HyperLOF anomaly detection estimators ([3d8eba3](https://github.com/DaoChaShao/py-ml-basic/commit/3d8eba3dd116fb7d85ff4fdff38d8aeb26cb7cb2))
 - **ml:** add Local Outlier Factor anomaly detection estimator ([dd0e4d4](https://github.com/DaoChaShao/py-ml-basic/commit/dd0e4d44229d23ef7b72ca20adb8e6cea3acf823))
 - **utils:** add LOF algorithms to ml utilities ([766ef35](https://github.com/DaoChaShao/py-ml-basic/commit/766ef3501638aa17d3dfffbbc65a6ac262b135f2))
 - **estimators:** add HyperLOF to anomaly detection module ([fdb2df8](https://github.com/DaoChaShao/py-ml-basic/commit/fdb2df83bdf4bdb876fb24b5bcf119511cb82080))
@@ -200,6 +201,7 @@
 
 ### Chore
 
+- **anomaly:** remove commented code from LOF implementation ([b8e587a](https://github.com/DaoChaShao/py-ml-basic/commit/b8e587ada2053b41468c0f31949311f8a64f1b09))
 - **journey:** add gitignore for ml estimators journey module ([8a3f5b8](https://github.com/DaoChaShao/py-ml-basic/commit/8a3f5b8db02ce377dd75d908d15d0ef408d7fe16))
 - **svm:** add .gitignore file for SVM estimator module ([1324077](https://github.com/DaoChaShao/py-ml-basic/commit/13240775c065b589420ba4c4710980756a4203f6))
 - **anomaly:** add gitignore for anomaly estimator module ([6118d37](https://github.com/DaoChaShao/py-ml-basic/commit/6118d3789f768e347474d1faa86c2e97c4082ff6))
