@@ -30,7 +30,8 @@ from sklearn.metrics import (
 
 from utils.helper import Access
 from utils.highlighter import lines, stars
-from utils.ml.types import AveStrategies, Missions
+
+from ..types import AveStrategies, Missions
 
 
 class Base(ABC, Access):
