@@ -6,10 +6,23 @@
 # @File     :   __init__.py.py
 # @Desc     :
 
-def main() -> None:
-    """ Main Function """
-    pass
+"""
+****************************************************************
+Machine Learning Module - Support Vector Machine Estimators
+----------------------------------------------------------------
+This subpackage provides support vector machine estimators,
+including SVC and SVR estimators.
+****************************************************************
+"""
 
+__author__ = "Shawn Yu"
+__version__ = "0.1.0"
 
-if __name__ == "__main__":
-    main()
+from .svc import HyperSVClassifier
+from .svr import HyperSVRegressor
+
+__all__ = [
+    # Support Vector Machine Estimators
+    "HyperSVClassifier",
+    "HyperSVRegressor",
+]
