@@ -5,6 +5,7 @@
 
 ### Features
 
+- **time-series:** add ARIMA time series analysis script with bike sharing dataset ([9a87c91](https://github.com/DaoChaShao/py-ml-basic/commit/9a87c91cbe2b49e7002a174a1624628765ce3ea2))
 - **ml:** add LOF and HyperLOF anomaly detection estimators ([7b03398](https://github.com/DaoChaShao/py-ml-basic/commit/7b033984199af4001cf9ed4794872097753e81ea))
 - **ml:** add Local Outlier Factor anomaly detection estimator ([dd0e4d4](https://github.com/DaoChaShao/py-ml-basic/commit/dd0e4d44229d23ef7b72ca20adb8e6cea3acf823))
 - **utils:** add LOF algorithms to ml utilities ([766ef35](https://github.com/DaoChaShao/py-ml-basic/commit/766ef3501638aa17d3dfffbbc65a6ac262b135f2))
@@ -192,6 +193,7 @@
 
 ### Bug Fixes
 
+- **utils:** correct default authorization value in decorator ([f9cec86](https://github.com/DaoChaShao/py-ml-basic/commit/f9cec86505ff54ec016e0ba145ab096a8175ed1a))
 - **ml:** replace deprecated train method with fit in AdaBoost classifier ([6c1a882](https://github.com/DaoChaShao/py-ml-basic/commit/6c1a8826e6ec310224482ae71d9e2be1f53a71db))
 - **ml:** add random state parameter to AdaBoost decision trees ([700d75c](https://github.com/DaoChaShao/py-ml-basic/commit/700d75cd7dcaf1e29a1d1b0a8f08db23485c29c1))
 - **decorator:** correct authorization logic in decorator functions ([9fef134](https://github.com/DaoChaShao/py-ml-basic/commit/9fef134738c9a8a4803cc93bf6661e9329eaa243))
@@ -238,7 +240,7 @@
 
 ### Docs
 
-- **journey:** update module documentation and metadata ([dbd6834](https://github.com/DaoChaShao/py-ml-basic/commit/dbd6834b5c658daa770ed410d5526349c07480f1))
+- **journey:** update module documentation and metadata ([0ab7e33](https://github.com/DaoChaShao/py-ml-basic/commit/0ab7e3333a5b4f3871f5262213d9fee739972cc5))
 - **ml:** update docstring parameter descriptions for clarity ([3c7754c](https://github.com/DaoChaShao/py-ml-basic/commit/3c7754c90d60897c14576b62292cd16733ba2361))
 - **utils:** add missing docstring parameter documentation ([de4d363](https://github.com/DaoChaShao/py-ml-basic/commit/de4d363a482da873768c4a621ae0683305b1e23c))
 - **ml:** add documentation for AdaBoost regressor loss functions ([f554791](https://github.com/DaoChaShao/py-ml-basic/commit/f5547911e56e2594e4384761e140a6cedae0e5cf))
