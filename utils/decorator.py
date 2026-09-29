@@ -172,7 +172,7 @@ def _build_wrapper(func, desc: str | None) -> Callable:
     @wraps(func)
     def wrapper(*args, **kwargs):
         _desc = desc or func.__name__
-        _authorise: bool = kwargs.get("display", True)
+        _authorise: bool = kwargs.get("display", False)
 
         if not _authorise:
             return func(*args, **kwargs)
