@@ -1,11 +1,11 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-09-29)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-10-05)
 
 ### Features
 
-- **time-series:** add ARIMA time series analysis script with bike sharing dataset ([9a87c91](https://github.com/DaoChaShao/py-ml-basic/commit/9a87c91cbe2b49e7002a174a1624628765ce3ea2))
+- **time-series:** add ARIMA time series analysis script with bike sharing dataset ([7a3541d](https://github.com/DaoChaShao/py-ml-basic/commit/7a3541d8160cde25dad86745fe29e416f9bcd8fb))
 - **ml:** add LOF and HyperLOF anomaly detection estimators ([7b03398](https://github.com/DaoChaShao/py-ml-basic/commit/7b033984199af4001cf9ed4794872097753e81ea))
 - **ml:** add Local Outlier Factor anomaly detection estimator ([dd0e4d4](https://github.com/DaoChaShao/py-ml-basic/commit/dd0e4d44229d23ef7b72ca20adb8e6cea3acf823))
 - **utils:** add LOF algorithms to ml utilities ([766ef35](https://github.com/DaoChaShao/py-ml-basic/commit/766ef3501638aa17d3dfffbbc65a6ac262b135f2))
@@ -256,6 +256,7 @@
 
 ### Code Refactoring
 
+- **ml:** remove time series estimators module and update dependencies ([4c887a8](https://github.com/DaoChaShao/py-ml-basic/commit/4c887a859d1b5084e23cce8cee66710c41d58409))
 - **ml:** reorder enum values and add LOF algorithms ([31b4f13](https://github.com/DaoChaShao/py-ml-basic/commit/31b4f139b0e551aa1ca1acabc728fd8864768b72))
 - **ml:** update import path for types module ([92508a3](https://github.com/DaoChaShao/py-ml-basic/commit/92508a3de25f8ff18af0fdbab4f14de293b67af5))
 - **ml:** update anomaly detection module structure and documentation ([d58fd7b](https://github.com/DaoChaShao/py-ml-basic/commit/d58fd7b78a23f6ce78ffb05003eb1010d4b19d65))
