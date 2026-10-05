@@ -90,4 +90,6 @@ __all__ = [
     # SVM Estimators
     "HyperSVClassifier",
     "HyperSVRegressor",
+
+    # Time Series Estimators
 ]
