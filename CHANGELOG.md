@@ -5,6 +5,7 @@
 
 ### Features
 
+- **ml:** add FeaturesEngineer class and ML pipeline utilities ([60719cf](https://github.com/DaoChaShao/py-ml-basic/commit/60719cf88c1c20de73dc74193a6118c0e533f5fc))
 - **utils:** add features engineer scalers enum ([c2ae96b](https://github.com/DaoChaShao/py-ml-basic/commit/c2ae96b011d9335040bf8ef3f0f1d75d2035bf5c))
 - **ml:** add FeaturesEngineer class for feature scaling operations ([f56bd42](https://github.com/DaoChaShao/py-ml-basic/commit/f56bd420287dca2a8aa6ed7c071973e4123e0c97))
 - **utils:** add ML pipeline module with basic structure ([8055da6](https://github.com/DaoChaShao/py-ml-basic/commit/8055da635033ae69d4fbf3b100ccd98990abe079))
@@ -207,6 +208,7 @@
 
 ### Chore
 
+- **utils:** update file description in ml pipeline module ([6311f3e](https://github.com/DaoChaShao/py-ml-basic/commit/6311f3e655428055e81d95363f2f0cfc3029d2c6))
 - **anomaly:** remove commented code from LOF implementation ([b8e587a](https://github.com/DaoChaShao/py-ml-basic/commit/b8e587ada2053b41468c0f31949311f8a64f1b09))
 - **journey:** add gitignore for ml estimators journey module ([8a3f5b8](https://github.com/DaoChaShao/py-ml-basic/commit/8a3f5b8db02ce377dd75d908d15d0ef408d7fe16))
 - **svm:** add .gitignore file for SVM estimator module ([1324077](https://github.com/DaoChaShao/py-ml-basic/commit/13240775c065b589420ba4c4710980756a4203f6))
@@ -260,6 +262,9 @@
 
 ### Code Refactoring
 
+- **utils:** reorganize ML types enum structure ([7e7d2a1](https://github.com/DaoChaShao/py-ml-basic/commit/7e7d2a1ea2a7ce313cf2eafbaeeba4f6236a48c5))
+- **utils:** replace FileCategories with TabularFormats in preprocessor ([33faedb](https://github.com/DaoChaShao/py-ml-basic/commit/33faedb4530ae5b72dca130a505fd078075b75a4))
+- **utils:** update ml module exports ([daafc8c](https://github.com/DaoChaShao/py-ml-basic/commit/daafc8ce33c4b21ca2898f2353758dc685654fd8))
 - **ml:** remove time series estimators module and update dependencies ([22c8242](https://github.com/DaoChaShao/py-ml-basic/commit/22c82423e6f90ab1689f13b30a2bcbc5bb0959dd))
 - **ml:** reorder enum values and add LOF algorithms ([31b4f13](https://github.com/DaoChaShao/py-ml-basic/commit/31b4f139b0e551aa1ca1acabc728fd8864768b72))
 - **ml:** update import path for types module ([92508a3](https://github.com/DaoChaShao/py-ml-basic/commit/92508a3de25f8ff18af0fdbab4f14de293b67af5))
