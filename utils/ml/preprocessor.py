@@ -61,7 +61,6 @@ from .types import (
     FeaturesCategories,
     FeaturesEngineerScalers,
     FeaturesScalerCategories,
-    FileCategories,
     GridSearchTunesResponse,
     KMeansAlgorithms,
     KMeansInitCategories,
@@ -69,6 +68,7 @@ from .types import (
     OneHotEncoderStrategies,
     RegScoreStrategies,
     SimpleImputerStrategies,
+    TabularFormats,
     TreeRegCriteria,
 )
 
@@ -176,7 +176,7 @@ class FileLoader(Access):
             self,
             filepath: str | Path,
             *,
-            file_category: str | FileCategories | Literal["csv", "excel"] = FileCategories.CSV,
+            file_category: str | TabularFormats | Literal["csv", "excel"] = TabularFormats.CSV,
             display: bool = True
     ) -> None:
         """
@@ -189,7 +189,7 @@ class FileLoader(Access):
         """
         super().__init__()
         self._path: Path = Path(filepath)
-        self._type: FileCategories = FileCategories(file_category)
+        self._type: TabularFormats = TabularFormats(file_category)
         self._display: bool = display
         self._dataset: DataFrame | None = None
 
@@ -197,9 +197,9 @@ class FileLoader(Access):
     def _load_data(self) -> None:
         """ Load data from a file based on the specified file category. """
         match self._type:
-            case FileCategories.CSV:
+            case TabularFormats.CSV:
                 self._dataset = read_csv(self._path.resolve())
-            case FileCategories.EXCEL:
+            case TabularFormats.EXCEL:
                 self._dataset = read_excel(self._path.resolve())
             case _:
                 raise ValueError(f"Invalid file category: {self._type}")
