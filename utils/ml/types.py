@@ -435,3 +435,10 @@ class LOFAlgorithms(StrEnum):
     BALL_TREE = "ball_tree"
     KD_TREE = "kd_tree"
     BRUTE = "brute"
+
+
+@unique
+class FeaturesEngineerScalers(StrEnum):
+    NORMALISER = "normaliser"
+    STANDARDISER = "standardiser"
+    ROBUST_SCALER = "robust_scaler"
