@@ -1,10 +1,14 @@
 <!-- insertion marker -->
 <a name="0.1.0"></a>
 
-## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-10-05)
+## [0.1.0](https://github.com/DaoChaShao/py-ml-basic/compare/ee4fefebc2f59d7a526d84c774ca54164fb16ff3...0.1.0) (2026-10-08)
 
 ### Features
 
+- **utils:** add features engineer scalers enum ([c2ae96b](https://github.com/DaoChaShao/py-ml-basic/commit/c2ae96b011d9335040bf8ef3f0f1d75d2035bf5c))
+- **ml:** add FeaturesEngineer class for feature scaling operations ([f56bd42](https://github.com/DaoChaShao/py-ml-basic/commit/f56bd420287dca2a8aa6ed7c071973e4123e0c97))
+- **utils:** add ML pipeline module with basic structure ([8055da6](https://github.com/DaoChaShao/py-ml-basic/commit/8055da635033ae69d4fbf3b100ccd98990abe079))
+- **utils:** add FeaturesEngineer to ml preprocessing utilities ([c721605](https://github.com/DaoChaShao/py-ml-basic/commit/c721605f1c2da2bcefd039ed3f41cfde6af7a6c7))
 - **time-series:** add ARIMA time series analysis script with bike sharing dataset ([7a3541d](https://github.com/DaoChaShao/py-ml-basic/commit/7a3541d8160cde25dad86745fe29e416f9bcd8fb))
 - **ml:** add LOF and HyperLOF anomaly detection estimators ([7b03398](https://github.com/DaoChaShao/py-ml-basic/commit/7b033984199af4001cf9ed4794872097753e81ea))
 - **ml:** add Local Outlier Factor anomaly detection estimator ([dd0e4d4](https://github.com/DaoChaShao/py-ml-basic/commit/dd0e4d44229d23ef7b72ca20adb8e6cea3acf823))
@@ -256,7 +260,7 @@
 
 ### Code Refactoring
 
-- **ml:** remove time series estimators module and update dependencies ([4c887a8](https://github.com/DaoChaShao/py-ml-basic/commit/4c887a859d1b5084e23cce8cee66710c41d58409))
+- **ml:** remove time series estimators module and update dependencies ([22c8242](https://github.com/DaoChaShao/py-ml-basic/commit/22c82423e6f90ab1689f13b30a2bcbc5bb0959dd))
 - **ml:** reorder enum values and add LOF algorithms ([31b4f13](https://github.com/DaoChaShao/py-ml-basic/commit/31b4f139b0e551aa1ca1acabc728fd8864768b72))
 - **ml:** update import path for types module ([92508a3](https://github.com/DaoChaShao/py-ml-basic/commit/92508a3de25f8ff18af0fdbab4f14de293b67af5))
 - **ml:** update anomaly detection module structure and documentation ([d58fd7b](https://github.com/DaoChaShao/py-ml-basic/commit/d58fd7b78a23f6ce78ffb05003eb1010d4b19d65))
