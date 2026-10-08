@@ -59,6 +59,7 @@ from .types import (
     ClsScoreStrategies,
     DistanceMetrics,
     FeaturesCategories,
+    FeaturesEngineerScalers,
     FeaturesScalerCategories,
     FileCategories,
     GridSearchTunesResponse,
@@ -943,6 +944,112 @@ class FeaturesRobustScaler(Access):
         """ Return the string representation of the RobustScaler class. """
         _shape: Any = getattr(self._features, "shape", type(self._features).__name__)
         return f"FeaturesRobustScaler(features_shape={_shape})"
+
+
+class FeaturesEngineer(Access):
+    """ A class for engineering features using different scalers. """
+
+    def __init__(
+            self,
+            features: DataFrame,
+            scaler: str | FeaturesEngineerScalers | Literal[
+                "normaliser", "standardiser", "robust_scaler"
+            ] = FeaturesEngineerScalers.ROBUST_SCALER,
+            min_value: float = 0.0,
+            max_value: float = 1.0
+    ) -> None:
+        """ Initialise the RobustScaler class """
+        super().__init__()
+        self._features: DataFrame = features
+        self._scaler: FeaturesEngineerScalers = FeaturesEngineerScalers(scaler)
+        self._min: float = min_value
+        self._max: float = max_value
+        self._engineer: Any = self._init_engineer()
+
+    @protectedmethod
+    def _init_engineer(self):
+        match self._scaler:
+            case FeaturesEngineerScalers.NORMALISER:
+                return MinMaxScaler(feature_range=(self._min, self._max))
+            case FeaturesEngineerScalers.STANDARDISER:
+                return StandardScaler()
+            case FeaturesEngineerScalers.ROBUST_SCALER:
+                return RobustScaler()
+            case _:
+                raise ValueError(f"Invalid scaler: {self._scaler}")
+
+    def __enter__(self) -> Self:
+        """ Fit the scaler to the features. """
+        self._engineer.fit(self._features)
+        return self
+
+    def transform(self, features: DataFrame | Series | None = None) -> DataFrame:
+        """
+        Transform the features using the scaler.
+
+        :param features: The features to transform.
+        :return: The transformed features.
+        """
+        _features: Any = features if features is not None else self._features
+        if _features is None:
+            raise ValueError(f"No features provided for {self._scaler.value} scaling.")
+
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        _transformed = self._engineer.transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def inverse_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
+        """
+        Inverse transform the features using the scaler.
+
+        :param features: The features to transform.
+        :return: The transformed features.
+        """
+        _features: Any = features if features is not None else self._features
+        if _features is None:
+            raise ValueError(f"No features provided for {self._scaler.value} inverse transformation.")
+
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        _transformed = self._engineer.inverse_transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def fit_transform(self, features: DataFrame | Series | None = None) -> DataFrame:
+        """
+        Fit and transform the features using the scaler.
+
+        :param features: The features to fit and transform.
+        :return: The transformed features.
+        """
+        _features: Any = features if features is not None else self._features
+        if _features is None:
+            raise ValueError(f"No features provided for {self._scaler.value} scaling.")
+
+        if isinstance(_features, Series):
+            _features = _features.to_frame().T
+
+        self._features = _features
+        _transformed = self._engineer.fit_transform(_features)
+        return DataFrame(_transformed, columns=_features.columns, index=_features.index)
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        """
+        Exit the context manager.
+
+        :param exc_type: The type of the exception that occurred.
+        :param exc_value: The value of the exception that occurred.
+        :param traceback: The traceback of the exception that occurred.
+        :return: Whether to suppress the exception.
+        """
+        pass
+
+    def __repr__(self) -> str:
+        """ Return the string representation of the RobustScaler class. """
+        _shape: Any = getattr(self._features, "shape", type(self._features).__name__)
+        return f"FeaturesEngineer(features_shape={_shape}, scaler={self._scaler.value})"
 
 
 def euclidean_distance(x1: Any, x2: Any) -> float:
