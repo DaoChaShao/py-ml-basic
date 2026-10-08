@@ -24,6 +24,7 @@ from .postprocessor import (
     diagnose_reg_fit,
 )
 from .preprocessor import (
+    FeaturesEngineer,
     FeaturesNormaliser,
     FeaturesRobustScaler,
     FeaturesStandardiser,
@@ -65,6 +66,7 @@ from .types import (
     ClsScoreStrategies,
     DistanceMetrics,
     FeaturesCategories,
+    FeaturesEngineerScalers,
     FeaturesScalerCategories,
     ForestFeaturesStrategies,
     GMMCovarianceCategories,
@@ -102,6 +104,7 @@ __all__ = [
 
     # Preprocessing & Utilities
     "create_features_transformer",
+    "FeaturesEngineer",
     "FeaturesNormaliser",
     "FeaturesRobustScaler",
     "FeaturesStandardiser",
@@ -142,6 +145,7 @@ __all__ = [
     "DistanceMetrics",
     "ClsScoreStrategies",
     "FeaturesCategories",
+    "FeaturesEngineerScalers",
     "FeaturesScalerCategories",
     "ForestFeaturesStrategies",
     "GMMCovarianceCategories",
