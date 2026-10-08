@@ -13,19 +13,6 @@ from pydantic import BaseModel, Field
 
 
 @unique
-class FileCategories(StrEnum):
-    CSV = "csv"
-    EXCEL = "excel"
-
-
-@unique
-class Missions(StrEnum):
-    """ Machine learning missions. """
-    CLS = "cls"
-    REG = "reg"
-
-
-@unique
 class DistanceMetrics(StrEnum):
     """ Distance metrics. """
     EUCLIDEAN = "euclidean"
@@ -39,6 +26,19 @@ class Languages(StrEnum):
     """ Programming languages. """
     CN = "Chinese"
     EN = "English"
+
+
+@unique
+class Missions(StrEnum):
+    """ Machine learning missions. """
+    CLS = "cls"
+    REG = "reg"
+
+
+@unique
+class TabularFormats(StrEnum):
+    CSV = "csv"
+    EXCEL = "excel"
 
 
 @unique
